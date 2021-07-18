@@ -1,13 +1,8 @@
 import './App.css';
+import Calendar from './components/CalendarComponent';
 
 function App() {
-  SVGPathSegLinetoRel
-  
-  return (
-    <div className="App">
-      
-    </div>
-  );
+  return <Calendar />;
 }
 
 export default App;
