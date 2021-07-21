@@ -2,10 +2,23 @@
   "people": [
     {
       "id": 1,
-      "title": "json-server",
-      "author": "typicode"
+      "name": "admin",
+      "surname": "",
+      "email": "",
+      "age": "",
+      "quote": "",
+      "typeQuote": "",
+      "user": "admin"
     }
   ],
-  "comments": [{ "id": 1, "body": "some comment", "postId": 1 }],
+  "electronicClinicalRecord": [
+    {
+      "id": 1,
+      "preparation": [],
+      "place": "Ginecología",
+      "evolucion": [],
+      "peopleId": 1
+    }
+  ],
   "commentscom": [{ "id": 1, "nose": "dsfs", "commentId": 1 }]
 }

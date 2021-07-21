@@ -10,7 +10,7 @@ module.exports = {
     SharedArrayBuffer: 'readonly',
   },
   parserOptions: {
-    ecmaVersion: 2018,
+    ecmaVersion: 2020,
     sourceType: 'module',
   },
   rules: {
@@ -19,7 +19,6 @@ module.exports = {
     'no-param-reassign': 'off',
     indent: ['error', 2],
     'react/jsx-filename-extension': [0],
-    'no-unused-vars': 'warn',
     camelcase: 'off',
     'no-unused-vars': ['warn', { argsIgnorePattern: 'next' }],
   },
