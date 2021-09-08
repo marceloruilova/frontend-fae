@@ -12,6 +12,8 @@ import {
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
+import Burger from './BurgerComponent';
+import Header from './HeaderComponent';
 
 function Calendar() {
   const [datos, setDatos] = useState({
@@ -33,7 +35,6 @@ function Calendar() {
   const [quotes, setQuotes] = useState('');
   const [place, setPlace] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const {
     register,
     handleSubmit,
@@ -47,73 +48,101 @@ function Calendar() {
   };
   const onSubmit = (data) => {
     const request = {
-      id: '',
-      nombre: quotes,
-      evolucion: [{ id: place }],
+      ci: data.ci,
+      firstName: data.firstname,
+      lastName: data.lastname,
+      appointment_hour: quotes,
+      type: data.type,
+      asigned_speciality: place,
     };
     console.log(request);
-    /* axios.post('http://localhost:3001/cancion/', request).then((result) => {
+    /* axios.post('http://localhost:3000/users/', request).then((result) => {
       alert('Exito');
     }); */
   };
   return (
-    <div className="login-box-container">
-      {places.map((item) => (
-        <div>
-          <div className="calendar" key="item">
-            {item}
-          </div>
-          {hours.map((hour) => {
-            if (item === 'Hora') return <div className="calendar">{hour}</div>;
-            return (
-              <div>
+    <>
+      <Burger />
+      <div className="login-box-container">
+        {places.map((item) => (
+          <div>
+            <div className="calendar" key="item">
+              {item}
+            </div>
+            {hours.map((hour) =>
+              item === 'Hora' ? (
+                <div className="calendar">{hour}</div>
+              ) : (
                 <div
                   className="quote"
                   onClick={() => toggle(hour, item)}
                   key="hour"
                 ></div>
-              </div>
-            );
-          })}
-        </div>
-      ))}
-      <Modal isOpen={isModalOpen} toggle={toggle}>
-        <ModalHeader toggle={toggle}>Login</ModalHeader>
-        <ModalBody>
-          <Form onSubmit={handleSubmit(onSubmit)}>
-            <FormGroup>
-              <Label htmlFor="username">Name</Label>
-              <Input type="text" id="name" name="name" {...register('name')} />
-            </FormGroup>
-            <FormGroup check>
-              <Label check>
+              )
+            )}
+          </div>
+        ))}
+        <Modal isOpen={isModalOpen} toggle={toggle}>
+          <ModalHeader toggle={toggle}>Agregar Cita</ModalHeader>
+          <ModalBody>
+            <Form onSubmit={handleSubmit(onSubmit)}>
+              <FormGroup>
+                <Label htmlFor="ci">CI</Label>
                 <Input
-                  type="checkbox"
-                  name="type"
-                  value="Iess"
-                  {...register('type')}
+                  type="text"
+                  id="ci"
+                  name="ci"
+                  {...register('ci', {
+                    required: true,
+                    minLength: 10,
+                    maxLength: 10,
+                  })}
                 />
-                Iess
-              </Label>
-            </FormGroup>
-            <FormGroup check>
-              <Label>
+                {/* use role="alert" to announce the error message */}
+                {errors.ci && errors.ci.type === 'required' && (
+                  <span role="alert">This is required</span>
+                )}
+                {errors.ci && errors.ci.type === 'maxLength' && (
+                  <span role="alert">Max length exceeded</span>
+                )}
+                {errors.ci && errors.ci.type === 'minLength' && (
+                  <span role="alert">Min length exceeded</span>
+                )}
+                <br></br>
+                <Label htmlFor="firstname">Nombre</Label>
                 <Input
-                  type="checkbox"
-                  name="type"
-                  value="Ispol"
-                  {...register('type')}
+                  type="text"
+                  id="firstname"
+                  name="firstname"
+                  {...register('firstname')}
                 />
-                Ispol
-              </Label>
-            </FormGroup>
-            <Button type="submit" value="submit" color="primary">
-              Login
-            </Button>
-          </Form>
-        </ModalBody>
-      </Modal>
-    </div>
+                <Label htmlFor="lastname">Apellido</Label>
+                <Input
+                  type="text"
+                  id="lastname"
+                  name="lastname"
+                  {...register('lastname')}
+                />
+              </FormGroup>
+              <FormGroup check>
+                <Label check>
+                  <Input
+                    type="radio"
+                    name="type"
+                    value="ISSFA"
+                    {...register('type')}
+                  />
+                  ISSFA
+                </Label>
+              </FormGroup>
+              <Button type="submit" value="submit" color="primary">
+                Agregar Cita
+              </Button>
+            </Form>
+          </ModalBody>
+        </Modal>
+      </div>
+    </>
   );
 }
 

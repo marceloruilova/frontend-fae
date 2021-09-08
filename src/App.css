@@ -37,3 +37,23 @@
   background-color: gold;
   cursor: pointer;
 }
+.header {
+  display: flex;
+  border: solid;
+  background-size: cover;
+  position: absolute;
+  top: 0;
+  bottom: 90%;
+  right: 0;
+  left: 0;
+}
+.navleft {
+  display: flex;
+  border: solid;
+  background-size: cover;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 90%;
+  left: 0;
+}

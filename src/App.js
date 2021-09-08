@@ -1,7 +1,7 @@
 import './App.css';
 import Calendar from './components/CalendarComponent';
-import Login from './components/LoginComponent';
 import Evolucion from './components/EvolucionComponent';
+import Lifesigns from './components/LifesignsComponent';
 
 function App() {
   return <Evolucion />;
