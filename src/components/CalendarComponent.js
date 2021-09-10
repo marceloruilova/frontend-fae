@@ -47,18 +47,19 @@ function Calendar() {
     setPlace(area);
   };
   const onSubmit = (data) => {
+    const hoy=new Date();
     const request = {
       ci: data.ci,
       firstName: data.firstname,
       lastName: data.lastname,
       appointment_hour: quotes,
+      appointment_date:hoy,
       type: data.type,
       asigned_speciality: place,
     };
-    console.log(request);
-    /* axios.post('http://localhost:3000/users/', request).then((result) => {
+    axios.post('http://localhost:3000/users/', request).then((result) => {
       alert('Exito');
-    }); */
+    });
   };
   return (
     <>

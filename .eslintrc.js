@@ -14,7 +14,7 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
-    'prettier/prettier': 'error',
+    'prettier/prettier':['warn',{"endOfLine":"auto"}],
     'class-methods-use-this': 'off',
     'no-param-reassign': 'off',
     indent: ['error', 2],

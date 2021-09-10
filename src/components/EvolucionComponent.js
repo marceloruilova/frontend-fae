@@ -25,8 +25,8 @@ function Evolucion() {
   };
 
   useEffect(async () => {
-    //return users by date(today)
-    const users = await axios.get('http://localhost:3000/users/' + date);
+    // return users by date(today)
+    const attend_users = await axios.get('http://localhost:3000/users/');
   }, []);
   return (
     <div className="login-box-container">
