@@ -13,11 +13,22 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
+.row.row{
+  --bs-gutter-x:0rem;
+}
 .login-box-row {
   background: green;
   width: 200px;
 }
 .calendar {
+  background: green;
+  border: 1;
+  border-style: solid;
+  border-color: indigo;
+  width: 120px;
+  height: 50px;
+}
+.evolucion {
   background: green;
   border: 1;
   border-style: solid;

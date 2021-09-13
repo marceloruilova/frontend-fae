@@ -17,7 +17,7 @@ module.exports = {
     'prettier/prettier':['warn',{"endOfLine":"auto"}],
     'class-methods-use-this': 'off',
     'no-param-reassign': 'off',
-    indent: ['error', 2],
+    indent: ['warn', 2],
     'react/jsx-filename-extension': [0],
     camelcase: 'off',
     'no-unused-vars': ['warn', { argsIgnorePattern: 'next' }],

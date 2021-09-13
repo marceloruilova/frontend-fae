@@ -4,7 +4,7 @@ import Evolucion from './components/EvolucionComponent';
 import Lifesigns from './components/LifesignsComponent';
 
 function App() {
-  return <Calendar />;
+  return <Evolucion />;
 }
 
 export default App;

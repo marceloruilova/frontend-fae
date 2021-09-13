@@ -57,9 +57,10 @@ function Calendar() {
       type: data.type,
       asigned_speciality: place,
     };
-    axios.post('http://localhost:3000/users/', request).then((result) => {
-      alert('Exito');
-    });
+    try{
+      axios.post('http://localhost:3000/users/', request).then((result) => {
+        console.log(result);
+      });}catch(error){console.log(error);}
   };
   return (
     <>
@@ -72,7 +73,7 @@ function Calendar() {
             </div>
             {hours.map((hour) =>
               item === 'Hora' ? (
-                <div className="calendar">{hour}</div>
+                <div className="calendar" key="hour">{hour}</div>
               ) : (
                 <div
                   className="quote"
