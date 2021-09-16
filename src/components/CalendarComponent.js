@@ -8,12 +8,10 @@ import {
   Input,
   Form,
   Button,
+  Container
 } from 'reactstrap';
-import { Switch, Route, Redirect } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import Burger from './BurgerComponent';
-import Header from './HeaderComponent';
 
 function Calendar() {
   const [datos, setDatos] = useState({
@@ -63,27 +61,26 @@ function Calendar() {
       });}catch(error){console.log(error);}
   };
   return (
-    <>
-      <Burger />
       <div className="login-box-container">
-        {places.map((item) => (
-          <div>
-            <div className="calendar" key="item">
+      <div className="container">
+          {places.map((item) => (
+          <div className="row">
+            <div className="col 5 calendar" key="item">
               {item}
             </div>
             {hours.map((hour) =>
               item === 'Hora' ? (
-                <div className="calendar" key="hour">{hour}</div>
+                <div className="col 5 calendar" key="hour">{hour}</div>
               ) : (
                 <div
-                  className="quote"
+                  className="col 5 quote"
                   onClick={() => toggle(hour, item)}
                   key="hour"
                 ></div>
               )
             )}
           </div>
-        ))}
+          ))}
         <Modal isOpen={isModalOpen} toggle={toggle}>
           <ModalHeader toggle={toggle}>Agregar Cita</ModalHeader>
           <ModalBody>
@@ -144,7 +141,7 @@ function Calendar() {
           </ModalBody>
         </Modal>
       </div>
-    </>
+      </div>
   );
 }
 

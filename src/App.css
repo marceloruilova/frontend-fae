@@ -1,17 +1,6 @@
-.login-box-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  background-image: url('./logo.svg');
-  background-attachment: fixed;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+body{
+  width:max-content;
+  height:max-content;
 }
 .row.row{
   --bs-gutter-x:0rem;
@@ -48,23 +37,52 @@
   background-color: gold;
   cursor: pointer;
 }
+.form-control.inputborder{
+  border:0px solid;
+  border-top: 2px solid;
+  border-radius: 0;
+}
+.formborder{
+  border:2px solid;
+  border-radius: .15rem;
+  text-align: center;
+}
+
+.login-box-container {
+  display:flex;
+  align-items: center;
+  border: solid;
+  width:88vw;
+  height: 84vh;
+  justify-content: center;
+  background-image: url('./logo.svg');
+  background-attachment: fixed;
+  background-color: #cccccc;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 .header {
   display: flex;
   border: solid;
-  background-size: cover;
-  position: absolute;
-  top: 0;
-  bottom: 90%;
-  right: 0;
-  left: 0;
+  align-items: center;
+  justify-content: center;
+  border-left: none;
+  border-bottom: none;
+  width:88vw;
+  height:16vh;
 }
 .navleft {
   display: flex;
-  border: solid;
-  background-size: cover;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 90%;
-  left: 0;
+  height: 100vh;
+  width:136px;
+  border:solid;
+  border-right: none;
+}
+.content{
+  display:flex;
+  flex-direction: column;
+}
+.global{
+  display: flex;
 }

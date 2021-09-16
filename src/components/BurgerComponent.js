@@ -14,7 +14,7 @@ import {
   DropdownItem,
   NavbarText,
 } from 'reactstrap';
-import logo from '../logo.svg';
+import logo from '../R.png';
 
 function Burger() {
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
@@ -23,31 +23,24 @@ function Burger() {
     <div className="navleft">
       <Nav tabs vertical>
         <NavItem>
-          <NavLink href="#" active>
+          <NavLink href="/calendar" active>
             <img src={logo} style={{ width: '100px', height: '100px' }} />
           </NavLink>
         </NavItem>
-        <Dropdown nav isOpen={dropdownOpen} toggle={toggle}>
-          <DropdownToggle nav caret>
-            drop down
-          </DropdownToggle>
-          <DropdownMenu>
-            <DropdownItem header>1</DropdownItem>
-            <DropdownItem disabled>2</DropdownItem>
-            <DropdownItem>3</DropdownItem>
-            <DropdownItem divider />
-            <DropdownItem>4</DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
         <NavItem>
-          <NavLink href="#">another link</NavLink>
+          <NavLink href="/login">Login</NavLink>
         </NavItem>
         <NavItem>
-          <NavLink href="#">some Link</NavLink>
+          <NavLink href="/calendar">Calendar</NavLink>
         </NavItem>
         <NavItem>
-          <NavLink disabled href="#">
-            disabled
+          <NavLink href="/vitals">
+            Signos Vitales
+          </NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink href="/evolucion">
+            Evolucion
           </NavLink>
         </NavItem>
       </Nav>

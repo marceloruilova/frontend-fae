@@ -29,60 +29,84 @@ function Evolucion() {
     const attend_users = await axios.get('http://localhost:3000/users/');
   }, []);
   return (
-    <Container className="login-box-container" >
+  <div className="login-box-container" >
+    <Container >
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <Row xs="2" >
-        <Col >
-          <FormGroup  >
-            <Label htmlFor="temperatura">Nombre</Label>
+      <Row >
+        <Col xs="2">
+          <FormGroup className="formborder" >
+            <Label htmlFor="temperatura" >Nombre</Label>
             <Input
               type="text"
               id="temperatura"
               name="temperatura"
               defaultValue=""
-              size="sm"
+              className="inputborder"
               {...register('temperatura')}
             />
           </FormGroup>
           </Col>
-          <Col>
-          <FormGroup >
+          <Col xs="4">
+          <FormGroup className="formborder" >
             <Label htmlFor="password">Password</Label>
             <Input
               type="text"
               id="temperatura"
               name="temperatura"
+              className="inputborder"
               {...register('temperatura')}
             />
           </FormGroup>
         </Col>
-        <Col>
+          <Col xs="1">
+          <FormGroup className="formborder" >
+            <Label htmlFor="password">Sexo</Label>
+            <Input
+              type="text"
+              id="temperatura"
+              name="temperatura"
+              className="inputborder"
+              {...register('temperatura')}
+            />
+          </FormGroup>
+        </Col>
+        <Col xs="2">
+          <FormGroup className="formborder" >
+            <Label htmlFor="password">Password</Label>
+            <Input
+              type="text"
+              id="temperatura"
+              name="temperatura"
+              className="inputborder"
+              {...register('temperatura')}
+            />
+          </FormGroup>
+        </Col>
+        <Col xs="3">
+          <FormGroup className="formborder" >
+            <Label htmlFor="password">Password</Label>
+            <Input
+              type="text"
+              id="temperatura"
+              name="temperatura"
+              className="inputborder"
+              {...register('temperatura')}
+            />
+          </FormGroup>
+        </Col>
+      </Row>
+      <Row>
+      </Row>
+      <Row>
+      </Row>
+      <Row>
+      </Row>
           <Button type="submit" value="submit" color="primary">
               Agregar Cita
           </Button>
-        </Col>
-      </Row>
     </Form>
     </Container>
-      /* 
-      <Form >
-        <Row >
-        <Col md={4}>
-        <FormGroup >
-         
-         
-        </FormGroup>
-        </Col>
-        <Col md={4}>
-        <FormGroup >
-          
-        </FormGroup>
-        </Col>
-        </Row>
-
-       
-      </Form>
-    </div> */
+   </div>
   );
 }
 
