@@ -1,39 +1,71 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+import {
+  Label,
+  Row,
+  Col,
+  Container,
+  FormGroup,
+  Input,
+  Form,
+  Button,
+} from 'reactstrap';
+import { useForm } from 'react-hook-form';
+import axios from 'axios';
 
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
-  const handleLogin = (event) => {
-    event.preventDefault();
-    if (username === 'Juan') alert(`Submitting Name ${username}`);
-    else alert(`Submitting password ${password}`);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data) => {
+    const request = {
+      nombre: data.username,
+      evolucion: [{ id: 'place' }],
+    };
+    /* axios.post('http://localhost:3000/login/', request).then((result) => {
+      alert('Exito');
+    }); */
   };
   return (
     <div className="login-box-container">
-      <div className="login-box-row">
-        <div>Imagen</div>
-        <div>Login</div>
-        <form className="row" onSubmit={handleLogin}>
-          <div>
-            <label>UserName:</label>
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-          </div>
-          <div>
-            <label>Password:</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <input type="submit" value="Submit" />
-        </form>
-      </div>
+      <Form onSubmit={handleSubmit(onSubmit)} className="formborder">
+        <Row>
+          <Col>
+            <FormGroup>
+              <Label htmlFor="temperatura">Imagen</Label>
+              <Label htmlFor="temperatura">Login</Label>
+              <Label htmlFor="temperatura">Usuario</Label>
+            </FormGroup>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <FormGroup>
+              <Input
+                type="text"
+                id="username"
+                name="username"
+                placeholder="Username"
+                {...register('username')}
+              />
+              <Input
+                type="text"
+                id="password"
+                name="password"
+                {...register('password')}
+              />
+            </FormGroup>
+          </Col>
+        </Row>
+        <Row></Row>
+        <Row></Row>
+        <Button type="submit" value="submit" color="primary">
+          Ingresar
+        </Button>
+      </Form>
     </div>
   );
 }

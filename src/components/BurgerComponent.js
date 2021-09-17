@@ -1,24 +1,8 @@
-import React, { useState } from 'react';
-import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  Dropdown,
-  NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  NavbarText,
-} from 'reactstrap';
+import React from 'react';
+import { Nav, NavItem, NavLink } from 'reactstrap';
 import logo from '../R.png';
 
 function Burger() {
-  const [dropdownOpen, setDropdownOpen] = React.useState(false);
-  const toggle = () => setDropdownOpen(!dropdownOpen);
   return (
     <div className="navleft">
       <Nav tabs vertical>
@@ -34,14 +18,10 @@ function Burger() {
           <NavLink href="/calendar">Calendar</NavLink>
         </NavItem>
         <NavItem>
-          <NavLink href="/vitals">
-            Signos Vitales
-          </NavLink>
+          <NavLink href="/vitals">Signos Vitales</NavLink>
         </NavItem>
         <NavItem>
-          <NavLink href="/evolucion">
-            Evolucion
-          </NavLink>
+          <NavLink href="/evolucion">Evolucion</NavLink>
         </NavItem>
       </Nav>
     </div>

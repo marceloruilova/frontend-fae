@@ -8,20 +8,11 @@ import {
   Input,
   Form,
   Button,
-  Container
 } from 'reactstrap';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 
 function Calendar() {
-  const [datos, setDatos] = useState({
-    id: 1,
-    name: 'primerdato',
-    type: '',
-    quotes: '',
-    record: [{ id: 1, place: '' }],
-  });
-
   const places = [
     'Hora',
     'Traumatología',
@@ -31,7 +22,7 @@ function Calendar() {
   ];
   const hours = ['7:00', '7:15', '7:30', '7:45', '8:00'];
   const [quotes, setQuotes] = useState('');
-  const [place, setPlace] = useState('');
+  const [especiality, setEspeciality] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const {
     register,
@@ -42,35 +33,40 @@ function Calendar() {
   const toggle = (hour, area) => {
     setIsModalOpen(!isModalOpen);
     setQuotes(hour);
-    setPlace(area);
+    setEspeciality(area);
   };
   const onSubmit = (data) => {
-    const hoy=new Date();
+    const hoy = new Date();
     const request = {
       ci: data.ci,
       firstName: data.firstname,
       lastName: data.lastname,
       appointment_hour: quotes,
-      appointment_date:hoy,
+      appointment_date: hoy,
       type: data.type,
-      asigned_speciality: place,
+      asigned_speciality: especiality,
     };
-    try{
+    try {
       axios.post('http://localhost:3000/users/', request).then((result) => {
         console.log(result);
-      });}catch(error){console.log(error);}
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
-      <div className="login-box-container">
+    <div className="login-box-container">
       <div className="container">
-          {places.map((item) => (
+        {places.map((item) => (
           <div className="row">
             <div className="col 5 calendar" key="item">
               {item}
             </div>
             {hours.map((hour) =>
               item === 'Hora' ? (
-                <div className="col 5 calendar" key="hour">{hour}</div>
+                <div className="col 5 calendar" key="hour">
+                  {hour}
+                </div>
               ) : (
                 <div
                   className="col 5 quote"
@@ -80,7 +76,7 @@ function Calendar() {
               )
             )}
           </div>
-          ))}
+        ))}
         <Modal isOpen={isModalOpen} toggle={toggle}>
           <ModalHeader toggle={toggle}>Agregar Cita</ModalHeader>
           <ModalBody>
@@ -141,7 +137,7 @@ function Calendar() {
           </ModalBody>
         </Modal>
       </div>
-      </div>
+    </div>
   );
 }
 
