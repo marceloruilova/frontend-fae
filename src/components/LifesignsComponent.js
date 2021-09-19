@@ -18,9 +18,11 @@ function Lifesigns() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
   let today = new Date();
   const hour = `${today.toLocaleTimeString().substring(0, 5)}`;
   today = today.toISOString().substring(0, 10);
+
   const onSubmit = (data) => {
     const request = {
       id: '',
@@ -68,7 +70,6 @@ function Lifesigns() {
                 id="date"
                 name="date"
                 placeholder="Fecha"
-                defaultValue={today}
                 {...register('date')}
               />
             </FormGroup>
@@ -84,7 +85,6 @@ function Lifesigns() {
                 id="time"
                 name="time"
                 placeholder="Hora de atención"
-                defaultValue={hour}
                 {...register('time')}
               />
             </FormGroup>
@@ -93,128 +93,6 @@ function Lifesigns() {
         <Row className="formborder">
           <Col xs="2">
             <div for="especiality">T:</div>
-          </Col>
-          <Col xs="1">
-            <FormGroup>
-              <Input
-                type="number"
-                id="temperature-start"
-                name="temperature-start"
-                step="0.1"
-                min="30"
-                max="42"
-                defaultValue={hour}
-                {...register('time')}
-              />
-            </FormGroup>
-          </Col>
-          {'a'}
-          <Col xs="1">
-            <FormGroup>
-              <Input
-                type="number"
-                id="temperature-end"
-                name="temperature-end"
-                step="0.1"
-                min="30"
-                max="42"
-                defaultValue={hour}
-                {...register('time')}
-              />
-            </FormGroup>
-          </Col>
-          {'C'}
-        </Row>
-        <Row className="formborder">
-          <Col xs="2">
-            <div for="especiality">T/A:</div>
-          </Col>
-          <Col xs="5">
-            {' '}
-            <FormGroup>
-              <Input
-                type="text"
-                id="tension"
-                name="tension"
-                placeholder="Tension Arterial"
-                {...register('tension')}
-              />
-            </FormGroup>
-          </Col>
-        </Row>
-        <Row className="formborder">
-          <Col xs="2">
-            <div for="especiality">FC:</div>
-          </Col>
-          <Col xs="1">
-            <FormGroup>
-              <Input
-                type="number"
-                id="temperature-start"
-                name="temperature-start"
-                step="0.1"
-                min="30"
-                max="42"
-                defaultValue={hour}
-                {...register('time')}
-              />
-            </FormGroup>
-          </Col>
-          {'a'}
-          <Col xs="1">
-            <FormGroup>
-              <Input
-                type="number"
-                id="temperature-end"
-                name="temperature-end"
-                step="0.1"
-                min="30"
-                max="42"
-                defaultValue={hour}
-                {...register('time')}
-              />
-            </FormGroup>
-          </Col>
-          {'lpm'}
-        </Row>
-        <Row className="formborder">
-          <Col xs="2">
-            <div for="especiality">FR:</div>
-          </Col>
-          <Col xs="1">
-            <FormGroup>
-              <Input
-                type="number"
-                id="temperature-start"
-                name="temperature-start"
-                step="0.1"
-                min="30"
-                max="42"
-                defaultValue={hour}
-                {...register('time')}
-              />
-            </FormGroup>
-          </Col>
-          {'a'}
-          <Col xs="1">
-            <FormGroup>
-              <Input
-                type="number"
-                id="temperature-end"
-                name="temperature-end"
-                step="0.1"
-                min="30"
-                max="42"
-                defaultValue={hour}
-                {...register('time')}
-              />
-            </FormGroup>
-          </Col>
-          {'rpm'}
-        </Row>
-        <Row className="formborder">
-          <Col xs="2">
-            <div for="especiality">SPO2:</div>
           </Col>
           <Col xs="1">
             <FormGroup>
@@ -243,11 +121,130 @@ function Lifesigns() {
               />
             </FormGroup>
           </Col>
+          {'C'}
+        </Row>
+        <Row className="formborder">
+          <Col xs="2">
+            <div for="especiality">T/A:</div>
+          </Col>
+          <Col xs="2">
+            {' '}
+            <FormGroup tag="fieldset">
+              <Input
+                type="number"
+                id="sistolica"
+                name="sistolica"
+                min="100"
+                max="150"
+                placeholder="Sistolica"
+                {...register('sistolica')}
+              />
+            </FormGroup>
+          </Col>
+          {'/'}
+          <Col xs="2">
+            {' '}
+            <FormGroup tag="fieldset">
+              <Input
+                type="number"
+                id="diastolica"
+                name="diastolica"
+                min="70"
+                max="90"
+                placeholder="Diastolica"
+                {...register('diastolica')}
+              />
+            </FormGroup>
+          </Col>
+        </Row>
+        <Row className="formborder">
+          <Col xs="2">
+            <div for="fc">FC:</div>
+          </Col>
+          <Col xs="1">
+            <FormGroup>
+              <Input
+                type="number"
+                id="fc-start"
+                name="fc-start"
+                step="0.1"
+                min="30"
+                max="42"
+                {...register('fc-start')}
+              />
+            </FormGroup>
+          </Col>
+          {'a'}
+          <Col xs="1">
+            <FormGroup>
+              <Input
+                type="number"
+                id="fc-end"
+                name="fc-end"
+                step="0.1"
+                min="30"
+                max="42"
+                {...register('fc-end')}
+              />
+            </FormGroup>
+          </Col>
           {'lpm'}
         </Row>
         <Row className="formborder">
           <Col xs="2">
-            <div for="especiality">TALLA:</div>
+            <div for="fr">FR:</div>
+          </Col>
+          <Col xs="1">
+            <FormGroup>
+              <Input
+                type="number"
+                id="fr-start"
+                name="fr-start"
+                step="0.1"
+                min="30"
+                max="42"
+                {...register('fr-start')}
+              />
+            </FormGroup>
+          </Col>
+          {'a'}
+          <Col xs="1">
+            <FormGroup>
+              <Input
+                type="number"
+                id="fr-end"
+                name="fr-end"
+                step="0.1"
+                min="30"
+                max="42"
+                {...register('fr-end')}
+              />
+            </FormGroup>
+          </Col>
+          {'rpm'}
+        </Row>
+        <Row className="formborder">
+          <Col xs="2">
+            <div for="spo2">SPO2:</div>
+          </Col>
+          <Col xs="1">
+            <FormGroup>
+              <Input
+                type="number"
+                id="spo2"
+                name="spo2"
+                step="0.1"
+                min="50"
+                max="120"
+                {...register('spo2')}
+              />
+            </FormGroup>
+          </Col>
+          {'%'}
+        </Row>
+        <Row className="formborder">
+          <Col xs="2">
+            <div for="height">TALLA:</div>
           </Col>
           <Col xs="1">
             <FormGroup>
@@ -275,8 +272,8 @@ function Lifesigns() {
                 id="peso"
                 name="peso"
                 step="0.01"
-                min="0.40"
-                max="2.20"
+                min="10.5"
+                max="250.5"
                 {...register('peso')}
               />
             </FormGroup>
@@ -293,11 +290,14 @@ function Lifesigns() {
                 type="number"
                 id="pc"
                 name="pc"
-                defaultValue={hour}
+                step="0.01"
+                min="20.1"
+                max="70"
                 {...register('pc')}
               />
             </FormGroup>
           </Col>
+          {'cm'}
         </Row>
         <Row className="formborder">
           <Col xs="1">
