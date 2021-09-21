@@ -1,13 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import {
-  Label,
   FormGroup,
   Input,
   Form,
   Button,
   Row,
   Col,
-  CustomInput,
 } from 'reactstrap';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
@@ -18,10 +16,8 @@ function Lifesigns() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
-  let today = new Date();
-  const hour = `${today.toLocaleTimeString().substring(0, 5)}`;
-  today = today.toISOString().substring(0, 10);
+  const[users,setUsers]=useState([]);
+  const[nowuser,setNowuser]=useState([]);
 
   const onSubmit = (data) => {
     const request = {
@@ -33,14 +29,42 @@ function Lifesigns() {
     /* axios.post('http://localhost:3001/cancion/', request).then((result) => {
       alert('Exito');
     }); */
-  };
+  };  
+ 
+
+
+  useEffect(()=>{ 
+    const fetch=async () => {
+      const attend_users = await axios.get(
+        'http://localhost:3000/users/date',
+      );
+      const nnUser=attend_users.data.find((user)=>{
+      const horas=parseInt(user.appointment_hour.substring(0,2),10);
+      const minutos=parseInt(user.appointment_hour.substring(3,5),10);
+      const atencion=minutos+45;
+      const resto=atencion-60;
+      const today=new Date();
+      // 45 minutos tiempo para atencion del cliente 7.30 - 7.45 - 8.15
+      // aun falta parece, hacer pruebas.
+      /* if(atencion>=60&&horas+1===8&&today.getMinutes()<=resto)
+        return true; */
+      if(atencion<=60&&horas===7/* &&today.getMinutes()<atencion */)
+        return true;
+      return false;
+      });
+      setUsers(attend_users.data);
+      setNowuser(nnUser);
+    };
+  fetch();
+},[]);
+
   return (
     <div className="login-box-container">
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Row>
           <Col>
             <div for="especiality" className="formborder">
-              SIGNOS VITALES
+              SIGNOS VITALES 
             </div>
           </Col>
         </Row>
@@ -55,6 +79,7 @@ function Lifesigns() {
                 id="especiality"
                 name="especiality"
                 placeholder="Especialidad"
+                defaultValue={nowuser.asigned_speciality}
                 {...register('especiality')}
               />
             </FormGroup>
