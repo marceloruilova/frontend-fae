@@ -18,11 +18,21 @@ function Lifesigns() {
   } = useForm();
   const[users,setUsers]=useState([]);
   const[nowuser,setNowuser]=useState([]);
-
+  const today=new Date();
   const onSubmit = (data) => {
     const request = {
-      id: '',
-      nombre: 'quotes',
+      vitals: {
+        especiality:nowuser.asigned_speciality,
+        attention_hour: `${today.getHours()}:${today.getUTCMinutes()}`,
+        temperature: 5.5,
+        arterial_tension: 5.8,
+        fc: "5 to 8",
+        fr: "5 to 9",
+        spo2: 8.6,
+        height: 1.75,
+        weight: 85,
+        pc: 6.8
+      },
       evolucion: [{ id: 'place' }],
     };
     console.log(data);
@@ -43,7 +53,6 @@ function Lifesigns() {
       const minutos=parseInt(user.appointment_hour.substring(3,5),10);
       const atencion=minutos+45;
       const resto=atencion-60;
-      const today=new Date();
       // 45 minutos tiempo para atencion del cliente 7.30 - 7.45 - 8.15
       // aun falta parece, hacer pruebas.
       /* if(atencion>=60&&horas+1===8&&today.getMinutes()<=resto)
@@ -63,14 +72,14 @@ function Lifesigns() {
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Row>
           <Col>
-            <div for="especiality" className="formborder">
+            <div htmlFor="especiality" className="formborder">
               SIGNOS VITALES 
             </div>
           </Col>
         </Row>
         <Row className="formborder">
           <Col xs="2">
-            <div for="especiality">ESPECIALIDAD:</div>
+            <div htmlFor="especiality">ESPECIALIDAD:</div>
           </Col>
           <Col>
             <FormGroup>
@@ -85,7 +94,7 @@ function Lifesigns() {
             </FormGroup>
           </Col>
           <Col>
-            <div for="especiality">FECHA:</div>
+            <div htmlFor="especiality">FECHA:</div>
           </Col>
           <Col>
             {' '}
@@ -95,12 +104,13 @@ function Lifesigns() {
                 id="date"
                 name="date"
                 placeholder="Fecha"
+                defaultValue={nowuser.appointment_date}
                 {...register('date')}
               />
             </FormGroup>
           </Col>
           <Col>
-            <div for="especiality">HORA DE ATENCIÓN:</div>
+            <div htmlFor="especiality">HORA DE ATENCIÓN:</div>
           </Col>
           <Col>
             {' '}
@@ -110,6 +120,7 @@ function Lifesigns() {
                 id="time"
                 name="time"
                 placeholder="Hora de atención"
+                defaultValue={today.getMinutes().toString().length===1?`${today.getHours()}:0${today.getUTCMinutes()}`:`${today.getHours()}:${today.getUTCMinutes()}`}
                 {...register('time')}
               />
             </FormGroup>
@@ -117,7 +128,7 @@ function Lifesigns() {
         </Row>
         <Row className="formborder">
           <Col xs="2">
-            <div for="especiality">T:</div>
+            <div htmlFor="especiality">T:</div>
           </Col>
           <Col xs="1">
             <FormGroup>
@@ -150,7 +161,7 @@ function Lifesigns() {
         </Row>
         <Row className="formborder">
           <Col xs="2">
-            <div for="especiality">T/A:</div>
+            <div htmlFor="especiality">T/A:</div>
           </Col>
           <Col xs="2">
             {' '}
@@ -184,7 +195,7 @@ function Lifesigns() {
         </Row>
         <Row className="formborder">
           <Col xs="2">
-            <div for="fc">FC:</div>
+            <div htmlFor="fc">FC:</div>
           </Col>
           <Col xs="1">
             <FormGroup>
@@ -217,7 +228,7 @@ function Lifesigns() {
         </Row>
         <Row className="formborder">
           <Col xs="2">
-            <div for="fr">FR:</div>
+            <div htmlFor="fr">FR:</div>
           </Col>
           <Col xs="1">
             <FormGroup>
@@ -250,7 +261,7 @@ function Lifesigns() {
         </Row>
         <Row className="formborder">
           <Col xs="2">
-            <div for="spo2">SPO2:</div>
+            <div htmlFor="spo2">SPO2:</div>
           </Col>
           <Col xs="1">
             <FormGroup>
@@ -269,7 +280,7 @@ function Lifesigns() {
         </Row>
         <Row className="formborder">
           <Col xs="2">
-            <div for="height">TALLA:</div>
+            <div htmlFor="height">TALLA:</div>
           </Col>
           <Col xs="1">
             <FormGroup>
@@ -288,7 +299,7 @@ function Lifesigns() {
         </Row>
         <Row className="formborder">
           <Col xs="2">
-            <div for="peso">PESO:</div>
+            <div htmlFor="peso">PESO:</div>
           </Col>
           <Col xs="1">
             <FormGroup>
@@ -307,7 +318,7 @@ function Lifesigns() {
         </Row>
         <Row className="formborder">
           <Col xs="2">
-            <div for="pc">PC:</div>
+            <div htmlFor="pc">PC:</div>
           </Col>
           <Col xs="1">
             <FormGroup>
