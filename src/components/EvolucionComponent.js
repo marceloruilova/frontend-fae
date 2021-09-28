@@ -14,7 +14,8 @@ import axios from 'axios';
 import { useEffect } from 'react/cjs/react.development';
 
 function Evolucion() {
-  const [users, setUsers] = useState({});
+  const [users, setUsers] = useState([]);
+  const [nowuser,setNowuser]=useState([]);
   const today = new Date();
   const date = today.getHours() + today.getMilliseconds();
   const {
@@ -22,6 +23,7 @@ function Evolucion() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  
   const onSubmit = (data) => {
     const request = {
       nombre: date,
@@ -33,10 +35,30 @@ function Evolucion() {
     }); */
   };
 
-  useEffect(async () => {
-    // return users by date(today)
-    const attend_users = await axios.get('http://localhost:3000/users/');
-  }, []);
+  useEffect(()=>{ 
+    const fetch=async () => {
+      const attend_users = await axios.get(
+        'http://localhost:3000/users/date',
+      );
+      const nnUser=attend_users.data.find((user)=>{
+      const horas=parseInt(user.appointment_hour.substring(0,2),10);
+      const minutos=parseInt(user.appointment_hour.substring(3,5),10);
+      const atencion=minutos+45;
+      const resto=atencion-60;
+      // 45 minutos tiempo para atencion del cliente 7.30 - 7.45 - 8.15
+      // aun falta parece, hacer pruebas.
+      /* if(atencion>=60&&horas+1===8&&today.getMinutes()<=resto)
+        return true; */
+      if(atencion<=60&&horas===7/* &&today.getMinutes()<atencion */)
+        return true;
+      return false;
+      });
+      setUsers(attend_users.data);
+      setNowuser(nnUser);
+    };
+  fetch();
+},[]);
+
   return (
     <div className="login-box-container">
       <Container>
@@ -51,7 +73,8 @@ function Evolucion() {
                   type="text"
                   id="establecimiento"
                   name="establecimiento"
-                  defaultValue=""
+                  defaultValue={nowuser.asigned_speciality}
+                  onChange={(e)=>setNowuser({asigned_speciality:e.target.value})}  
                   className="inputborder"
                   {...register('establecimiento')}
                 />
@@ -66,6 +89,8 @@ function Evolucion() {
                   type="text"
                   id="name"
                   name="name"
+                  defaultValue={nowuser.firstName}
+                  onChange={(e)=>setNowuser({asigned_speciality:e.target.value})}  
                   className="inputborder"
                   {...register('name')}
                 />
@@ -80,6 +105,8 @@ function Evolucion() {
                   type="text"
                   id="surname"
                   name="surname"
+                  defaultValue={nowuser.lastName}
+                  onChange={(e)=>setNowuser({asigned_speciality:e.target.value})}  
                   className="inputborder"
                   {...register('surname')}
                 />
@@ -94,6 +121,8 @@ function Evolucion() {
                   type="text"
                   id="sexo"
                   name="sexo"
+                  defaultValue={nowuser.gender}
+                  onChange={(e)=>setNowuser({asigned_speciality:e.target.value})}  
                   className="inputborder"
                   {...register('sexo')}
                 />

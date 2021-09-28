@@ -19,26 +19,34 @@ function Lifesigns() {
   const[users,setUsers]=useState([]);
   const[nowuser,setNowuser]=useState([]);
   const today=new Date();
+  
   const onSubmit = (data) => {
     const request = {
       vitals: {
         especiality:nowuser.asigned_speciality,
         attention_hour: `${today.getHours()}:${today.getUTCMinutes()}`,
-        temperature: 5.5,
-        arterial_tension: 5.8,
-        fc: "5 to 8",
-        fr: "5 to 9",
-        spo2: 8.6,
-        height: 1.75,
-        weight: 85,
-        pc: 6.8
+        temperature_end: parseFloat(data.temperature_end),
+        temperature_start: parseFloat(data.temperature_start),
+        sistolica: data.sistolica,
+        diastolica: data.diastolica,
+        fc_end: parseFloat(data.fc_end),
+        fc_start: parseFloat(data.fc_start),
+        fr_end: parseFloat(data.fr_end),
+        fr_start: parseFloat(data.fr_end),
+        spo2: parseFloat(data.spo2),
+        height: parseFloat(data.height),
+        weight: parseFloat(data.weight),
+        pc: parseFloat(data.pc)
       },
-      evolucion: [{ id: 'place' }],
+      user:nowuser
     };
-    console.log(data);
-    /* axios.post('http://localhost:3001/cancion/', request).then((result) => {
-      alert('Exito');
-    }); */
+    try {
+      axios.post('http://localhost:3000/hces/', request).then((result) => {
+      console.log(result);
+    }); 
+  } catch (error) {
+    console.log(error);
+  }
   };  
  
 
@@ -89,7 +97,7 @@ function Lifesigns() {
                 name="especiality"
                 placeholder="Especialidad"
                 defaultValue={nowuser.asigned_speciality}
-                {...register('especiality')}
+                onChange={(e)=>setNowuser({asigned_speciality:e.target.value})}
               />
             </FormGroup>
           </Col>
@@ -105,6 +113,7 @@ function Lifesigns() {
                 name="date"
                 placeholder="Fecha"
                 defaultValue={nowuser.appointment_date}
+                readOnly={true}
                 {...register('date')}
               />
             </FormGroup>
@@ -134,12 +143,13 @@ function Lifesigns() {
             <FormGroup>
               <Input
                 type="number"
-                id="temperature-start"
-                name="temperature-start"
+                id="temperature_start"
+                name="temperature_start"
                 step="0.1"
                 min="30"
                 max="42"
-                {...register('temperature-start')}
+                defaultValue={5.5}
+                {...register('temperature_start')}
               />
             </FormGroup>
           </Col>
@@ -148,12 +158,13 @@ function Lifesigns() {
             <FormGroup>
               <Input
                 type="number"
-                id="temperature-end"
-                name="temperature-end"
+                id="temperature_end"
+                name="temperature_end"
                 step="0.1"
                 min="30"
                 max="42"
-                {...register('temperature-end')}
+                defaultValue={5.5}
+                {...register('temperature_end')}
               />
             </FormGroup>
           </Col>
@@ -172,6 +183,7 @@ function Lifesigns() {
                 name="sistolica"
                 min="100"
                 max="150"
+                defaultValue={20}
                 placeholder="Sistolica"
                 {...register('sistolica')}
               />
@@ -187,6 +199,7 @@ function Lifesigns() {
                 name="diastolica"
                 min="70"
                 max="90"
+                defaultValue={30}
                 placeholder="Diastolica"
                 {...register('diastolica')}
               />
@@ -201,12 +214,13 @@ function Lifesigns() {
             <FormGroup>
               <Input
                 type="number"
-                id="fc-start"
-                name="fc-start"
+                id="fc_start"
+                name="fc_start"
                 step="0.1"
                 min="30"
                 max="42"
-                {...register('fc-start')}
+                defaultValue={10.2}
+                {...register('fc_start')}
               />
             </FormGroup>
           </Col>
@@ -215,12 +229,13 @@ function Lifesigns() {
             <FormGroup>
               <Input
                 type="number"
-                id="fc-end"
-                name="fc-end"
+                id="fc_end"
+                name="fc_end"
                 step="0.1"
                 min="30"
                 max="42"
-                {...register('fc-end')}
+                defaultValue={12.2}
+                {...register('fc_end')}
               />
             </FormGroup>
           </Col>
@@ -234,12 +249,13 @@ function Lifesigns() {
             <FormGroup>
               <Input
                 type="number"
-                id="fr-start"
-                name="fr-start"
+                id="fr_start"
+                name="fr_start"
                 step="0.1"
                 min="30"
                 max="42"
-                {...register('fr-start')}
+                defaultValue={10.3}
+                {...register('fr_start')}
               />
             </FormGroup>
           </Col>
@@ -248,12 +264,13 @@ function Lifesigns() {
             <FormGroup>
               <Input
                 type="number"
-                id="fr-end"
-                name="fr-end"
+                id="fr_end"
+                name="fr_end"
                 step="0.1"
                 min="30"
                 max="42"
-                {...register('fr-end')}
+                defaultValue={12.3}
+                {...register('fr_end')}
               />
             </FormGroup>
           </Col>
@@ -272,6 +289,7 @@ function Lifesigns() {
                 step="0.1"
                 min="50"
                 max="120"
+                defaultValue={15.5}
                 {...register('spo2')}
               />
             </FormGroup>
@@ -291,6 +309,7 @@ function Lifesigns() {
                 step="0.01"
                 min="0.40"
                 max="2.20"
+                defaultValue={0.2}
                 {...register('height')}
               />
             </FormGroup>
@@ -299,18 +318,19 @@ function Lifesigns() {
         </Row>
         <Row className="formborder">
           <Col xs="2">
-            <div htmlFor="peso">PESO:</div>
+            <div htmlFor="weight">PESO:</div>
           </Col>
           <Col xs="1">
             <FormGroup>
               <Input
                 type="number"
-                id="peso"
-                name="peso"
+                id="weight"
+                name="weight"
                 step="0.01"
                 min="10.5"
                 max="250.5"
-                {...register('peso')}
+                defaultValue={2.5}
+                {...register('weight')}
               />
             </FormGroup>
           </Col>
@@ -329,6 +349,7 @@ function Lifesigns() {
                 step="0.01"
                 min="20.1"
                 max="70"
+                defaultValue={2.5}
                 {...register('pc')}
               />
             </FormGroup>
