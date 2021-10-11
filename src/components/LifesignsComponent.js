@@ -76,7 +76,7 @@ function Lifesigns() {
 },[]);
 
   return (
-    <div className="login-box-container">
+    <div className="container-fluid login-box-container">
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Row>
           <Col>

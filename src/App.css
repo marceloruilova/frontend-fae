@@ -33,6 +33,14 @@
   border-top: 1px solid;
   border-radius: 0;
 }
+.bigborder {
+  border: 2px solid;
+  border-radius: 0.15rem;
+  text-align: center;
+  align-content: center;
+  height: 150px;
+  background-color: white;
+}
 .formborder {
   border: 2px solid;
   border-radius: 0.15rem;
@@ -51,7 +59,6 @@
   display: flex;
   align-items: center;
   border: solid;
-  width: 88vw;
   height: 84vh;
   justify-content: center;
   background-image: url('./R.png');
@@ -68,7 +75,6 @@
   justify-content: center;
   border-left: none;
   border-bottom: none;
-  width: 88vw;
   height: 16vh;
 }
 .navleft {
@@ -78,9 +84,10 @@
   border: solid;
   border-right: none;
 }
-.content {
+.container-fluid.content {
   display: flex;
   flex-direction: column;
+  padding-left: 0;
 }
 .global {
   display: flex;

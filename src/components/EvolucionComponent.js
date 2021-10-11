@@ -55,12 +55,13 @@ function Evolucion() {
       });
       setUsers(attend_users.data);
       setNowuser(nnUser);
+      console.log(nowuser)
     };
   fetch();
 },[]);
 
   return (
-    <div className="login-box-container">
+    <div className="container-fluid login-box-container">
       <Container>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Row className="tab">
@@ -208,7 +209,7 @@ function Evolucion() {
             <Col xs="1">
               <FormGroup>
                 <div for="id_hce" className="formborder">
-                  ADMINISTR.
+                  ADMINIS<br/>TRACIÓN
                 </div>
               </FormGroup>
             </Col>
@@ -216,14 +217,18 @@ function Evolucion() {
           <Row>
             <Col xs="2">
               <FormGroup>
-                <div for="id_hce" className="formborder">
-                  {' '}
+                <div for="id_hce" className="bigborder">
+                  <p>{nowuser.appointment_date}</p>
+                  <p>{nowuser.appointment_hour}</p>
                 </div>
               </FormGroup>
             </Col>
             <Col xs="6" className="space-right">
               <FormGroup>
-                <div for="id_hce" className="formborder"></div>
+                <div for="id_hce" className="formborder">
+
+
+                </div>
               </FormGroup>
             </Col>
             <Col xs="4">

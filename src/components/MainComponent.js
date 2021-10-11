@@ -11,7 +11,7 @@ function Main() {
   return (
     <div className="global">
       <Burger />
-      <div className="content">
+      <div className="container-fluid content">
         <Header />
         <Switch>
           <Route path="/login" component={() => <Login />} />
