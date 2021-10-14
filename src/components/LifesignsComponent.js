@@ -15,8 +15,9 @@ function Lifesigns() {
 
   const onSubmit = (data) => {
     const request = {
-      vitals: {
+      vital: {
         especiality: nowuser.asigned_speciality,
+        attention_date: today,
         attention_hour: `${today.getHours()}:${today.getUTCMinutes()}`,
         temperature_end: parseFloat(data.temperature_end),
         temperature_start: parseFloat(data.temperature_start),
@@ -33,7 +34,7 @@ function Lifesigns() {
       },
     };
     try {
-      axios.post('http://localhost:3000/hces/', request).then((result) => {
+      axios.post('http://localhost:3000/hce/', request).then((result) => {
         console.log(result);
       });
     } catch (error) {
@@ -43,7 +44,9 @@ function Lifesigns() {
 
   useEffect(() => {
     const fetch = async () => {
-      const attend_users = await axios.get('http://localhost:3000/users/date');
+      const attend_users = await axios.get(
+        'http://localhost:3000/patient/bydate'
+      );
       const nnUser = attend_users.data.find((user) => {
         const horas = parseInt(user.appointment_hour.substring(0, 2), 10);
         const minutos = parseInt(user.appointment_hour.substring(3, 5), 10);
@@ -68,6 +71,7 @@ function Lifesigns() {
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Row>
           <Col>
+            {console.log(nowuser)}
             <div htmlFor="especiality" className="formborder">
               SIGNOS VITALES
             </div>

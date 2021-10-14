@@ -26,19 +26,31 @@ function Evolucion() {
   
   const onSubmit = (data) => {
     const request = {
-      nombre: date,
-      evolucion: [{ id: 'place' }],
+      evolution: {
+        especiality:nowuser.asigned_speciality,
+        attention_date: today,
+        attention_hour: `${today.getHours()}:${today.getUTCMinutes()}`,
+        temperature_end: parseFloat(data.temperature_end),
+        sistolica: data.sistolica,
+        diastolica: data.diastolica,
+        height: parseFloat(data.height),
+        weight: parseFloat(data.weight),
+        pc: parseFloat(data.pc)
+      },
     };
-    console.log(data);
-    /* axios.post('http://localhost:3001/cancion/', request).then((result) => {
-      alert('Exito');
-    }); */
+    try {
+      axios.post('http://localhost:3000/hce/', request).then((result) => {
+      console.log(result);
+    }); 
+  } catch (error) {
+    console.log(error);
+  }
   };
 
   useEffect(()=>{ 
     const fetch=async () => {
       const attend_users = await axios.get(
-        'http://localhost:3000/users/date',
+        'http://localhost:3000/patient/bydate',
       );
       const nnUser=attend_users.data.find((user)=>{
       const horas=parseInt(user.appointment_hour.substring(0,2),10);
@@ -77,7 +89,6 @@ function Evolucion() {
                   defaultValue={nowuser.asigned_speciality}
                   onChange={(e)=>setNowuser({asigned_speciality:e.target.value})}  
                   className="inputborder"
-                  {...register('establecimiento')}
                 />
               </FormGroup>
             </Col>
@@ -106,7 +117,7 @@ function Evolucion() {
                   type="text"
                   id="surname"
                   name="surname"
-                  defaultValue={nowuser.lastName}
+                  defaultValue={nowuser.surName}
                   onChange={(e)=>setNowuser({asigned_speciality:e.target.value})}  
                   className="inputborder"
                   {...register('surname')}

@@ -40,7 +40,7 @@ function Calendar() {
     const request = {
       ci: data.ci,
       firstName: data.firstname,
-      lastName: data.lastname,
+      surName: data.lastname,
       appointment_hour: quotes,
       appointment_date: hoy,
       type: data.type,
@@ -48,10 +48,10 @@ function Calendar() {
     };
     try {
       axios.post('http://localhost:3000/patient/', request).then((result) => {
-        console.log(result);
+        alert('exito');
       });
     } catch (error) {
-      console.log(error);
+      alert(error);
     }
   };
   return (
