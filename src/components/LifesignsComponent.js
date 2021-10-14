@@ -1,12 +1,5 @@
-import React, { useState,useEffect } from 'react';
-import {
-  FormGroup,
-  Input,
-  Form,
-  Button,
-  Row,
-  Col,
-} from 'reactstrap';
+import React, { useState, useEffect } from 'react';
+import { FormGroup, Input, Form, Button, Row, Col } from 'reactstrap';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 
@@ -16,14 +9,14 @@ function Lifesigns() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const[users,setUsers]=useState([]);
-  const[nowuser,setNowuser]=useState([]);
-  const today=new Date();
-  
+  const [users, setUsers] = useState([]);
+  const [nowuser, setNowuser] = useState([]);
+  const today = new Date();
+
   const onSubmit = (data) => {
     const request = {
       vitals: {
-        especiality:nowuser.asigned_speciality,
+        especiality: nowuser.asigned_speciality,
         attention_hour: `${today.getHours()}:${today.getUTCMinutes()}`,
         temperature_end: parseFloat(data.temperature_end),
         temperature_start: parseFloat(data.temperature_start),
@@ -36,44 +29,39 @@ function Lifesigns() {
         spo2: parseFloat(data.spo2),
         height: parseFloat(data.height),
         weight: parseFloat(data.weight),
-        pc: parseFloat(data.pc)
+        pc: parseFloat(data.pc),
       },
-      user:nowuser
     };
     try {
       axios.post('http://localhost:3000/hces/', request).then((result) => {
-      console.log(result);
-    }); 
-  } catch (error) {
-    console.log(error);
-  }
-  };  
- 
+        console.log(result);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-
-  useEffect(()=>{ 
-    const fetch=async () => {
-      const attend_users = await axios.get(
-        'http://localhost:3000/users/date',
-      );
-      const nnUser=attend_users.data.find((user)=>{
-      const horas=parseInt(user.appointment_hour.substring(0,2),10);
-      const minutos=parseInt(user.appointment_hour.substring(3,5),10);
-      const atencion=minutos+45;
-      const resto=atencion-60;
-      // 45 minutos tiempo para atencion del cliente 7.30 - 7.45 - 8.15
-      // aun falta parece, hacer pruebas.
-      /* if(atencion>=60&&horas+1===8&&today.getMinutes()<=resto)
+  useEffect(() => {
+    const fetch = async () => {
+      const attend_users = await axios.get('http://localhost:3000/users/date');
+      const nnUser = attend_users.data.find((user) => {
+        const horas = parseInt(user.appointment_hour.substring(0, 2), 10);
+        const minutos = parseInt(user.appointment_hour.substring(3, 5), 10);
+        const atencion = minutos + 45;
+        const resto = atencion - 60;
+        // 45 minutos tiempo para atencion del cliente 7.30 - 7.45 - 8.15
+        // aun falta parece, hacer pruebas.
+        /* if(atencion>=60&&horas+1===8&&today.getMinutes()<=resto)
         return true; */
-      if(atencion<=60&&horas===7/* &&today.getMinutes()<atencion */)
-        return true;
-      return false;
+        if (atencion <= 60 && horas === 7 /* &&today.getMinutes()<atencion */)
+          return true;
+        return false;
       });
       setUsers(attend_users.data);
       setNowuser(nnUser);
     };
-  fetch();
-},[]);
+    fetch();
+  }, []);
 
   return (
     <div className="container-fluid login-box-container">
@@ -81,7 +69,7 @@ function Lifesigns() {
         <Row>
           <Col>
             <div htmlFor="especiality" className="formborder">
-              SIGNOS VITALES 
+              SIGNOS VITALES
             </div>
           </Col>
         </Row>
@@ -97,7 +85,9 @@ function Lifesigns() {
                 name="especiality"
                 placeholder="Especialidad"
                 defaultValue={nowuser.asigned_speciality}
-                onChange={(e)=>setNowuser({asigned_speciality:e.target.value})}
+                onChange={(e) =>
+                  setNowuser({ asigned_speciality: e.target.value })
+                }
               />
             </FormGroup>
           </Col>
@@ -129,7 +119,11 @@ function Lifesigns() {
                 id="time"
                 name="time"
                 placeholder="Hora de atención"
-                defaultValue={today.getMinutes().toString().length===1?`${today.getHours()}:0${today.getUTCMinutes()}`:`${today.getHours()}:${today.getUTCMinutes()}`}
+                defaultValue={
+                  today.getMinutes().toString().length === 1
+                    ? `${today.getHours()}:0${today.getUTCMinutes()}`
+                    : `${today.getHours()}:${today.getUTCMinutes()}`
+                }
                 {...register('time')}
               />
             </FormGroup>

@@ -47,7 +47,7 @@ function Calendar() {
       asigned_speciality: especiality,
     };
     try {
-      axios.post('http://localhost:3000/users/', request).then((result) => {
+      axios.post('http://localhost:3000/patient/', request).then((result) => {
         console.log(result);
       });
     } catch (error) {
