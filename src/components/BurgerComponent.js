@@ -23,6 +23,9 @@ function Burger() {
         <NavItem>
           <NavLink href="/evolucion">Evolucion</NavLink>
         </NavItem>
+        <NavItem>
+          <NavLink href="/cie">Cie10</NavLink>
+        </NavItem>
       </Nav>
     </div>
   );

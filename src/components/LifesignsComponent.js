@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FormGroup, Input, Form, Button, Row, Col } from 'reactstrap';
+import { FormGroup, Input, Form, Button,Container, Row, Col } from 'reactstrap';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 
@@ -32,9 +32,10 @@ function Lifesigns() {
         weight: parseFloat(data.weight),
         pc: parseFloat(data.pc),
       },
+      electronic_history_id:nowuser.electronic_history.id
     };
     try {
-      axios.post('http://localhost:3000/hce/', request).then((result) => {
+      axios.post('http://localhost:3000/hce/vital', request).then((result) => {
         console.log(result);
       });
     } catch (error) {
@@ -67,11 +68,10 @@ function Lifesigns() {
   }, []);
 
   return (
-    <div className="container-fluid login-box-container">
-      <Form onSubmit={handleSubmit(onSubmit)}>
+    <div className="login-box-container">
+      <div className="container"><Form onSubmit={handleSubmit(onSubmit)} >
         <Row>
           <Col>
-            {console.log(nowuser)}
             <div htmlFor="especiality" className="formborder">
               SIGNOS VITALES
             </div>
@@ -79,9 +79,9 @@ function Lifesigns() {
         </Row>
         <Row className="formborder">
           <Col xs="2">
-            <div htmlFor="especiality">ESPECIALIDAD:</div>
+            <div htmlFor="especiality" style={{"overflow":"hidden"}}>ESPECIALIDAD:</div>
           </Col>
-          <Col>
+          <Col xs="2">
             <FormGroup>
               <Input
                 type="text"
@@ -95,14 +95,14 @@ function Lifesigns() {
               />
             </FormGroup>
           </Col>
-          <Col>
+          <Col xs="1">
             <div htmlFor="especiality">FECHA:</div>
           </Col>
-          <Col>
+          <Col xs="2">
             {' '}
             <FormGroup>
               <Input
-                type="date"
+                type="text"
                 id="date"
                 name="date"
                 placeholder="Fecha"
@@ -112,10 +112,10 @@ function Lifesigns() {
               />
             </FormGroup>
           </Col>
-          <Col>
-            <div htmlFor="especiality">HORA DE ATENCIÓN:</div>
+          <Col xs="2">
+            <div htmlFor="especiality">HORARIO ATENCIÓN:</div>
           </Col>
-          <Col>
+          <Col xs="2">
             {' '}
             <FormGroup>
               <Input
@@ -360,8 +360,8 @@ function Lifesigns() {
               Ingresar
             </Button>
           </Col>
-        </Row>
-      </Form>
+        </Row> </Form>
+        </div> 
     </div>
   );
 }

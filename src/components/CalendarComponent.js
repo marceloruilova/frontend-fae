@@ -36,7 +36,7 @@ function Calendar() {
     setEspeciality(area);
   };
   const onSubmit = (data) => {
-    const hoy = new Date();
+    const hoy = new Date().toISOString().substring(0,10);
     const request = {
       ci: data.ci,
       firstName: data.firstname,
@@ -45,14 +45,11 @@ function Calendar() {
       appointment_date: hoy,
       type: data.type,
       asigned_speciality: especiality,
+      electronic_history:{}
     };
-    try {
       axios.post('http://localhost:3000/patient/', request).then((result) => {
-        alert('exito');
-      });
-    } catch (error) {
-      alert(error);
-    }
+        alert(request.appointment_date);
+      }).catch((error)=>console.log(error));
   };
   return (
     <div className="login-box-container">

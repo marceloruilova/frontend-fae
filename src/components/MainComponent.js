@@ -5,6 +5,7 @@ import Header from './HeaderComponent';
 import Calendar from './CalendarComponent';
 import Evolucion from './EvolucionComponent';
 import Login from './LoginComponent';
+import Cie from './CieComponent';
 import Vitals from './LifesignsComponent';
 
 function Main() {
@@ -18,6 +19,7 @@ function Main() {
           <Route path="/calendar" component={() => <Calendar />} />
           <Route path="/vitals" component={() => <Vitals />} />
           <Route path="/evolucion" component={() => <Evolucion />} />
+          <Route path="/cie" component={() => <Cie />} />
         </Switch>
       </div>
     </div>

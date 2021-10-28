@@ -60,6 +60,7 @@
   display: flex;
   align-items: center;
   border: solid;
+  overflow-y: scroll;
   height: 84vh;
   justify-content: center;
   background-image: url('./R.png');
