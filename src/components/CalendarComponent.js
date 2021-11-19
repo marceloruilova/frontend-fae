@@ -36,23 +36,20 @@ function Calendar() {
     setEspeciality(area);
   };
   const onSubmit = (data) => {
-    const hoy = new Date();
+    const hoy = new Date().toISOString().substring(0,10);
     const request = {
       ci: data.ci,
       firstName: data.firstname,
-      lastName: data.lastname,
+      surName: data.lastname,
       appointment_hour: quotes,
       appointment_date: hoy,
       type: data.type,
       asigned_speciality: especiality,
+      electronic_history:{}
     };
-    try {
-      axios.post('http://localhost:3000/users/', request).then((result) => {
-        console.log(result);
-      });
-    } catch (error) {
-      console.log(error);
-    }
+      axios.post('http://localhost:3000/patient/', request).then((result) => {
+        alert(request.appointment_date);
+      }).catch((error)=>console.log(error));
   };
   return (
     <div className="login-box-container">
