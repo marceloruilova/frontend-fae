@@ -1,20 +1,11 @@
-import React, { useState } from 'react';
-import {
-  Label,
-  Row,
-  Col,
-  Container,
-  FormGroup,
-  Input,
-  Form,
-  Button,
-} from 'reactstrap';
-import { useForm } from 'react-hook-form';
-import axios from 'axios';
+import React, { useState } from "react";
+import { Label, Row, Col, FormGroup, Input, Form, Button } from "reactstrap";
+import { useForm } from "react-hook-form";
+import axios from "axios";
 
 function Login() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const {
     register,
     handleSubmit,
@@ -23,11 +14,14 @@ function Login() {
   const onSubmit = (data) => {
     const request = {
       nombre: data.username,
-      evolucion: [{ id: 'place' }],
+      evolucion: [{ id: "place" }],
     };
-    /* axios.post('http://localhost:3000/login/', request).then((result) => {
-      alert('Exito');
-    }); */
+    axios
+      .post("http://localhost:3000/login/", request)
+      .then((result) => {
+        alert("Exito");
+      })
+      .catch((error) => alert("Error"));
   };
   return (
     <div className="login-box-container">
@@ -49,13 +43,13 @@ function Login() {
                 id="username"
                 name="username"
                 placeholder="Username"
-                {...register('username')}
+                {...register("username")}
               />
               <Input
                 type="text"
                 id="password"
                 name="password"
-                {...register('password')}
+                {...register("password")}
               />
             </FormGroup>
           </Col>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 import {
   Modal,
   Label,
@@ -8,21 +8,21 @@ import {
   Input,
   Form,
   Button,
-} from 'reactstrap';
-import { useForm } from 'react-hook-form';
-import axios from 'axios';
+} from "reactstrap";
+import { useForm } from "react-hook-form";
+import axios from "axios";
 
 function Calendar() {
   const places = [
-    'Hora',
-    'Traumatología',
-    'Psicología',
-    'Neurología',
-    'Rayos X',
+    "Hora",
+    "Traumatología",
+    "Psicología",
+    "Neurología",
+    "Rayos X",
   ];
-  const hours = ['7:00', '7:15', '7:30', '7:45', '8:00'];
-  const [quotes, setQuotes] = useState('');
-  const [especiality, setEspeciality] = useState('');
+  const hours = ["7:00", "7:15", "7:30", "7:45", "8:00"];
+  const [quotes, setQuotes] = useState("");
+  const [especiality, setEspeciality] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const {
     register,
@@ -36,7 +36,7 @@ function Calendar() {
     setEspeciality(area);
   };
   const onSubmit = (data) => {
-    const hoy = new Date().toISOString().substring(0,10);
+    const hoy = new Date().toISOString().substring(0, 10);
     const request = {
       ci: data.ci,
       firstName: data.firstname,
@@ -45,11 +45,14 @@ function Calendar() {
       appointment_date: hoy,
       type: data.type,
       asigned_speciality: especiality,
-      electronic_history:{}
+      electronic_history: {},
     };
-      axios.post('http://localhost:3000/patient/', request).then((result) => {
-        alert(request.appointment_date);
-      }).catch((error)=>console.log(error));
+    axios
+      .post("http://localhost:3000/patient/", request)
+      .then((result) => {
+        alert("Exito");
+      })
+      .catch((error) => alert("error"));
   };
   return (
     <div className="login-box-container">
@@ -60,7 +63,7 @@ function Calendar() {
               {item}
             </div>
             {hours.map((hour) =>
-              item === 'Hora' ? (
+              item === "Hora" ? (
                 <div className="col 5 calendar" key="hour">
                   {hour}
                 </div>
@@ -84,20 +87,20 @@ function Calendar() {
                   type="text"
                   id="ci"
                   name="ci"
-                  {...register('ci', {
+                  {...register("ci", {
                     required: true,
                     minLength: 10,
                     maxLength: 10,
                   })}
                 />
                 {/* use role="alert" to announce the error message */}
-                {errors.ci && errors.ci.type === 'required' && (
+                {errors.ci && errors.ci.type === "required" && (
                   <span role="alert">This is required</span>
                 )}
-                {errors.ci && errors.ci.type === 'maxLength' && (
+                {errors.ci && errors.ci.type === "maxLength" && (
                   <span role="alert">Max length exceeded</span>
                 )}
-                {errors.ci && errors.ci.type === 'minLength' && (
+                {errors.ci && errors.ci.type === "minLength" && (
                   <span role="alert">Min length exceeded</span>
                 )}
                 <br></br>
@@ -106,14 +109,14 @@ function Calendar() {
                   type="text"
                   id="firstname"
                   name="firstname"
-                  {...register('firstname')}
+                  {...register("firstname")}
                 />
                 <Label htmlFor="lastname">Apellido</Label>
                 <Input
                   type="text"
                   id="lastname"
                   name="lastname"
-                  {...register('lastname')}
+                  {...register("lastname")}
                 />
               </FormGroup>
               <FormGroup check>
@@ -122,7 +125,7 @@ function Calendar() {
                     type="radio"
                     name="type"
                     value="ISSFA"
-                    {...register('type')}
+                    {...register("type")}
                   />
                   ISSFA
                 </Label>

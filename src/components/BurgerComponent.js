@@ -1,6 +1,6 @@
-import React from 'react';
-import { Nav, NavItem, NavLink } from 'reactstrap';
-import logo from '../R.png';
+import React from "react";
+import { Nav, NavItem, NavLink } from "reactstrap";
+import logo from "../R.png";
 
 function Burger() {
   return (
@@ -8,7 +8,11 @@ function Burger() {
       <Nav tabs vertical>
         <NavItem>
           <NavLink href="/calendar" active>
-            <img src={logo} style={{ width: '100px', height: '100px' }} />
+            <img
+              src={logo}
+              style={{ width: "100px", height: "100px" }}
+              alt="fae-logo"
+            />
           </NavLink>
         </NavItem>
         <NavItem>
