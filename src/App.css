@@ -12,16 +12,13 @@
   overflow: hidden;
   border-style: solid;
   border-color: #268e00;
-  width: 120px;
-  height: 50px;
+  height: 35px;
 }
 .quote {
   background: #6be303;
-  border: 1;
   border-style: solid;
   border-color: #268e00;
-  width: 10px;
-  height: 50px;
+  height: 35px;
 }
 .quote:hover {
   background-color: gold;

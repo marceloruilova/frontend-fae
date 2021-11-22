@@ -76,12 +76,12 @@ function Lifesigns() {
           padding: "30px",
         }}
       >
-        <Form onSubmit={handleSubmit(onSubmit)} style={{ width: "44%" }}>
+        <Form onSubmit={handleSubmit(onSubmit)} style={{ width: "58%" }}>
           <Row className="formborder">
-            <Col xs="9" style={{ "padding-left": "138px" }}>
+            <Col xs="8" style={{ "padding-left": "170px" }}>
               SIGNOS VITALES
             </Col>
-            <Col xs="3">
+            <Col xs="4">
               <FormGroup>
                 <Input
                   type="time"
@@ -111,7 +111,7 @@ function Lifesigns() {
                   id="especiality"
                   name="especiality"
                   placeholder="Especialidad"
-                  defaultValue={nowuser.asigned_speciality}
+                  defaultValue={nowuser===undefined?"":nowuser.asigned_speciality}
                   onChange={(e) =>
                     setNowuser({ asigned_speciality: e.target.value })
                   }
@@ -121,7 +121,7 @@ function Lifesigns() {
             <Col xs="2">
               <div htmlFor="especiality">FECHA:</div>
             </Col>
-            <Col xs="3">
+            <Col xs="4">
               {" "}
               <FormGroup>
                 <Input
@@ -129,7 +129,7 @@ function Lifesigns() {
                   id="date"
                   name="date"
                   placeholder="Fecha"
-                  defaultValue={nowuser.appointment_date}
+                  defaultValue={nowuser===undefined?"":nowuser.appointment_date}
                   readOnly={true}
                   {...register("date")}
                 />
@@ -355,8 +355,8 @@ function Lifesigns() {
             </Col>
             <Col xs="1">cm</Col>
           </Row>
-          <Row>
-            <Col xs="1">
+          <Row style={{"padding":"5px"}}>
+            <Col xs="2">
               <Button type="submit" value="submit" color="primary">
                 Ingresar
               </Button>

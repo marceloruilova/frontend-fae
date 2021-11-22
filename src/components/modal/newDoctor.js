@@ -31,7 +31,7 @@ function DoctorModal(props) {
       const data = await axios.get("http://localhost:3000/doctor/");
       setDoctors(data.data);
       setValue(
-        data.data.length == 0
+        data.data.length === 0
           ? ""
           : `${data.data[0].ci}-${data.data[0].doctor_first_name}`
       );
@@ -103,7 +103,6 @@ function DoctorModal(props) {
               />
             </Col>
             <Col>
-              <div onClick={toggle}>
                 {isOpen ? (
                   <Modal isOpen={isOpen} toggle={toggle}>
                     <ModalHeader toggle={toggle}>
@@ -124,6 +123,16 @@ function DoctorModal(props) {
                                 className="inputborder"
                                 {...register("doctor_first_name")}
                               />
+                              {/* use role="alert" to announce the error message */}
+                              {errors.doctor_first_name && errors.doctor_first_name.type === "required" && (
+                                <span role="alert">This is required</span>
+                              )}
+                              {errors.doctor_first_name && errors.doctor_first_name.type === "maxLength" && (
+                                <span role="alert">Max length exceeded</span>
+                              )}
+                              {errors.doctor_first_name && errors.doctor_first_name.type === "minLength" && (
+                                <span role="alert">Min length exceeded</span>
+                              )}
                             </FormGroup>
                           </Col>
                         </Row>
@@ -169,9 +178,8 @@ function DoctorModal(props) {
                     </Form>
                   </Modal>
                 ) : (
-                  "+"
+                  <div onClick={toggle}>+</div>
                 )}
-              </div>
             </Col>
           </Row>
         </div>

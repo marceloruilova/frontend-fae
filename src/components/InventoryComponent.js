@@ -24,7 +24,6 @@ function Inventory() {
 
   const [isFormOpen, setIsFormOpen] = useState(false);
 
-  const today = new Date();
 
   const onSubmit = (data) => {
     const request = {
@@ -44,7 +43,8 @@ function Inventory() {
 
   useEffect(() => {
     const fetch = async () => {
-      const data = await axios.get("http://localhost:3000/evolution/bymonth", {
+        let today = new Date();
+        const data = await axios.get("http://localhost:3000/evolution/bymonth", {
         params: {
           month: today.getMonth().toString(),
           year: today.getFullYear().toString(),
@@ -103,44 +103,44 @@ function Inventory() {
           <tbody>
             <tr>
               <th scope="row">
-                {nowuser.hce == undefined ? "" : nowuser.hce.id}
+                {nowuser===undefined||nowuser.hce === undefined ? "" : nowuser.hce.id}
               </th>
-              <td>{nowuser.hce == undefined ? "" : nowuser.hce.patient.id}</td>
+              <td>{nowuser===undefined||nowuser.hce === undefined ? "" : nowuser.hce.patient.id}</td>
               <td>
-                {nowuser.hce == undefined
+                {nowuser===undefined||nowuser.hce === undefined
                   ? ""
                   : nowuser.hce.patient.createdAt.substr(0, 10)}
               </td>
               <td>
-                {nowuser.hce == undefined ? "" : nowuser.hce.patient.firstName}
+                {nowuser===undefined||nowuser.hce === undefined ? "" : nowuser.hce.patient.firstName}
               </td>
               <td>
-                {nowuser.prescription == undefined
+                {nowuser===undefined||nowuser.prescription === undefined
                   ? ""
                   : nowuser.prescription.prescribing_doctor.doctor_first_name}
               </td>
               <td>
-                {nowuser.prescription == undefined
+                {nowuser===undefined||nowuser.prescription === undefined
                   ? ""
                   : nowuser.prescription.medicine.map((item) => <p>{item}</p>)}
               </td>
               <td>
-                {nowuser.hce == undefined
+                {nowuser===undefined||nowuser.hce === undefined
                   ? ""
                   : nowuser.prescription.info_prescription.quantity}
               </td>
               <td>
-                {nowuser.hce == undefined
+                {nowuser===undefined||nowuser.hce === undefined
                   ? ""
                   : nowuser.prescription.info_prescription.cie10.disease}
               </td>
               <td>
-                {nowuser.hce == undefined
+                {nowuser===undefined||nowuser.hce === undefined
                   ? ""
                   : nowuser.prescription.info_prescription.price}
               </td>
               <td>
-                {nowuser.hce == undefined
+                {nowuser===undefined||nowuser.hce === undefined
                   ? ""
                   : nowuser.prescription.info_prescription.ticket_number}
               </td>

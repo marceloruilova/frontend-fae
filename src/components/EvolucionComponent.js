@@ -1,9 +1,7 @@
 import { useState } from "react";
 import {
-  Label,
   Row,
   Col,
-  Container,
   FormGroup,
   Input,
   Form,
@@ -64,9 +62,9 @@ function Evolucion() {
         const resto = atencion - 60;
         /*45 minutos tiempo para atencion del cliente 7.30 - 7.45 - 8.15
          aun falta parece, hacer pruebas.*/
-        if (atencion >= 60 && horas + 1 === 8 && today.getMinutes() <= resto)
+        if (atencion >= 60 && horas + 1 === today.getHours()+1 && today.getMinutes() <= resto)
           return true;
-        if (atencion <= 60 && horas === 7 && today.getMinutes() < atencion)
+        if (atencion <= 60 && horas === today.getHours() && today.getMinutes() < atencion)
           return true;
         return false;
       });
@@ -90,7 +88,7 @@ function Evolucion() {
                   type="text"
                   id="establecimiento"
                   name="establecimiento"
-                  defaultValue={nowuser.asigned_speciality}
+                  defaultValue={nowuser===undefined?"":nowuser.asigned_speciality}
                   onChange={(e) =>
                     setNowuser({ asigned_speciality: e.target.value })
                   }
@@ -107,7 +105,7 @@ function Evolucion() {
                   type="text"
                   id="name"
                   name="name"
-                  defaultValue={nowuser.firstName}
+                  defaultValue={nowuser===undefined?"":nowuser.firstName}
                   onChange={(e) =>
                     setNowuser({ asigned_speciality: e.target.value })
                   }
@@ -125,7 +123,7 @@ function Evolucion() {
                   type="text"
                   id="surname"
                   name="surname"
-                  defaultValue={nowuser.surName}
+                  defaultValue={nowuser===undefined?"":nowuser.surName}
                   onChange={(e) =>
                     setNowuser({ asigned_speciality: e.target.value })
                   }
@@ -143,7 +141,7 @@ function Evolucion() {
                   type="text"
                   id="sexo"
                   name="sexo"
-                  defaultValue={nowuser.gender}
+                  defaultValue={nowuser===undefined?"":nowuser.gender}
                   onChange={(e) =>
                     setNowuser({ asigned_speciality: e.target.value })
                   }
@@ -175,7 +173,7 @@ function Evolucion() {
                   type="text"
                   id="id_hce"
                   name="id_hce"
-                  defaultValue={nowuser.id}
+                  defaultValue={nowuser===undefined?"":nowuser.id}
                   className="inputborder"
                 />
               </FormGroup>
@@ -242,22 +240,30 @@ function Evolucion() {
           <Row style={{ "--bs-gutter-x": "0rem" }}>
             <Col xs="2" style={{ "padding-right": "1rem" }}>
               <div htmlFor="id_hce" className="bigborder">
-                <p>{nowuser.appointment_date}</p>
-                <p>{nowuser.appointment_hour}</p>
+                <p>{nowuser===undefined?"":nowuser.appointment_date}</p>
+                <p>{nowuser===undefined?"":nowuser.appointment_hour}</p>
               </div>
             </Col>
             <Col xs="6" style={{ "padding-right": "1rem" }}>
               <div htmlFor="id_hce" className="formborder">
+                <p>Mc:</p>
                 <Input
-                  type="textarea"
-                  id="observations"
-                  name="observations"
-                  placeholder="Observations"
-                  {...register("observations")}
+                  type="text"
+                  id="mc"
+                  name="mc"
+                  placeholder="Mc"
+                  {...register("mc")}
                 />
               </div>
               <div htmlFor="id_hce" className="formborder">
-                Mc:
+                <p>Enf:</p>
+                <Input
+                  type="text"
+                  id="enf"
+                  name="enf"
+                  placeholder="Enf"
+                  {...register("enf")}
+                />
               </div>
             </Col>
             <Col xs="4">
@@ -295,7 +301,7 @@ function Evolucion() {
                           setFullmedicine([...fullmedicine, aux]);
                         }}
                       >
-                        Agregar
+                        Add
                       </Button>
                     </FormGroup>
                   </Col>

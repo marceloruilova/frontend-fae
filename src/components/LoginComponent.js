@@ -1,11 +1,8 @@
-import React, { useState } from "react";
 import { Label, Row, Col, FormGroup, Input, Form, Button } from "reactstrap";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 
 function Login() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const {
     register,
     handleSubmit,
@@ -25,7 +22,8 @@ function Login() {
   };
   return (
     <div className="login-box-container">
-      <Form onSubmit={handleSubmit(onSubmit)} className="formborder">
+      <div style={{border:"4px solid"}}>
+      <Form onSubmit={handleSubmit(onSubmit)} >
         <Row>
           <Col>
             <FormGroup>
@@ -45,10 +43,18 @@ function Login() {
                 placeholder="Username"
                 {...register("username")}
               />
+              
+            </FormGroup>
+          </Col>
+        </Row>
+        <Row>
+          <Col >
+            <FormGroup>
               <Input
                 type="text"
                 id="password"
                 name="password"
+                placeholder="Password"
                 {...register("password")}
               />
             </FormGroup>
@@ -60,7 +66,8 @@ function Login() {
           Ingresar
         </Button>
       </Form>
-    </div>
+      </div>
+      </div>
   );
 }
 

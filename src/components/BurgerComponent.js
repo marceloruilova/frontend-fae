@@ -19,19 +19,19 @@ function Burger() {
           <NavLink href="/login">Login</NavLink>
         </NavItem>
         <NavItem>
-          <NavLink href="/calendar">Calendar</NavLink>
+          <NavLink href="/calendar">Calendario</NavLink>
         </NavItem>
         <NavItem>
-          <NavLink href="/vitals">Signos Vitales</NavLink>
+          <NavLink href="/vitals">Preparación</NavLink>
         </NavItem>
         <NavItem>
-          <NavLink href="/evolucion">Evolucion</NavLink>
+          <NavLink href="/evolucion">HCE</NavLink>
         </NavItem>
         <NavItem>
           <NavLink href="/cie">Cie10</NavLink>
         </NavItem>
         <NavItem>
-          <NavLink href="/inventory">Inventory</NavLink>
+          <NavLink href="/inventory">Inventario</NavLink>
         </NavItem>
       </Nav>
     </div>

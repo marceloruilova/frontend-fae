@@ -1,144 +1,70 @@
-import { useState } from "react";
-import {
-  Modal,
-  Label,
-  ModalHeader,
-  ModalBody,
-  FormGroup,
-  Input,
-  Form,
-  Button,
-} from "reactstrap";
-import { useForm } from "react-hook-form";
+import { useState,useEffect } from "react";
 import axios from "axios";
+import UserModal from "./modal/newUser";
 
 function Calendar() {
   const places = [
-    "Hora",
-    "Traumatología",
-    "Psicología",
-    "Neurología",
-    "Rayos X",
+    [1,"Traumatología"],
+    [2,"Psicología"],
+    [3,"Neurología"],
+    [4,"Rayos X"],
+    [5,"Ginecología"],
   ];
-  const hours = ["7:00", "7:15", "7:30", "7:45", "8:00"];
+  const hours = [[1,"Hora"],[2,"07:00"], [3,"07:45"], [4,"08:30"], [5,"09:15"], 
+  [6,"10:00"], [7,"10:45"], [8,"11:30"], [9,"12:30"], [10,"13:15"], [11,"14:00"], [12,"14:45"], [13,"15:30"]];
   const [quotes, setQuotes] = useState("");
+  const [users, setUsers] = useState([]);
   const [especiality, setEspeciality] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
 
-  const toggle = (hour, area) => {
+  useEffect(() => {
+    const fetch = async () => {
+      const attend_users = await axios.get(
+        "http://localhost:3000/patient/bydate"
+      );
+      setUsers(attend_users.data);
+    };
+    fetch();
+  }, []);
+  const toggle = (area, hour) => {
     setIsModalOpen(!isModalOpen);
     setQuotes(hour);
     setEspeciality(area);
   };
-  const onSubmit = (data) => {
-    const hoy = new Date().toISOString().substring(0, 10);
-    const request = {
-      ci: data.ci,
-      firstName: data.firstname,
-      surName: data.lastname,
-      appointment_hour: quotes,
-      appointment_date: hoy,
-      type: data.type,
-      asigned_speciality: especiality,
-      electronic_history: {},
-    };
-    axios
-      .post("http://localhost:3000/patient/", request)
-      .then((result) => {
-        alert("Exito");
-      })
-      .catch((error) => alert("error"));
-  };
   return (
     <div className="login-box-container">
-      <div className="container">
-        {places.map((item) => (
+      <div className="container" >
+        {hours.map((item) => (
           <div className="row">
-            <div className="col 5 calendar" key="item">
-              {item}
-            </div>
-            {hours.map((hour) =>
-              item === "Hora" ? (
-                <div className="col 5 calendar" key="hour">
-                  {hour}
-                </div>
-              ) : (
+            <div className="col 4 calendar" key={item[0]}>
+              {item[1]}
+            </div>{console.log(users)}
+            {places.map((place) =>
+              item[1] !== "Hora" ?  (
                 <div
-                  className="col 5 quote"
-                  onClick={() => toggle(hour, item)}
-                  key="hour"
-                ></div>
+                className="col 4 quote"
+                onClick={() => toggle(place[1], item[1])}
+                >
+                {users.map(user=>((user.appointment_hour===item[1])&&(user.asigned_speciality===place[1]))?
+                <li key={user.ci}>{`${user.firstName} ${user.surName}`}</li>:"")
+                }
+                </div>
+                ):(
+                <div className="col 4 calendar" key={place[0]}>
+                  {place[1]}
+                </div>
               )
             )}
           </div>
         ))}
-        <Modal isOpen={isModalOpen} toggle={toggle}>
-          <ModalHeader toggle={toggle}>Agregar Cita</ModalHeader>
-          <ModalBody>
-            <Form onSubmit={handleSubmit(onSubmit)}>
-              <FormGroup>
-                <Label htmlFor="ci">CI</Label>
-                <Input
-                  type="text"
-                  id="ci"
-                  name="ci"
-                  {...register("ci", {
-                    required: true,
-                    minLength: 10,
-                    maxLength: 10,
-                  })}
-                />
-                {/* use role="alert" to announce the error message */}
-                {errors.ci && errors.ci.type === "required" && (
-                  <span role="alert">This is required</span>
-                )}
-                {errors.ci && errors.ci.type === "maxLength" && (
-                  <span role="alert">Max length exceeded</span>
-                )}
-                {errors.ci && errors.ci.type === "minLength" && (
-                  <span role="alert">Min length exceeded</span>
-                )}
-                <br></br>
-                <Label htmlFor="firstname">Nombre</Label>
-                <Input
-                  type="text"
-                  id="firstname"
-                  name="firstname"
-                  {...register("firstname")}
-                />
-                <Label htmlFor="lastname">Apellido</Label>
-                <Input
-                  type="text"
-                  id="lastname"
-                  name="lastname"
-                  {...register("lastname")}
-                />
-              </FormGroup>
-              <FormGroup check>
-                <Label check>
-                  <Input
-                    type="radio"
-                    name="type"
-                    value="ISSFA"
-                    {...register("type")}
-                  />
-                  ISSFA
-                </Label>
-              </FormGroup>
-              <Button type="submit" value="submit" color="primary">
-                Agregar Cita
-              </Button>
-            </Form>
-          </ModalBody>
-        </Modal>
+        {isModalOpen?<UserModal 
+            isOpen={isModalOpen}
+            toggle={toggle}
+            quotes={quotes}
+            especiality={especiality}
+            />:""}
       </div>
     </div>
   );
 }
-
 export default Calendar;

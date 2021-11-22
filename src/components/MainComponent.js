@@ -22,6 +22,7 @@ function Main() {
           <Route path="/evolucion" component={() => <Evolucion />} />
           <Route path="/cie" component={() => <Cie />} />
           <Route path="/inventory" component={() => <Inventory />} />
+          <Redirect to="/login" />
         </Switch>
       </div>
     </div>
