@@ -71,7 +71,8 @@ function Cie10() {
         if (
           month === today.toISOString().substring(0, 10) &&
           atencion <= 60 &&
-          horas === 7  &&today.getMinutes()<atencion 
+          horas === 7 &&
+          today.getMinutes() < atencion
         )
           return true;
         return false;
@@ -105,18 +106,22 @@ function Cie10() {
             <tbody>
               <tr>
                 <th scope="row">
-                  {nowuser===undefined||nowuser.hce === undefined ? "" : nowuser.hce.id}
+                  {nowuser === undefined || nowuser.hce === undefined
+                    ? ""
+                    : nowuser.hce.id}
                 </th>
                 <td>
-                  {nowuser===undefined||nowuser.hce === undefined ? "" : nowuser.hce.patient.id}
+                  {nowuser === undefined || nowuser.hce === undefined
+                    ? ""
+                    : nowuser.hce.patient.id}
                 </td>
                 <td>
-                {nowuser===undefined||nowuser.hce === undefined
+                  {nowuser === undefined || nowuser.hce === undefined
                     ? ""
                     : nowuser.hce.patient.createdAt.substr(0, 10)}
                 </td>
                 <td>
-                  {nowuser===undefined||nowuser.hce === undefined
+                  {nowuser === undefined || nowuser.hce === undefined
                     ? ""
                     : nowuser.hce.patient.firstName}
                 </td>
@@ -125,14 +130,14 @@ function Cie10() {
                     setIsOpen(!isOpen);
                   }}
                 >
-                  {nowuser===undefined||nowuser.prescription === undefined
+                  {nowuser === undefined || nowuser.prescription === undefined
                     ? ""
                     : nowuser.prescription.prescribing_doctor === undefined
                     ? "Agregar Doctor"
                     : nowuser.prescription.prescribing_doctor.doctor_first_name}
                 </td>
                 <td>
-                  {nowuser===undefined||nowuser.prescription === undefined
+                  {nowuser === undefined || nowuser.prescription === undefined
                     ? ""
                     : nowuser.prescription.medicine.map((item) => (
                         <p>{item}</p>
@@ -162,7 +167,12 @@ function Cie10() {
                         {`${item.c}:${item.d}`}
                       </div>
                     )}
-                    value={nowuser===undefined||nowuser.prescription === undefined ? "" : code}
+                    value={
+                      nowuser === undefined ||
+                      nowuser.prescription === undefined
+                        ? ""
+                        : code
+                    }
                     onChange={(e) => {
                       let newArray = cieArray.filter((cie) => {
                         return `${cie.c}:${cie.d}`.includes(e.target.value);

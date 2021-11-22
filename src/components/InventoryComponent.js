@@ -1,5 +1,17 @@
 import { useState } from "react";
-import { Table, Form, FormGroup, Button, Input } from "reactstrap";
+import {
+  Table,
+  Form,
+  FormGroup,
+  Button,
+  Input,
+  Card,
+  CardHeader,
+  CardFooter,
+  CardText,
+  CardBody,
+  CardTitle,
+} from "reactstrap";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useEffect } from "react";
@@ -24,7 +36,6 @@ function Inventory() {
 
   const [isFormOpen, setIsFormOpen] = useState(false);
 
-
   const onSubmit = (data) => {
     const request = {
       inventory: {
@@ -43,8 +54,8 @@ function Inventory() {
 
   useEffect(() => {
     const fetch = async () => {
-        let today = new Date();
-        const data = await axios.get("http://localhost:3000/evolution/bymonth", {
+      let today = new Date();
+      const data = await axios.get("http://localhost:3000/evolution/bymonth", {
         params: {
           month: today.getMonth().toString(),
           year: today.getFullYear().toString(),
@@ -85,6 +96,35 @@ function Inventory() {
   return (
     <div className="login-box-container">
       <div className="container">
+        <Card>
+          <CardHeader>
+            Paciente{" "}
+            {nowuser === undefined || nowuser.hce === undefined
+              ? ""
+              : `${nowuser.hce.patient.firstName} ${nowuser.hce.patient.surName}`}
+          </CardHeader>
+          <CardBody>
+            <CardTitle tag="h5">CIE 10</CardTitle>
+            <CardText>
+              Medicina:
+              {nowuser === undefined || nowuser.prescription === undefined
+                ? ""
+                : nowuser.prescription.medicine.map((item) => <p>{item}</p>)}
+            </CardText>
+            <CardText>
+              Cantidad:
+              {nowuser === undefined || nowuser.hce === undefined
+                ? ""
+                : nowuser.prescription.info_prescription.quantity}
+            </CardText>
+          </CardBody>
+          <CardFooter>
+            Medico:
+            {nowuser === undefined || nowuser.prescription === undefined
+              ? ""
+              : nowuser.prescription.prescribing_doctor.doctor_first_name}
+          </CardFooter>
+        </Card>
         <Table hover>
           <thead>
             <tr>
@@ -103,53 +143,65 @@ function Inventory() {
           <tbody>
             <tr>
               <th scope="row">
-                {nowuser===undefined||nowuser.hce === undefined ? "" : nowuser.hce.id}
+                {nowuser === undefined || nowuser.hce === undefined
+                  ? ""
+                  : nowuser.hce.id}
               </th>
-              <td>{nowuser===undefined||nowuser.hce === undefined ? "" : nowuser.hce.patient.id}</td>
               <td>
-                {nowuser===undefined||nowuser.hce === undefined
+                {nowuser === undefined || nowuser.hce === undefined
+                  ? ""
+                  : nowuser.hce.patient.id}
+              </td>
+              <td>
+                {nowuser === undefined || nowuser.hce === undefined
                   ? ""
                   : nowuser.hce.patient.createdAt.substr(0, 10)}
               </td>
               <td>
-                {nowuser===undefined||nowuser.hce === undefined ? "" : nowuser.hce.patient.firstName}
+                {nowuser === undefined || nowuser.hce === undefined
+                  ? ""
+                  : nowuser.hce.patient.firstName}
               </td>
               <td>
-                {nowuser===undefined||nowuser.prescription === undefined
+                {nowuser === undefined || nowuser.prescription === undefined
                   ? ""
                   : nowuser.prescription.prescribing_doctor.doctor_first_name}
               </td>
               <td>
-                {nowuser===undefined||nowuser.prescription === undefined
+                {nowuser === undefined || nowuser.prescription === undefined
                   ? ""
                   : nowuser.prescription.medicine.map((item) => <p>{item}</p>)}
               </td>
               <td>
-                {nowuser===undefined||nowuser.hce === undefined
+                {nowuser === undefined || nowuser.hce === undefined
                   ? ""
                   : nowuser.prescription.info_prescription.quantity}
               </td>
               <td>
-                {nowuser===undefined||nowuser.hce === undefined
+                {nowuser === undefined || nowuser.hce === undefined
                   ? ""
                   : nowuser.prescription.info_prescription.cie10.disease}
               </td>
               <td>
-                {nowuser===undefined||nowuser.hce === undefined
+                {nowuser === undefined || nowuser.hce === undefined
                   ? ""
                   : nowuser.prescription.info_prescription.price}
               </td>
               <td>
-                {nowuser===undefined||nowuser.hce === undefined
+                {nowuser === undefined || nowuser.hce === undefined
                   ? ""
                   : nowuser.prescription.info_prescription.ticket_number}
               </td>
             </tr>
           </tbody>
         </Table>
-        <div onClick={() => setIsFormOpen(!isFormOpen)}>
-          Agregar nuevo medicamento al inventario
-        </div>
+        <Button
+          onClick={() => setIsFormOpen(!isFormOpen)}
+          color="primary"
+          size="ms"
+        >
+          Nuevo medicamento al inventario
+        </Button>
         {isFormOpen ? (
           <Form onSubmit={handleSubmit(onSubmit)}>
             <Table hover>
@@ -274,11 +326,12 @@ function Inventory() {
                         name="quantity"
                         type="number"
                         className="inputborder"
-                      />
+                      >
+                        Add
+                      </Button>
                     </FormGroup>
                   </td>
                 </tr>
-                )
               </tbody>
             </Table>
           </Form>

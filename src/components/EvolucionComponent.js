@@ -1,12 +1,5 @@
 import { useState } from "react";
-import {
-  Row,
-  Col,
-  FormGroup,
-  Input,
-  Form,
-  Button,
-} from "reactstrap";
+import { Row, Col, FormGroup, Input, Form, Button } from "reactstrap";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useEffect } from "react/cjs/react.development";
@@ -62,9 +55,17 @@ function Evolucion() {
         const resto = atencion - 60;
         /*45 minutos tiempo para atencion del cliente 7.30 - 7.45 - 8.15
          aun falta parece, hacer pruebas.*/
-        if (atencion >= 60 && horas + 1 === today.getHours()+1 && today.getMinutes() <= resto)
+        if (
+          atencion >= 60 &&
+          horas + 1 === today.getHours() + 1 &&
+          today.getMinutes() <= resto
+        )
           return true;
-        if (atencion <= 60 && horas === today.getHours() && today.getMinutes() < atencion)
+        if (
+          atencion <= 60 &&
+          horas === today.getHours() &&
+          today.getMinutes() < atencion
+        )
           return true;
         return false;
       });
@@ -72,11 +73,11 @@ function Evolucion() {
       setNowuser(nnUser);
     };
     fetch();
-  }, []);
+  }, [today]);
 
   return (
     <div className="login-box-container">
-      <div className="container">
+      <div className="container" style={{ "padding-top": "8rem" }}>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Row className="tab" style={{ "--bs-gutter-x": "0rem" }}>
             <Col xs="3">
@@ -88,7 +89,9 @@ function Evolucion() {
                   type="text"
                   id="establecimiento"
                   name="establecimiento"
-                  defaultValue={nowuser===undefined?"":nowuser.asigned_speciality}
+                  defaultValue={
+                    nowuser === undefined ? "" : nowuser.asigned_speciality
+                  }
                   onChange={(e) =>
                     setNowuser({ asigned_speciality: e.target.value })
                   }
@@ -105,7 +108,7 @@ function Evolucion() {
                   type="text"
                   id="name"
                   name="name"
-                  defaultValue={nowuser===undefined?"":nowuser.firstName}
+                  defaultValue={nowuser === undefined ? "" : nowuser.firstName}
                   onChange={(e) =>
                     setNowuser({ asigned_speciality: e.target.value })
                   }
@@ -123,7 +126,7 @@ function Evolucion() {
                   type="text"
                   id="surname"
                   name="surname"
-                  defaultValue={nowuser===undefined?"":nowuser.surName}
+                  defaultValue={nowuser === undefined ? "" : nowuser.surName}
                   onChange={(e) =>
                     setNowuser({ asigned_speciality: e.target.value })
                   }
@@ -141,7 +144,7 @@ function Evolucion() {
                   type="text"
                   id="sexo"
                   name="sexo"
-                  defaultValue={nowuser===undefined?"":nowuser.gender}
+                  defaultValue={nowuser === undefined ? "" : nowuser.gender}
                   onChange={(e) =>
                     setNowuser({ asigned_speciality: e.target.value })
                   }
@@ -173,7 +176,7 @@ function Evolucion() {
                   type="text"
                   id="id_hce"
                   name="id_hce"
-                  defaultValue={nowuser===undefined?"":nowuser.id}
+                  defaultValue={nowuser === undefined ? "" : nowuser.id}
                   className="inputborder"
                 />
               </FormGroup>
@@ -240,36 +243,68 @@ function Evolucion() {
           <Row style={{ "--bs-gutter-x": "0rem" }}>
             <Col xs="2" style={{ "padding-right": "1rem" }}>
               <div htmlFor="id_hce" className="bigborder">
-                <p>{nowuser===undefined?"":nowuser.appointment_date}</p>
-                <p>{nowuser===undefined?"":nowuser.appointment_hour}</p>
+                <p>{nowuser === undefined ? "" : nowuser.appointment_date}</p>
+                <p>{nowuser === undefined ? "" : nowuser.appointment_hour}</p>
               </div>
             </Col>
             <Col xs="6" style={{ "padding-right": "1rem" }}>
-              <div htmlFor="id_hce" className="formborder">
-                <p>Mc:</p>
-                <Input
-                  type="text"
-                  id="mc"
-                  name="mc"
-                  placeholder="Mc"
-                  {...register("mc")}
-                />
-              </div>
-              <div htmlFor="id_hce" className="formborder">
-                <p>Enf:</p>
-                <Input
-                  type="text"
-                  id="enf"
-                  name="enf"
-                  placeholder="Enf"
-                  {...register("enf")}
-                />
+              <div className="bigborder">
+                <div htmlFor="id_hce">
+                  <p>Mc:</p>
+                  <Input
+                    type="text"
+                    id="mc"
+                    name="mc"
+                    placeholder="Mc"
+                    {...register("mc")}
+                  />
+                </div>
+                <div htmlFor="id_hce">
+                  <p>Enf:</p>
+                  <Input
+                    type="text"
+                    id="enf"
+                    name="enf"
+                    placeholder="Enf"
+                    {...register("enf")}
+                  />
+                </div>
+                <div htmlFor="id_hce">
+                  <p>Qx:</p>
+                  <Input
+                    type="text"
+                    id="qx"
+                    name="qx"
+                    placeholder="Qx"
+                    {...register("qx")}
+                  />
+                </div>
+                <div htmlFor="id_hce">
+                  <p>Objetivo:</p>
+                  <Input
+                    type="text"
+                    id="enf"
+                    name="enf"
+                    placeholder="Enf"
+                    {...register("enf")}
+                  />
+                </div>
+                <div htmlFor="id_hce">
+                  <p>Subjetivo:</p>
+                  <Input
+                    type="text"
+                    id="enf"
+                    name="enf"
+                    placeholder="Enf"
+                    {...register("enf")}
+                  />
+                </div>
               </div>
             </Col>
             <Col xs="4">
               <div htmlFor="id_hce" className="bigborder">
                 <Row>
-                  <Col xs="6">
+                  <Col xs="5">
                     <FormGroup>
                       <Input
                         type="text"
@@ -280,7 +315,7 @@ function Evolucion() {
                       />
                     </FormGroup>
                   </Col>
-                  <Col xs="3">
+                  <Col xs="4">
                     <FormGroup>
                       <Input
                         type="text"
@@ -291,7 +326,7 @@ function Evolucion() {
                       />
                     </FormGroup>
                   </Col>
-                  <Col xs="2">
+                  <Col>
                     <FormGroup>
                       <Button
                         htmlFor="dosis"
