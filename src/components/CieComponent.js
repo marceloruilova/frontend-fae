@@ -17,6 +17,7 @@ function Cie10() {
   const [evolution, setEvolution] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
+  const reload=()=>window.location.reload();
 
   const cieArray = CIE("array");
   const [cie, setCie] = useState(cieArray);
@@ -57,21 +58,22 @@ function Cie10() {
           year: today.getFullYear().toString(),
         },
       });
+      console.log(data)
       const nnUser = data.data.find((item) => {
-        let month = item.hce.patient.appointment_date;
+        let month = item.hce===null?"":item.hce.patient.appointment_date;
         const horas = parseInt(
-          item.hce.patient.appointment_hour.substring(0, 2),
+          item.hce===null?0:item.hce.patient.appointment_hour.substring(0, 2),
           10
         );
         const minutos = parseInt(
-          item.hce.patient.appointment_hour.substring(3, 5),
+          item.hce===null?0:item.hce.patient.appointment_hour.substring(3, 5),
           10
         );
         const atencion = minutos + 45;
         if (
           month === today.toISOString().substring(0, 10) &&
           atencion <= 60 &&
-          horas === 7 &&
+          horas === today.getHours() &&
           today.getMinutes() < atencion
         )
           return true;
@@ -87,7 +89,7 @@ function Cie10() {
     <div className="login-box-container">
       <div className="container">
         <Form onSubmit={handleSubmit(onSubmit)}>
-          <Table hover>
+          <Table hover>{console.log(nowuser)}
             <thead>
               <tr>
                 <th>#</th>
@@ -125,23 +127,21 @@ function Cie10() {
                     ? ""
                     : nowuser.hce.patient.firstName}
                 </td>
-                <td
-                  onClick={() => {
-                    setIsOpen(!isOpen);
-                  }}
-                >
+                <td>
                   {nowuser === undefined || nowuser.prescription === undefined
                     ? ""
                     : nowuser.prescription.prescribing_doctor === undefined
-                    ? "Agregar Doctor"
+                    ? <div onClick={() => {
+                      setIsOpen(!isOpen);
+                    }}>Agregar Doctor</div>
                     : nowuser.prescription.prescribing_doctor.doctor_first_name}
                 </td>
                 <td>
                   {nowuser === undefined || nowuser.prescription === undefined
                     ? ""
                     : nowuser.prescription.medicine.map((item) => (
-                        <p>{item}</p>
-                      ))}
+                      <p>{item}</p>
+                    ))}
                 </td>
                 <td>
                   <FormGroup>
@@ -220,10 +220,10 @@ function Cie10() {
               </tr>
               {evolution.map((item) => (
                 <tr>
-                  <th scope="row">{item.hce.patient.id}</th>
+                  <th scope="row">{item.hce===null?"":item.hce.patient.id}</th>
                   <td>{item.id}</td>
                   <td>{item.createdAt.substr(0, 10)}</td>
-                  <td>{item.hce.patient.firstName}</td>
+                  <td>{item.hce===null?"":item.hce.patient.firstName}</td>
                   <td>
                     {item.prescription.prescribing_doctor == null
                       ? ""
@@ -263,10 +263,10 @@ function Cie10() {
         </Form>
         {isOpen ? (
           <DoctorModal
-            onClose={() => setNowuser(nowuser)}
             prescriptionid={nowuser.prescription.id}
             isOpen={isOpen}
             toggle={toggle}
+            reload={reload}
           />
         ) : (
           ""

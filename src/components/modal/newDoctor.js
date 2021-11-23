@@ -25,6 +25,7 @@ function DoctorModal(props) {
   const [value, setValue] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
+  const reload=()=>window.location.reload();
 
   useEffect(() => {
     const fetchDoctors = async () => {
@@ -75,8 +76,7 @@ function DoctorModal(props) {
     <Modal
       isOpen={props.isOpen}
       toggle={props.toggle}
-      modalTransition={false}
-      close={props.onClose}
+      onExit={props.reload}
     >
       <ModalHeader toggle={props.toggle}>
         Agregar Médico Prescriptor
@@ -104,7 +104,7 @@ function DoctorModal(props) {
             </Col>
             <Col>
                 {isOpen ? (
-                  <Modal isOpen={isOpen} toggle={toggle}>
+                  <Modal isOpen={isOpen} toggle={toggle} onExit={reload}>
                     <ModalHeader toggle={toggle}>
                       Agregar Nuevo Doctor
                     </ModalHeader>

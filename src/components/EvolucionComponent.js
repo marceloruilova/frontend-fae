@@ -28,8 +28,8 @@ function Evolucion() {
         enf: data.enf,
         qx: data.qx,
         alergies: data.alergies,
-        objective: data.objective,
-        subjective: data.sujective,
+        objective: data.objetivo,
+        subjective: data.subjetivo,
         prescription: {
           notes: data.notes,
           medicine: fullmedicine,
@@ -52,20 +52,12 @@ function Evolucion() {
         const horas = parseInt(user.appointment_hour.substring(0, 2), 10);
         const minutos = parseInt(user.appointment_hour.substring(3, 5), 10);
         const atencion = minutos + 45;
-        const resto = atencion - 60;
-        /*45 minutos tiempo para atencion del cliente 7.30 - 7.45 - 8.15
-         aun falta parece, hacer pruebas.*/
-        if (
-          atencion >= 60 &&
-          horas + 1 === today.getHours() + 1 &&
-          today.getMinutes() <= resto
-        )
+        const resto = Math.abs(atencion - 60);
+        // 45 minutos tiempo para atencion del cliente 7.30 - 7.45 - 8.15
+        // aun falta parece, hacer pruebas.
+        if (atencion >= 60 && horas + 1 ===today.getHours() && today.getMinutes() <= resto)
           return true;
-        if (
-          atencion <= 60 &&
-          horas === today.getHours() &&
-          today.getMinutes() < atencion
-        )
+        if (atencion <= 60 && horas === today.getHours() && today.getMinutes() < atencion)
           return true;
         return false;
       });
@@ -73,11 +65,11 @@ function Evolucion() {
       setNowuser(nnUser);
     };
     fetch();
-  }, [today]);
+  }, []);
 
   return (
     <div className="login-box-container">
-      <div className="container" style={{ "padding-top": "8rem" }}>
+      <div className="container" style={{ "padding-top": "15rem" }}>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Row className="tab" style={{ "--bs-gutter-x": "0rem" }}>
             <Col xs="3">
@@ -242,14 +234,14 @@ function Evolucion() {
           </Row>
           <Row style={{ "--bs-gutter-x": "0rem" }}>
             <Col xs="2" style={{ "padding-right": "1rem" }}>
-              <div htmlFor="id_hce" className="bigborder">
+              <div className="bigborder">
                 <p>{nowuser === undefined ? "" : nowuser.appointment_date}</p>
                 <p>{nowuser === undefined ? "" : nowuser.appointment_hour}</p>
               </div>
             </Col>
             <Col xs="6" style={{ "padding-right": "1rem" }}>
               <div className="bigborder">
-                <div htmlFor="id_hce">
+                <div htmlFor="mc">
                   <p>Mc:</p>
                   <Input
                     type="text"
@@ -259,7 +251,7 @@ function Evolucion() {
                     {...register("mc")}
                   />
                 </div>
-                <div htmlFor="id_hce">
+                <div htmlFor="enf">
                   <p>Enf:</p>
                   <Input
                     type="text"
@@ -269,7 +261,7 @@ function Evolucion() {
                     {...register("enf")}
                   />
                 </div>
-                <div htmlFor="id_hce">
+                <div htmlFor="qx">
                   <p>Qx:</p>
                   <Input
                     type="text"
@@ -279,30 +271,40 @@ function Evolucion() {
                     {...register("qx")}
                   />
                 </div>
-                <div htmlFor="id_hce">
+                <div htmlFor="objetivo">
+                  <p>Alergias:</p>
+                  <Input
+                    type="text"
+                    id="alergies"
+                    name="alergies"
+                    placeholder="Alergias"
+                    {...register("alergies")}
+                  />
+                </div>
+                <div htmlFor="objetivo">
                   <p>Objetivo:</p>
                   <Input
                     type="text"
-                    id="enf"
-                    name="enf"
-                    placeholder="Enf"
-                    {...register("enf")}
+                    id="objetivo"
+                    name="objetivo"
+                    placeholder="Objetivo"
+                    {...register("objetivo")}
                   />
                 </div>
-                <div htmlFor="id_hce">
+                <div htmlFor="subjetivo">
                   <p>Subjetivo:</p>
                   <Input
                     type="text"
-                    id="enf"
-                    name="enf"
-                    placeholder="Enf"
-                    {...register("enf")}
+                    id="subjetivo"
+                    name="subjetivo"
+                    placeholder="Subjetivo"
+                    {...register("subjetivo")}
                   />
                 </div>
               </div>
             </Col>
             <Col xs="4">
-              <div htmlFor="id_hce" className="bigborder">
+              <div className="bigborder">
                 <Row>
                   <Col xs="5">
                     <FormGroup>

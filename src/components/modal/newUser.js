@@ -23,10 +23,11 @@ function UserModal(props) {
     formState: { errors },
   } = useForm();
   const [patients, setPatients] = useState([]);
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState({ci:"",type:""});
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
   const hoy = new Date().toISOString().substring(0, 10);
+  const reload=()=>window.location.reload();
 
   useEffect(() => {
     const fetchPatients = async () => {
@@ -43,10 +44,10 @@ function UserModal(props) {
 
   const submitAppointment=()=>{
     const request = {
-      ci: value,
+      ci: value.ci,
       appointment_hour: props.quotes,
       appointment_date: hoy,
-      type: "Iess",
+      type:value.type,
       asigned_speciality: props.especiality,
     };
     axios
@@ -62,9 +63,11 @@ function UserModal(props) {
       ci: data.ci,
       firstName: data.firstname,
       surName: data.lastname,
+      age: data.age,
+      gender: data.gender,
       appointment_hour: props.quotes,
       appointment_date: hoy,
-      type: "ISSFA",
+      type: "IESS",
       asigned_speciality: props.especiality,
       electronic_history: {},
     };
@@ -81,6 +84,7 @@ function UserModal(props) {
     <Modal
       isOpen={props.isOpen}
       toggle={props.toggle}
+      onExit={props.reload}
     >
       <ModalHeader toggle={props.toggle}>
         Agregar Cita
@@ -101,14 +105,14 @@ function UserModal(props) {
              {`${item.ci} ${item.firstName} ${item.surName}`}
            </div>
          )}
-         value={value}
-         onChange={(e) => setValue(e.target.value)}
-         onSelect={(val) => setValue(val)}
+         value={value.ci}
+         onChange={(e) => setValue({ci:e.target.value,type:value.type})}
+         onSelect={(val) => setValue({ci:val,type:value.type})}
         />
         </Col>
             <Col>
       {isOpen ? (
-        <Modal isOpen={isOpen} toggle={toggle}>
+        <Modal isOpen={isOpen} toggle={toggle} onExit={reload}>
         <ModalHeader toggle={toggle}>Agregar Cita</ModalHeader>
         <Form onSubmit={handleSubmit(onSubmit)}>
         <ModalBody>
@@ -149,6 +153,20 @@ function UserModal(props) {
                 name="lastname"
                 {...register("lastname")}
               />
+              <Label htmlFor="age">Edad</Label>
+              <Input
+                type="text"
+                id="age"
+                name="age"
+                {...register("age")}
+              />
+              <Label htmlFor="gender">Sexo</Label>
+              <Input
+                type="text"
+                id="gender"
+                name="gender"
+                {...register("gender")}
+              />
             </FormGroup>
             </ModalBody>
                       <ModalFooter>
@@ -168,10 +186,17 @@ function UserModal(props) {
                 <Input
                   type="radio"
                   name="type"
-                  value="ISSFA"
-                  onClick={(e)=>console.log(e.target.value)}
-                >
-                ISSFA</Input>
+                  value="IESS"
+                  onClick={(e)=>setValue({ci:value.ci,type:e.target.value})}
+                />
+                IESS
+                <Input
+                  type="radio"
+                  name="type"
+                  value="OTRO"
+                  onClick={(e)=>setValue({ci:value.ci,type:e.target.value})}
+                />
+                OTRO
           </Row>
         </div>
       </ModalBody>

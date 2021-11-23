@@ -52,12 +52,13 @@ function Lifesigns() {
         const horas = parseInt(user.appointment_hour.substring(0, 2), 10);
         const minutos = parseInt(user.appointment_hour.substring(3, 5), 10);
         const atencion = minutos + 45;
-        const resto = atencion - 60;
+        const resto = Math.abs(atencion - 60);
         // 45 minutos tiempo para atencion del cliente 7.30 - 7.45 - 8.15
         // aun falta parece, hacer pruebas.
-        if (atencion >= 60 && horas + 1 === 8 && today.getMinutes() <= resto)
+        console.log(atencion)
+        if (atencion >= 60 && horas + 1 ===today.getHours() && today.getMinutes() <= resto)
           return true;
-        if (atencion <= 60 && horas === 7 && today.getMinutes() < atencion)
+        if (atencion <= 60 && horas === today.getHours() && today.getMinutes() < atencion)
           return true;
         return false;
       });

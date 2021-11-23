@@ -11,11 +11,12 @@ function Calendar() {
     [5,"Ginecología"],
   ];
   const hours = [[1,"Hora"],[2,"07:00"], [3,"07:45"], [4,"08:30"], [5,"09:15"], 
-  [6,"10:00"], [7,"10:45"], [8,"11:30"], [9,"12:30"], [10,"13:15"], [11,"14:00"], [12,"14:45"], [13,"15:30"]];
+  [6,"10:00"], [7,"10:45"], [8,"11:30"], [9,"12:30"], [10,"01:15"], [11,"02:00"], [12,"02:45"], [13,"03:30"]];
   const [quotes, setQuotes] = useState("");
   const [users, setUsers] = useState([]);
   const [especiality, setEspeciality] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+
 
   useEffect(() => {
     const fetch = async () => {
@@ -31,6 +32,8 @@ function Calendar() {
     setQuotes(hour);
     setEspeciality(area);
   };
+  const reload=()=>window.location.reload();
+
   return (
     <div className="login-box-container">
       <div className="container" >
@@ -62,6 +65,7 @@ function Calendar() {
             toggle={toggle}
             quotes={quotes}
             especiality={especiality}
+            reload={reload}
             />:""}
       </div>
     </div>
