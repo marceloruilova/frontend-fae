@@ -1,5 +1,16 @@
-import { Label, Row, Col, FormGroup, Input, Form, Button } from "reactstrap";
+import {
+  Label,
+  Row,
+  Container,
+  Col,
+  FormGroup,
+  Input,
+  Form,
+  Button,
+} from "reactstrap";
 import { useForm } from "react-hook-form";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser, faLock } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 
 function Login() {
@@ -22,59 +33,81 @@ function Login() {
   };
   return (
     <div className="login-box-container">
-      <div className="container" style={{ width: "26%" }}>
-        <Form onSubmit={handleSubmit(onSubmit)}>
+      <Container
+        style={{
+          width: "22%",
+          border: "solid 3px",
+          padding: "22px",
+          "text-align": "center",
+          "border-radius": "10px",
+          "background-color": "green",
+        }}
+      >
+        <Form
+          onSubmit={handleSubmit(onSubmit)}
+          style={{ "align-content": "center", "align-items": "center" }}
+        >
           <Row>
-            <Col className="formborder">
+            <Col>
+              <FontAwesomeIcon
+                icon={faUser}
+                style={{ "font-size": "90px", "align-items": "center" }}
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col>
               <FormGroup>
-                <Label htmlFor="temperatura">Imagen</Label>
-                <Label htmlFor="temperatura">Login</Label>
-                <Label htmlFor="temperatura">Usuario</Label>
+                <Label
+                  style={{
+                    "font-family": " Georgia, serif",
+                    "font-size": "30px",
+                  }}
+                >
+                  Ingreso
+                </Label>
               </FormGroup>
             </Col>
           </Row>
-          <Row className="formborder">
-            <Col xs="5">
-              <div htmlFor="username">USERNAME:</div>
+          <Row style={{ "padding-top": "10px", "padding-bottom": "10px" }}>
+            <Col xs="1">
+              <FontAwesomeIcon icon={faUser} />{" "}
             </Col>
-            <Col xs="7">
+            <Col>
               <FormGroup>
                 <Input
                   type="text"
                   id="username"
                   name="username"
-                  placeholder="Username"
+                  placeholder="Usuario"
                   {...register("username")}
                 />
               </FormGroup>
             </Col>
           </Row>
-          <Row className="formborder">
-            <Col xs="5">
-              <div htmlFor="username">PASSWORD:</div>
+          <Row style={{ "padding-top": "10px", "padding-bottom": "10px" }}>
+            <Col xs="1">
+              <FontAwesomeIcon icon={faLock} />{" "}
             </Col>
-            <Col xs="7">
+            <Col>
               <FormGroup>
                 <Input
                   type="text"
                   id="password"
                   name="password"
-                  placeholder="Password"
+                  placeholder="Contraseña"
                   {...register("password")}
                 />
               </FormGroup>
             </Col>
           </Row>
-          <Row></Row>
-          <Row className="formborder">
-            <Col xs="2">
-              <Button type="submit" value="submit" color="primary">
-                Ingresar
-              </Button>
-            </Col>
+          <Row style={{ "padding-left": "40px", "padding-right": "10px" }}>
+            <Button type="submit" value="submit" color="light" block>
+              Ingresar
+            </Button>
           </Row>
         </Form>
-      </div>
+      </Container>
     </div>
   );
 }

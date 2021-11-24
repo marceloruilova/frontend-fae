@@ -62,13 +62,17 @@ function Inventory() {
         },
       });
       const nnUser = data.data.find((item) => {
-        let month = item.hce===null?"":item.hce.patient.appointment_date;
+        let month = item.hce === null ? "" : item.hce.patient.appointment_date;
         const horas = parseInt(
-          item.hce===null?"":item.hce.patient.appointment_hour.substring(0, 2),
+          item.hce === null
+            ? ""
+            : item.hce.patient.appointment_hour.substring(0, 2),
           10
         );
         const minutos = parseInt(
-          item.hce===null?"":item.hce.patient.appointment_hour.substring(3, 5),
+          item.hce === null
+            ? ""
+            : item.hce.patient.appointment_hour.substring(3, 5),
           10
         );
         const atencion = minutos + 45;
@@ -94,9 +98,9 @@ function Inventory() {
   }, [setInventory]);
 
   return (
-    <div className="login-box-container">
+    <div className="box-container" style={{ padding: "3rem" }}>
       <div className="container">
-        <Card>
+        <Card style={{ width: "40%" }}>
           <CardHeader>
             Paciente{" "}
             {nowuser === undefined || nowuser.hce === undefined

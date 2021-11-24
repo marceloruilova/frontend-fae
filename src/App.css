@@ -2,20 +2,17 @@
   border: none;
   padding: 10px;
 }
-.login-box-row {
-  background: #6be303;
-  width: 200px;
-}
 .calendar {
   background: #6be303;
   border: 1;
   overflow: hidden;
+  text-align: center;
   border-style: solid;
   border-color: #268e00;
   height: 35px;
 }
 .quote {
-  background: #6be303;
+  background: white;
   border-style: solid;
   border-color: #268e00;
   height: 35px;
@@ -53,14 +50,22 @@
   overflow-y: scroll;
   height: 84vh;
   justify-content: center;
-  background-attachment: fixed;
   background-color: white;
+  background-image: url(fondo-login.jpg);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 }
-.element {
-  border: solid 3px;
+.box-container {
+  display: flex;
+  border: solid;
+  overflow-y: scroll;
+  justify-content: center;
+  height: 84vh;
+  background-color: white;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 .header {
   display: flex;
