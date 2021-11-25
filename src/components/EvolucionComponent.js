@@ -109,7 +109,7 @@ function Evolucion() {
                 name="name"
                 defaultValue={nowuser === undefined ? "" : nowuser.firstName}
                 onChange={(e) =>
-                  setNowuser({ asigned_speciality: e.target.value })
+                  setNowuser({ firstName: e.target.value })
                 }
                 className="inputborder"
                 {...register("name")}
@@ -127,7 +127,7 @@ function Evolucion() {
                 name="surname"
                 defaultValue={nowuser === undefined ? "" : nowuser.surName}
                 onChange={(e) =>
-                  setNowuser({ asigned_speciality: e.target.value })
+                  setNowuser({ surName: e.target.value })
                 }
                 className="inputborder"
                 {...register("surname")}
@@ -145,7 +145,7 @@ function Evolucion() {
                 name="sexo"
                 defaultValue={nowuser === undefined ? "" : nowuser.gender}
                 onChange={(e) =>
-                  setNowuser({ asigned_speciality: e.target.value })
+                  setNowuser({ gender: e.target.value })
                 }
                 className="inputborder"
                 {...register("sexo")}
@@ -162,7 +162,8 @@ function Evolucion() {
                 id="id_evolucion"
                 name="id_evolucion"
                 className="inputborder"
-                {...register("id_evolucion")}
+                readOnly={true}
+                defaultValue={nowuser === undefined ? "" : nowuser.electronic_history===undefined?"":nowuser.electronic_history.id}
               />
             </FormGroup>
           </Col>
@@ -177,6 +178,7 @@ function Evolucion() {
                 name="id_hce"
                 defaultValue={nowuser === undefined ? "" : nowuser.id}
                 className="inputborder"
+                
               />
             </FormGroup>
           </Col>
@@ -240,9 +242,16 @@ function Evolucion() {
         </Row>
         <Row style={{ "--bs-gutter-x": "0rem" }}>
           <Col xs="2" style={{ "padding-right": "1rem" }}>
-            <div className="bigborder">
-              <p>{nowuser === undefined ? "" : nowuser.appointment_date}</p>
-              <p>{nowuser === undefined ? "" : nowuser.appointment_hour}</p>
+            <div className="bigborder" style={{"font-size":"14px"}}>
+              <p>{nowuser === undefined ? "2020-10-15 - 01:00" : `${nowuser.appointment_date} - ${nowuser.appointment_date}`}</p>
+              <p>{nowuser === undefined ? "EDAD : 7,5 anos" : `EDAD : ${nowuser.age} anos`}</p>
+              <p>{nowuser === undefined ? "TEMP : 70 GRADOS" : `TEMP : ${nowuser.temp} GRADOS`}</p>
+              <p>{nowuser === undefined ? "FR : 7 X MIN" : `FR : ${nowuser.fr} X MIN`}</p>
+              <p>{nowuser === undefined ? "FC : 7" : `FC : ${nowuser.fc} X MIN`}</p>
+              <p>{nowuser === undefined ? "PESO : 7 KG" : `PESO : ${nowuser.weight} KG`}</p>
+              <p>{nowuser === undefined ? "TALLA : 7 CM" : `TALLA : ${nowuser.height} CM`}</p>
+              <p>{nowuser === undefined ? "T/A : 7 mmHg" : `T/A : ${nowuser.arterial_tension} mmHg`}</p>
+              <p>{nowuser === undefined ? "SAT : 7 %" : `SAT : ${nowuser.pc} %`}</p>
             </div>
           </Col>
           <Col xs="6" style={{ "padding-right": "1rem" }}>
@@ -253,7 +262,7 @@ function Evolucion() {
                   type="text"
                   id="mc"
                   name="mc"
-                  placeholder="Mc"
+                  placeholder="Motivo de Consulta"
                   {...register("mc")}
                 />
               </div>
@@ -263,7 +272,7 @@ function Evolucion() {
                   type="text"
                   id="enf"
                   name="enf"
-                  placeholder="Enf"
+                  placeholder="Enfermedades Actuales"
                   {...register("enf")}
                 />
               </div>
