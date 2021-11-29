@@ -74,6 +74,14 @@ function Cie10() {
           10
         );
         const atencion = minutos + 45;
+        const resto = Math.abs(atencion - 60);
+        if (
+          month === today.toISOString().substring(0, 10) &&
+          atencion >= 60 &&
+          horas + 1 === today.getHours() &&
+          today.getMinutes() <= resto
+        )
+          return true;
         if (
           month === today.toISOString().substring(0, 10) &&
           atencion <= 60 &&
@@ -81,6 +89,7 @@ function Cie10() {
           today.getMinutes() < atencion
         )
           return true;
+         
         return false;
       });
       setNowuser(nnUser);
@@ -136,7 +145,7 @@ function Cie10() {
                   {nowuser === undefined ||
                   nowuser.prescription === undefined ? (
                     ""
-                  ) : nowuser.prescription.prescribing_doctor === undefined ? (
+                  ) : nowuser.prescription.prescribing_doctor === undefined||nowuser.prescription.prescribing_doctor === null ? (
                     <div
                       onClick={() => {
                         setIsOpen(!isOpen);

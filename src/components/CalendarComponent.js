@@ -25,7 +25,7 @@ function Calendar() {
     [10, "01:15"],
     [11, "02:00"],
     [12, "02:45"],
-    [13, "03:30"],
+    [13, "16:30"],
   ];
   const [quotes, setQuotes] = useState("");
   const [users, setUsers] = useState([]);

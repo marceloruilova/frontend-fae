@@ -55,8 +55,7 @@ function Lifesigns() {
         const resto = Math.abs(atencion - 60);
         // 45 minutos tiempo para atencion del cliente 7.30 - 7.45 - 8.15
         // aun falta parece, hacer pruebas.
-        console.log(atencion);
-        if (
+        console.log(horas+" "+minutos+" "+atencion+" "+ resto +" "+today.getHours());if (
           atencion >= 60 &&
           horas + 1 === today.getHours() &&
           today.getMinutes() <= resto
@@ -66,6 +65,12 @@ function Lifesigns() {
           atencion <= 60 &&
           horas === today.getHours() &&
           today.getMinutes() < atencion
+        )
+        return true;
+        if (
+          atencion >= 60 &&
+          horas === today.getHours() &&
+          today.getMinutes() <= 60
         )
           return true;
         return false;

@@ -76,13 +76,22 @@ function Inventory() {
           10
         );
         const atencion = minutos + 45;
+        const resto = Math.abs(atencion - 60);
+        if (
+          month === today.toISOString().substring(0, 10) &&
+          atencion >= 60 &&
+          horas + 1 === today.getHours() &&
+          today.getMinutes() <= resto
+        )
+          return true;
         if (
           month === today.toISOString().substring(0, 10) &&
           atencion <= 60 &&
-          horas === 7 &&
+          horas === today.getHours() &&
           today.getMinutes() < atencion
         )
           return true;
+         
         return false;
       });
       setNowuser(nnUser);
@@ -167,7 +176,7 @@ function Inventory() {
                   : nowuser.hce.patient.firstName}
               </td>
               <td>
-                {nowuser === undefined || nowuser.prescription === undefined
+                {nowuser === undefined || nowuser.prescription === undefined||nowuser.prescription.prescribing_doctor.doctor_first_name === null
                   ? ""
                   : nowuser.prescription.prescribing_doctor.doctor_first_name}
               </td>

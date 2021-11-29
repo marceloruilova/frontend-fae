@@ -240,18 +240,12 @@ function Evolucion() {
             </div>
           </Col>
         </Row>
-        <Row style={{ "--bs-gutter-x": "0rem" }}>
+        <Row style={{ "--bs-gutter-x": "0rem" }}>{console.log(nowuser)}
           <Col xs="2" style={{ "padding-right": "1rem" }}>
             <div className="bigborder" style={{"font-size":"14px"}}>
-              <p>{nowuser === undefined ? "2020-10-15 - 01:00" : `${nowuser.appointment_date} - ${nowuser.appointment_date}`}</p>
-              <p>{nowuser === undefined ? "EDAD : 7,5 anos" : `EDAD : ${nowuser.age} anos`}</p>
-              <p>{nowuser === undefined ? "TEMP : 70 GRADOS" : `TEMP : ${nowuser.temp} GRADOS`}</p>
-              <p>{nowuser === undefined ? "FR : 7 X MIN" : `FR : ${nowuser.fr} X MIN`}</p>
-              <p>{nowuser === undefined ? "FC : 7" : `FC : ${nowuser.fc} X MIN`}</p>
-              <p>{nowuser === undefined ? "PESO : 7 KG" : `PESO : ${nowuser.weight} KG`}</p>
-              <p>{nowuser === undefined ? "TALLA : 7 CM" : `TALLA : ${nowuser.height} CM`}</p>
-              <p>{nowuser === undefined ? "T/A : 7 mmHg" : `T/A : ${nowuser.arterial_tension} mmHg`}</p>
-              <p>{nowuser === undefined ? "SAT : 7 %" : `SAT : ${nowuser.pc} %`}</p>
+              <p>{nowuser === undefined ? "" : `${nowuser.appointment_date} - ${nowuser.appointment_date}`}</p>
+              <p>{nowuser === undefined ? "" : `EDAD : ${nowuser.age} anos`}</p>
+              <div>{nowuser === undefined ? "" :nowuser.electronic_history.vital.filter((item)=>{return item.createdAt.substring(0,10)===today.getDate()}).map((data)=><p>{data.sistolica}</p>)}</div>
             </div>
           </Col>
           <Col xs="6" style={{ "padding-right": "1rem" }}>
