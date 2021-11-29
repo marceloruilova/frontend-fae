@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 
 function Header() {
   return (
-    <div className="container-fluid header">
+    <div id="grad1" className="container-fluid header">
       <h1>Bienvenido a tu trabajo</h1>
     </div>
   );

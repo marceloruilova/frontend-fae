@@ -4,13 +4,16 @@ import logo from "../R.png";
 
 function Burger() {
   return (
-    <div className="navleft">
+    <div id="grad2" className="navleft">
       <Nav tabs vertical>
         <NavItem>
-          <NavLink href="/calendar" active>
+          <NavLink
+            href="/login"
+            style={{ "background-color": "rgb(108, 187, 68)" }}
+          >
             <img
               src={logo}
-              style={{ width: "100px", height: "100px" }}
+              style={{ width: "102px", height: "100px" }}
               alt="fae-logo"
             />
           </NavLink>

@@ -101,6 +101,21 @@ function Login() {
               </FormGroup>
             </Col>
           </Row>
+          <Row style={{ "padding-top": "10px", "padding-bottom": "10px" }}>
+            <Col xs="1">
+              <FormGroup>
+                <Input
+                  type="radio"
+                  id="remember"
+                  name="remember"
+                  {...register("remember")}
+                />
+              </FormGroup>
+            </Col>
+            <Col xs="2">
+              <Label style={{ "padding-left": "5px" }}>Recuérdame</Label>
+            </Col>
+          </Row>
           <Row style={{ "padding-left": "40px", "padding-right": "10px" }}>
             <Button type="submit" value="submit" color="light" block>
               Ingresar
