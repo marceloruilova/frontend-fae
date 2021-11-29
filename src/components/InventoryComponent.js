@@ -6,6 +6,7 @@ import {
   Button,
   Input,
   Card,
+  Container,
   CardHeader,
   CardFooter,
   CardText,
@@ -107,8 +108,8 @@ function Inventory() {
   }, [setInventory]);
 
   return (
-    <div className="box-container" style={{ padding: "3rem" }}>
-      <div className="container">
+    <div className="box-container">
+      <Container>
         <Card style={{ width: "40%" }}>
           <CardHeader>
             Paciente{" "}
@@ -376,7 +377,7 @@ function Inventory() {
             ))}
           </tbody>
         </Table>
-      </div>
+      </Container>
     </div>
   );
 }

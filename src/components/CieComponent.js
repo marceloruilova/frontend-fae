@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Table, Form, FormGroup, Button, Input } from "reactstrap";
+import { Table, Form, FormGroup, Container, Button, Input } from "reactstrap";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useEffect } from "react";
@@ -99,8 +99,8 @@ function Cie10() {
   }, []);
 
   return (
-    <div className="box-container" style={{ padding: "3rem" }}>
-      <div className="container">
+    <div className="box-container">
+      <Container>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Table hover>
             {console.log(nowuser)}
@@ -294,7 +294,7 @@ function Cie10() {
         ) : (
           ""
         )}
-      </div>
+      </Container>
     </div>
   );
 }

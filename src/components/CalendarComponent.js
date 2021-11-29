@@ -49,7 +49,7 @@ function Calendar() {
   };
 
   return (
-    <div className="login-box-container">
+    <div className="box-container">
       <Container>
         {hours.map((item) => (
           <Row>
