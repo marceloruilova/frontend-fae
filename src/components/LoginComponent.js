@@ -34,14 +34,7 @@ function Login() {
   return (
     <div className="login-box-container">
       <Container
-        style={{
-          width: "22%",
-          border: "solid 3px",
-          padding: "22px",
-          "text-align": "center",
-          "border-radius": "10px",
-          "background-color": "green",
-        }}
+        className="loginwidth"
       >
         <Form
           onSubmit={handleSubmit(onSubmit)}

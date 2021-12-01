@@ -5,9 +5,11 @@ import {
   FormGroup,
   Button,
   Input,
+  Col,
   Card,
   Container,
   CardHeader,
+  Row,
   CardFooter,
   CardText,
   CardBody,
@@ -110,26 +112,28 @@ function Inventory() {
   return (
     <div className="box-container">
       <Container>
+        <Row className="tab">
+          <Col>
         <Card style={{ width: "40%" }}>
-          <CardHeader>
-            Paciente{" "}
+          <CardHeader style={{"background-color":"rgb(108, 187, 68)","border-color":"green"}}>
+            Paciente:{" "}
             {nowuser === undefined || nowuser.hce === undefined
               ? ""
               : `${nowuser.hce.patient.firstName} ${nowuser.hce.patient.surName}`}
           </CardHeader>
-          <CardBody>
-            <CardTitle tag="h5">CIE 10</CardTitle>
+          <CardBody style={{"border-color":"green"}}>{console.log(nowuser)}
+            <CardTitle tag="h5">CIE 10{"-"}<span>{nowuser.prescription===undefined?"":nowuser.prescription.info_prescription.cie10.disease}</span></CardTitle>
             <CardText>
-              Medicina:
+            <p>Medicina:</p>
               {nowuser === undefined || nowuser.prescription === undefined
                 ? ""
-                : nowuser.prescription.medicine.map((item) => <p>{item}</p>)}
+                : nowuser.prescription.medicine.map((item) => <li>{item}</li>)}
             </CardText>
             <CardText>
-              Cantidad:
+              Precio:{" "}
               {nowuser === undefined || nowuser.hce === undefined
                 ? ""
-                : nowuser.prescription.info_prescription.quantity}
+                : `${nowuser.prescription.info_prescription.price}$`}
             </CardText>
           </CardBody>
           <CardFooter>
@@ -139,76 +143,10 @@ function Inventory() {
               : nowuser.prescription.prescribing_doctor.doctor_first_name}
           </CardFooter>
         </Card>
-        <Table hover>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>N de Hoja</th>
-              <th>Fecha</th>
-              <th>Nombre del Paciente</th>
-              <th>Nombre del Medico Prescriptor</th>
-              <th>Medicamento Dispensado</th>
-              <th>Cantidad</th>
-              <th>CIE10(Diagnóstico)</th>
-              <th>Precio</th>
-              <th>N de Ticket</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">
-                {nowuser === undefined || nowuser.hce === undefined
-                  ? ""
-                  : nowuser.hce.id}
-              </th>
-              <td>
-                {nowuser === undefined || nowuser.hce === undefined
-                  ? ""
-                  : nowuser.hce.patient.id}
-              </td>
-              <td>
-                {nowuser === undefined || nowuser.hce === undefined
-                  ? ""
-                  : nowuser.hce.patient.createdAt.substr(0, 10)}
-              </td>
-              <td>
-                {nowuser === undefined || nowuser.hce === undefined
-                  ? ""
-                  : nowuser.hce.patient.firstName}
-              </td>
-              <td>
-                {nowuser === undefined || nowuser.prescription === undefined||nowuser.prescription.prescribing_doctor.doctor_first_name === null
-                  ? ""
-                  : nowuser.prescription.prescribing_doctor.doctor_first_name}
-              </td>
-              <td>
-                {nowuser === undefined || nowuser.prescription === undefined
-                  ? ""
-                  : nowuser.prescription.medicine.map((item) => <p>{item}</p>)}
-              </td>
-              <td>
-                {nowuser === undefined || nowuser.hce === undefined
-                  ? ""
-                  : nowuser.prescription.info_prescription.quantity}
-              </td>
-              <td>
-                {nowuser === undefined || nowuser.hce === undefined
-                  ? ""
-                  : nowuser.prescription.info_prescription.cie10.disease}
-              </td>
-              <td>
-                {nowuser === undefined || nowuser.hce === undefined
-                  ? ""
-                  : nowuser.prescription.info_prescription.price}
-              </td>
-              <td>
-                {nowuser === undefined || nowuser.hce === undefined
-                  ? ""
-                  : nowuser.prescription.info_prescription.ticket_number}
-              </td>
-            </tr>
-          </tbody>
-        </Table>
+        </Col>
+        </Row>
+        <Row className="tab">
+        <Col xs="5">
         <Button
           onClick={() => setIsFormOpen(!isFormOpen)}
           color="primary"
@@ -216,6 +154,8 @@ function Inventory() {
         >
           Nuevo medicamento al inventario
         </Button>
+        </Col>
+        </Row>
         {isFormOpen ? (
           <Form onSubmit={handleSubmit(onSubmit)}>
             <Table hover>
@@ -324,13 +264,13 @@ function Inventory() {
                   </td>
                   <td>
                     <FormGroup>
-                      <Input
-                        id="due_date"
-                        name="due_date"
-                        type="number"
-                        className="inputborder"
-                        {...register("due_date")}
-                      />
+                    <Input
+                  type="date"
+                  id="date"
+                  name="due_date"
+                  placeholder="Fecha"
+                  {...register("due_date")}
+                />
                     </FormGroup>
                   </td>
                   <td>

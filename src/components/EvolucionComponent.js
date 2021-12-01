@@ -63,7 +63,7 @@ function Evolucion() {
         const resto = Math.abs(atencion - 60);
         // 45 minutos tiempo para atencion del cliente 7.30 - 7.45 - 8.15
         // aun falta parece, hacer pruebas.
-        if (
+        console.log(horas+" "+minutos+" "+atencion+" "+ resto +" "+today.getHours());if (
           atencion >= 60 &&
           horas + 1 === today.getHours() &&
           today.getMinutes() <= resto
@@ -73,6 +73,12 @@ function Evolucion() {
           atencion <= 60 &&
           horas === today.getHours() &&
           today.getMinutes() < atencion
+        )
+        return true;
+        if (
+          atencion >= 60 &&
+          horas === today.getHours() &&
+          today.getMinutes() <= 60
         )
           return true;
         return false;
@@ -170,6 +176,7 @@ function Evolucion() {
                   type="text"
                   id="id_evolucion"
                   name="id_evolucion"
+                  defaultValue={nowuser === undefined ? "" : nowuser.electronic_history===undefined?"":nowuser.electronic_history.evolution.length+1}
                   className="inputborder"
                   {...register("id_evolucion")}
                 />
@@ -221,12 +228,12 @@ function Evolucion() {
                 FECHA (D/M/A)
               </div>
             </Col>
-            <Col xs="1" style={{ "padding-right": "1rem" }}>
+            <Col xs="1" style={{ "paddingRight": "1rem" }}>
               <div htmlFor="id_hce" className="formborder">
                 HORA
               </div>
             </Col>
-            <Col xs="6" style={{ "padding-right": "1rem" }}>
+            <Col xs="6" style={{ "paddingRight": "1rem" }}>
               <div htmlFor="id_evolucion" className="formborder">
                 NOTAS DE EVOLUCIÓN
               </div>
@@ -247,15 +254,29 @@ function Evolucion() {
                 TRACIÓN
               </div>
             </Col>
-          </Row>
+          </Row> 
           <Row style={{ "--bs-gutter-x": "0rem" }}>
-            <Col xs="2" style={{ "padding-right": "1rem" }}>
+            <Col xs="2" style={{ "paddingRight": "1rem" }}>
               <div className="bigborder">
-                <p>{nowuser === undefined ? "" : nowuser.appointment_date}</p>
-                <p>{nowuser === undefined ? "" : nowuser.appointment_hour}</p>
+                {nowuser === undefined ? "" : nowuser.electronic_history===undefined?"":
+                nowuser.electronic_history.vital.filter((item)=>{return item.attention_date.substring(0,10)===today.toISOString().substring(0,10)}).map((item)=>
+                <div key={item.id}>
+                  <p>{item.attention_date}</p>
+                  <p>{item.attention_hour}</p>
+                  <p>{`T:${item.temperature_start} a ${item.temperature_end}`}</p>
+                  <p>{`T/A:${item.sistolica} / ${item.diastolica}`}</p>
+                  <p>{`FC:${item.fc_start} a ${item.fc_end}`}</p>
+                  <p>{`FR:${item.fr_start} a ${item.fr_end}`}</p>
+                  <p>{`SPO2:${item.spo2} %`}</p>
+                  <p>{`HEIGHT:${item.height} cm`}</p>
+                  <p>{`WEIGHT:${item.weight} kg`}</p>
+                  <p>{`PC:${item.pc} cm`}</p>
+                </div>
+                )
+                }
               </div>
             </Col>
-            <Col xs="6" style={{ "padding-right": "1rem" }}>
+            <Col xs="6" style={{ "paddingRight": "1rem" }}>
               <div className="bigborder">
                 <div htmlFor="mc">
                   <p>Mc:</p>

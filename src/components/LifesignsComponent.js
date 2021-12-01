@@ -91,7 +91,7 @@ function Lifesigns() {
 
   return (
     <div className="box-container ">
-      <Container style={{ "padding-top": "3rem", width: "44%" }}>
+      <Container style={{"max-width":"80%"}}>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Row className="formborder">
             <Col xs="7" style={{ "text-align": "right" }}>
@@ -115,7 +115,7 @@ function Lifesigns() {
               </FormGroup>
             </Col>
           </Row>
-          <Row className="formborder">
+          <Row className="lifeborder">
             <Col xs="3">
               <div htmlFor="especiality" style={{ overflow: "hidden" }}>
                 ESPECIALIDAD:
@@ -157,7 +157,7 @@ function Lifesigns() {
               </FormGroup>
             </Col>
           </Row>
-          <Row className="formborder">
+          <Row className="lifeborder">
             <Col xs="3">
               <div htmlFor="especiality">T:</div>
             </Col>
@@ -192,7 +192,7 @@ function Lifesigns() {
             </Col>
             <Col xs="1">C</Col>
           </Row>
-          <Row className="formborder">
+          <Row className="lifeborder">
             <Col xs="3">
               <div htmlFor="especiality">T/A:</div>
             </Col>
@@ -226,7 +226,7 @@ function Lifesigns() {
               </FormGroup>
             </Col>
           </Row>
-          <Row className="formborder">
+          <Row className="lifeborder">
             <Col xs="3">
               <div htmlFor="fc">FC:</div>
             </Col>
@@ -261,7 +261,7 @@ function Lifesigns() {
             </Col>
             <Col xs="1">lpm</Col>
           </Row>
-          <Row className="formborder">
+          <Row className="lifeborder">
             <Col xs="3">
               <div htmlFor="fr">FR:</div>
             </Col>
@@ -296,7 +296,7 @@ function Lifesigns() {
             </Col>
             <Col xs="1">rpm</Col>
           </Row>
-          <Row className="formborder">
+          <Row className="lifeborder">
             <Col xs="3">
               <div htmlFor="spo2">SPO2:</div>
             </Col>
@@ -316,7 +316,7 @@ function Lifesigns() {
             </Col>
             <Col xs="1">%</Col>
           </Row>
-          <Row className="formborder">
+          <Row className="lifeborder">
             <Col xs="3">
               <div htmlFor="height">TALLA:</div>
             </Col>
@@ -336,7 +336,7 @@ function Lifesigns() {
             </Col>
             <Col xs="1">cm</Col>
           </Row>
-          <Row className="formborder">
+          <Row className="lifeborder">
             <Col xs="3">
               <div htmlFor="weight">PESO:</div>
             </Col>
@@ -356,7 +356,7 @@ function Lifesigns() {
             </Col>
             <Col xs="1">kg</Col>
           </Row>
-          <Row className="formborder">
+          <Row className="lifeborder" style={{"border-bottom":"2px solid"}}>
             <Col xs="3">
               <div htmlFor="pc">PC:</div>
             </Col>

@@ -25,6 +25,7 @@ function DoctorModal(props) {
   const [value, setValue] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
+  const reload = () => window.location.reload();
 
   useEffect(() => {
     const fetchDoctors = async () => {
@@ -44,6 +45,7 @@ function DoctorModal(props) {
       doctor_first_name: data.doctor_first_name,
       doctor_last_name: data.doctor_last_name,
       ci: data.ci,
+      
     };
     axios
       .post("http://localhost:3000/doctor", request)
@@ -103,7 +105,8 @@ function DoctorModal(props) {
             </Col>
             <Col>
                 {isOpen ? (
-                  <Modal isOpen={isOpen} toggle={toggle} >
+                  <Modal isOpen={isOpen} toggle={toggle}       onExit={reload}
+                  >
                     <ModalHeader toggle={toggle}>
                       Agregar Nuevo Doctor
                     </ModalHeader>

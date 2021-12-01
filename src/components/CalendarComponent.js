@@ -51,6 +51,13 @@ function Calendar() {
   return (
     <div className="box-container">
       <Container>
+        <Row className="tab" >
+          <Col>
+          <div style={{"text-align":"center"}} >
+            <h2>Calendario</h2>
+          </div>
+          </Col>
+        </Row>
         {hours.map((item) => (
           <Row>
             <Col className="calendar" key={item[0]} xs="1">

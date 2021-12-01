@@ -16,6 +16,7 @@ function Cie10() {
   const [nowuser, setNowuser] = useState([]);
   const [evolution, setEvolution] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [value, setValue] = useState([]);
   const toggle = () => setIsOpen(!isOpen);
   const reload = () => window.location.reload();
 
@@ -30,9 +31,7 @@ function Cie10() {
     const request = {
       prescription: {
         info_prescription: {
-          quantity: data.quantity,
           price: data.price,
-          total_price: data.total_price,
           ticket_number: data.ticket_number,
           cie10: {
             code: ciesplit[0],
@@ -58,7 +57,6 @@ function Cie10() {
           year: today.getFullYear().toString(),
         },
       });
-      console.log(data);
       const nnUser = data.data.find((item) => {
         let month = item.hce === null ? "" : item.hce.patient.appointment_date;
         const horas = parseInt(
@@ -75,18 +73,22 @@ function Cie10() {
         );
         const atencion = minutos + 45;
         const resto = Math.abs(atencion - 60);
-        if (
-          month === today.toISOString().substring(0, 10) &&
+        console.log(horas+" "+minutos+" "+atencion+" "+ resto +" "+today.getHours());if (
           atencion >= 60 &&
           horas + 1 === today.getHours() &&
           today.getMinutes() <= resto
         )
           return true;
         if (
-          month === today.toISOString().substring(0, 10) &&
           atencion <= 60 &&
           horas === today.getHours() &&
           today.getMinutes() < atencion
+        )
+        return true;
+        if (
+          atencion >= 60 &&
+          horas === today.getHours() &&
+          today.getMinutes() <= 60
         )
           return true;
          
@@ -102,15 +104,15 @@ function Cie10() {
     <div className="box-container">
       <Container>
         <Form onSubmit={handleSubmit(onSubmit)}>
-          <Table hover>
-            {console.log(nowuser)}
-            <thead>
+          <Table hover bordered>
+            <thead style={{"background-color":"rgb(108,187,68)","border-color":"green",
+                    "vertical-align":"middle","text-align":"center"}}>
               <tr>
-                <th>#</th>
-                <th>N de Hoja</th>
+                <th>N HCE</th>
+                <th>N Hoja</th>
                 <th>Fecha</th>
-                <th>Nombre del Paciente</th>
-                <th>Nombre del Medico Prescriptor</th>
+                <th>Nombre Paciente</th>
+                <th>Nombre Medico</th>
                 <th>Medicamento Dispensado</th>
                 <th>Cantidad</th>
                 <th>CIE10(Diagnóstico)</th>
@@ -119,7 +121,7 @@ function Cie10() {
                 <th></th>
               </tr>
             </thead>
-            <tbody>
+            <tbody style={{"border-color":"green"}}>
               <tr>
                 <th scope="row">
                   {nowuser === undefined || nowuser.hce === undefined
@@ -161,19 +163,15 @@ function Cie10() {
                   {nowuser === undefined || nowuser.prescription === undefined
                     ? ""
                     : nowuser.prescription.medicine.map((item) => (
-                        <p>{item}</p>
+                        <p>{`${item.split(" ")[0]}`}</p>
                       ))}
                 </td>
                 <td>
-                  <FormGroup>
-                    <Input
-                      id="quantity"
-                      name="quantity"
-                      type="number"
-                      className="inputborder"
-                      {...register("quantity")}
-                    />
-                  </FormGroup>
+                {nowuser === undefined || nowuser.prescription === undefined
+                    ? ""
+                    : nowuser.prescription.medicine.map((item,index) => (
+                      <p>{`${item.split(" ")[1]}`}</p>
+                      ))}
                 </td>
                 <td>
                   <Autocomplete
@@ -256,13 +254,15 @@ function Cie10() {
                     {item.prescription.medicine == null
                       ? ""
                       : item.prescription.medicine.map((childitem) => (
-                          <p>{childitem}</p>
+                          <p>{childitem.split(" ")[0]}</p>
                         ))}
                   </td>
                   <td>
-                    {item.prescription.info_prescription == null
+                  {item.prescription.medicine == null
                       ? ""
-                      : item.prescription.info_prescription.quantity}
+                      : item.prescription.medicine.map((childitem) => (
+                          <p>{childitem.split(" ")[1]}</p>
+                        ))}
                   </td>
                   <td>
                     {item.prescription.info_prescription == null
@@ -279,6 +279,16 @@ function Cie10() {
                       ? ""
                       : item.prescription.info_prescription.ticket_number}
                   </td>
+                  <td>
+                  <Button
+                      id="ticket_number"
+                      name="ticket_number"
+                      type="submit"
+                      className="inputborder"
+                    >
+                      Add
+                    </Button>
+                    </td>
                 </tr>
               ))}
             </tbody>
