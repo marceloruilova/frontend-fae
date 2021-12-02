@@ -14,7 +14,7 @@ function Burger() {
             style={{ "backgroundColor": "rgb(108, 187, 68)" }}
           >
             <picture>
-              <source media="(max-width:768px)" srcset={logo} width="16px" height="18px"/>
+              <source media="(max-width:768px)" srcSet={logo} width="16px" height="18px"/>
               <img src={logo} width="100px" height="100px"></img>
             </picture>
           </NavLink>
@@ -23,40 +23,40 @@ function Burger() {
           <NavLink href="/login">
               <FontAwesomeIcon
                 icon={faDoorOpen}
-                style={{ "font-size": "15px"}}
+                style={{ "fontSize": "15px"}}
               />{" "}Login</NavLink>
         </NavItem>
         <NavItem>
           <NavLink href="/calendar"><FontAwesomeIcon
                 icon={faCalendar}
-                style={{ "font-size": "15px", "align-items": "center" }}
+                style={{ "fontSize": "15px", "alignItems": "center" }}
               />{" "}Calendario</NavLink>
         </NavItem>
         <NavItem>
           <NavLink href="/vitals">
               <FontAwesomeIcon
                 icon={faCross}
-                style={{ "font-size": "15px"}}
+                style={{ "fontSize": "15px"}}
               />{" "}Preparación</NavLink>
         </NavItem>
         <NavItem>
           <NavLink href="/evolucion">
               <FontAwesomeIcon
                 icon={faHospital}
-                style={{ "font-size": "15px"}}
+                style={{ "fontSize": "15px"}}
               />{" "}HCE</NavLink>
         </NavItem>
         <NavItem>
           <NavLink href="/cie">
               <FontAwesomeIcon
                 icon={faNotesMedical}
-                style={{ "font-size": "15px"}}
+                style={{ "fontSize": "15px"}}
               />{" "}Cie10</NavLink>
         </NavItem>
         <NavItem>
           <NavLink href="/inventory"><FontAwesomeIcon
                 icon={faFileArchive}
-                style={{ "font-size": "15px"}}
+                style={{ "fontSize": "15px"}}
               />{" "}Inventario</NavLink>
         </NavItem>
       </Nav>

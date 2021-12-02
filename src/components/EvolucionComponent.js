@@ -213,15 +213,10 @@ function Evolucion() {
               </FormGroup>
             </Col>
           </Row>
-          <Row className="tab">
-            <Col xs="5" className="space-right"></Col>
-            <Col xs="7">
-              <div id="test">
+                <div style={{"text-align":"right"}}>
                 REGISTRAR EN ROJO LA ADMINISTRACIÓN DE FARMACOS Y OTROS
                 PRODUCTOS
-              </div>
-            </Col>
-          </Row>
+                </div>
           <Row style={{ "--bs-gutter-x": "0rem" }}>
             <Col xs="1">
               <div htmlFor="id_evolucion" className="formborder">

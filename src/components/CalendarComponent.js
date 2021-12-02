@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import UserModal from "./modal/newUser";
 import { Row, Col, Container } from "reactstrap";
+import authHeader from "../services/auth-header";
 
 function Calendar() {
   const places = [
@@ -36,8 +37,8 @@ function Calendar() {
   useEffect(() => {
     const fetch = async () => {
       const attend_users = await axios.get(
-        "http://localhost:3000/patient/bydate"
-      );
+        "http://localhost:3000/user"
+      ,{headers:authHeader()});
       setUsers(attend_users.data);
     };
     fetch();
@@ -90,6 +91,7 @@ function Calendar() {
         ))}
         {isModalOpen ? (
           <UserModal
+          
             isOpen={isModalOpen}
             toggle={toggle}
             quotes={quotes}
