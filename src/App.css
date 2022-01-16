@@ -61,7 +61,7 @@
   text-align: center;
   align-content: center;
   height: 55px;
-  background-color: wheat;
+  background-color: #FF7F50;
 }
 .lifeborder {
   border-left: 2px solid;
@@ -70,6 +70,32 @@
   text-align: center;
   align-content: center;
   height: 55px;
+}
+.tooltiptext {
+  visibility: hidden;
+  width: 100px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 6px 0;
+  border-radius: 6px;
+ 
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+.medicine{
+  padding:4px;
+}
+.medicine:hover {
+  background-color: red;
+  border-radius: 0.15rem;
+  color:white;
+  cursor:pointer;
+  margin: 1px;
+}
+.medicine:hover .tooltiptext{
+  visibility:visible;
 }
 .tab {
   padding-bottom: 1%;
@@ -148,11 +174,10 @@
 
   }
   .container.loginwidth{
-    width:100%;
+    width:74%;
   }
   .login-box-container {
     height:94vh;
-    
   }
 
 }

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect,useRef } from "react";
 import {
   Row,
   Col,
@@ -10,7 +10,8 @@ import {
 } from "reactstrap";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { useEffect } from "react/cjs/react.development";
+import ReactToPrint from 'react-to-print';
+import { ComponentToPrint } from './ComponentToPrint';
 
 function Evolucion() {
   const {
@@ -18,6 +19,7 @@ function Evolucion() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const componentRef = useRef();
   const [users, setUsers] = useState([]);
   const [nowuser, setNowuser] = useState([]);
   const today = new Date();
@@ -40,14 +42,14 @@ function Evolucion() {
         subjective: data.subjetivo,
         prescription: {
           notes: data.notes,
-          medicine: fullmedicine,
+          medicine: fullmedicine.length===0?["No refiere"]:fullmedicine,
         },
       },
       electronic_history_id: nowuser.electronic_history.id,
     };
     axios
       .post("http://localhost:3000/hce/evolucion", request)
-      .then((result) => alert(result))
+      .then((result) => alert("Éxito"))
       .catch((error) => alert("Error"));
   };
 
@@ -55,7 +57,7 @@ function Evolucion() {
     const fetch = async () => {
       const attend_users = await axios.get(
         "http://localhost:3000/patient/bydate"
-      );
+        ,{params:{date:today.toISOString().substring(0,10)}});
       const nnUser = attend_users.data.find((user) => {
         const horas = parseInt(user.appointment_hour.substring(0, 2), 10);
         const minutos = parseInt(user.appointment_hour.substring(3, 5), 10);
@@ -63,7 +65,7 @@ function Evolucion() {
         const resto = Math.abs(atencion - 60);
         // 45 minutos tiempo para atencion del cliente 7.30 - 7.45 - 8.15
         // aun falta parece, hacer pruebas.
-        console.log(horas+" "+minutos+" "+atencion+" "+ resto +" "+today.getHours());if (
+        if (
           atencion >= 60 &&
           horas + 1 === today.getHours() &&
           today.getMinutes() <= resto
@@ -79,6 +81,7 @@ function Evolucion() {
           atencion >= 60 &&
           horas === today.getHours() &&
           today.getMinutes() <= 60
+          &&minutos<=today.getMinutes()
         )
           return true;
         return false;
@@ -123,9 +126,6 @@ function Evolucion() {
                   id="name"
                   name="name"
                   defaultValue={nowuser === undefined ? "" : nowuser.firstName}
-                  onChange={(e) =>
-                    setNowuser({ asigned_speciality: e.target.value })
-                  }
                   className="inputborder"
                   {...register("name")}
                 />
@@ -213,7 +213,7 @@ function Evolucion() {
               </FormGroup>
             </Col>
           </Row>
-                <div style={{"text-align":"right"}}>
+                <div style={{"textAlign":"right"}}>
                 REGISTRAR EN ROJO LA ADMINISTRACIÓN DE FARMACOS Y OTROS
                 PRODUCTOS
                 </div>
@@ -251,21 +251,20 @@ function Evolucion() {
             </Col>
           </Row> 
           <Row style={{ "--bs-gutter-x": "0rem" }}>
-            <Col xs="2" style={{ "paddingRight": "1rem" }}>
+            <Col xs="2" style={{ paddingRight: "1rem" }}>
               <div className="bigborder">
                 {nowuser === undefined ? "" : nowuser.electronic_history===undefined?"":
                 nowuser.electronic_history.vital.filter((item)=>{return item.attention_date.substring(0,10)===today.toISOString().substring(0,10)}).map((item)=>
                 <div key={item.id}>
-                  <p>{item.attention_date}</p>
-                  <p>{item.attention_hour}</p>
-                  <p>{`T:${item.temperature_start} a ${item.temperature_end}`}</p>
-                  <p>{`T/A:${item.sistolica} / ${item.diastolica}`}</p>
-                  <p>{`FC:${item.fc_start} a ${item.fc_end}`}</p>
-                  <p>{`FR:${item.fr_start} a ${item.fr_end}`}</p>
-                  <p>{`SPO2:${item.spo2} %`}</p>
-                  <p>{`HEIGHT:${item.height} cm`}</p>
-                  <p>{`WEIGHT:${item.weight} kg`}</p>
-                  <p>{`PC:${item.pc} cm`}</p>
+                  <p>{`${item.attention_date.substring(0,10)} ${item.attention_hour}`}</p>
+                  <p><b>T:</b>{` ${item.temperature_start} a ${item.temperature_end}`}</p>
+                  <p><b>T/A:</b>{` ${item.sistolica} / ${item.diastolica}`}</p>
+                  <p><b>FC:</b>{` ${item.fc_start} a ${item.fc_end}`}</p>
+                  <p><b>FR:</b>{` ${item.fr_start} a ${item.fr_end}`}</p>
+                  <p><b>SPO2:</b>{` ${item.spo2} %`}</p>
+                  <p><b>ALTURA:</b>{` ${item.height} cm`}</p>
+                  <p><b>PESO:</b>{` ${item.weight} kg`}</p>
+                  <p><b>PC:</b>{` ${item.pc} cm`}</p>
                 </div>
                 )
                 }
@@ -365,6 +364,7 @@ function Evolucion() {
                       <Button
                         htmlFor="dosis"
                         style={{ alignContent: "center" }}
+                        color="success"
                         onClick={() => {
                           let aux = [`${medicineName} ${dosis}`];
                           setFullmedicine([...fullmedicine, aux]);
@@ -375,19 +375,33 @@ function Evolucion() {
                     </FormGroup>
                   </Col>
                 </Row>
-                <Row>
-                  {fullmedicine.map((aux) => (
-                    <li style={{ "padding-left": "1.5rem" }}>{aux}</li>
-                  ))}
+                  {fullmedicine.map((aux,index) => (
+                <Row 
+                className="medicine">
+                  <Col xs="10" 
+                    onClick={(e)=>{
+                    var array=[...fullmedicine];
+                    array.splice(parseInt(e.target.innerHTML)-1,1);
+                    setFullmedicine(array);
+                  }}>
+                  <li style={{ "paddingLeft": "1.5rem",listStyleType:"none" }}>{index+1}. {aux}</li>
+                  <span class="tooltiptext">Eliminar</span>
+                  </Col>
                 </Row>
+                  ))}
               </div>
             </Col>
           </Row>
           <Row>
             <Col>
-              <Button type="submit" value="submit" color="primary">
-                Agregar Cita
+              <Button type="submit" value="submit" color="success">
+                Agregar Hoja
               </Button>
+              <ReactToPrint
+        trigger={() =>  <Button type="submit" value="submit" color="success">Imprimir!</Button>}
+        content={() => componentRef.current}
+      />
+      <ComponentToPrint ref={componentRef} nowuser={nowuser}/>
             </Col>
           </Row>
         </Form>

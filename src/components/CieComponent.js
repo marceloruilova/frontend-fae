@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Table, Form, FormGroup, Container, Button, Input } from "reactstrap";
+import { Table, Form, FormGroup, Container, Button, Input,Row,Col } from "reactstrap";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useEffect } from "react";
@@ -16,9 +16,25 @@ function Cie10() {
   const [nowuser, setNowuser] = useState([]);
   const [evolution, setEvolution] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [value, setValue] = useState([]);
   const toggle = () => setIsOpen(!isOpen);
   const reload = () => window.location.reload();
+  const months = [
+    [0, "Enero"],
+    [1, "Febrero"],
+    [2, "Marzo"],
+    [3, "Abril"],
+    [4, "Mayo"],
+    [5, "Junio"],
+    [6, "Julio"],
+    [7, "Agosto"],
+    [8, "Septiembre"],
+    [9, "Octubre"],
+    [10, "Noviembre"],
+    [11, "Diciembre"],
+  ];
+  const [years,setYears] = useState([
+    [1, 2022],
+  ]);
 
   const cieArray = CIE("array");
   const [cie, setCie] = useState(cieArray);
@@ -49,8 +65,20 @@ function Cie10() {
       .catch((error) => alert("error"));
   };
 
+  const onSubmitMonth = (data) => {
+    const monthfetch=months.filter(item=>item[1]===data.month);
+    const yearfetch=data.year===undefined?today.getFullYear().toString():data.year.toString();
+    axios
+      .get("http://localhost:3000/evolution/bymonth",{params:{month:monthfetch[0][0].toString(),year:yearfetch,},})
+      .then((result) => {
+        setEvolution(result.data);
+      })
+      .catch((error) => alert("error"));
+  };
   useEffect(() => {
     const fetch = async () => {
+      if(years[years.length-1][1]!==today.getFullYear())
+        setYears([...years,[years[years.length-1][0]+1,years[years.length-1][1]+1]]);
       const data = await axios.get("http://localhost:3000/evolution/bymonth", {
         params: {
           month: today.getMonth().toString(),
@@ -58,7 +86,6 @@ function Cie10() {
         },
       });
       const nnUser = data.data.find((item) => {
-        let month = item.hce === null ? "" : item.hce.patient.appointment_date;
         const horas = parseInt(
           item.hce === null
             ? 0
@@ -73,7 +100,7 @@ function Cie10() {
         );
         const atencion = minutos + 45;
         const resto = Math.abs(atencion - 60);
-        console.log(horas+" "+minutos+" "+atencion+" "+ resto +" "+today.getHours());if (
+        if (
           atencion >= 60 &&
           horas + 1 === today.getHours() &&
           today.getMinutes() <= resto
@@ -89,6 +116,7 @@ function Cie10() {
           atencion >= 60 &&
           horas === today.getHours() &&
           today.getMinutes() <= 60
+          &&minutos<=today.getMinutes()
         )
           return true;
          
@@ -103,10 +131,48 @@ function Cie10() {
   return (
     <div className="box-container">
       <Container>
+      <Form onSubmit={handleSubmit(onSubmitMonth)}>
+      <Row style={{padding:"16px"}}>
+        <FormGroup>
+      <Row >
+        <Col>
+                    <Input
+                      id="month"
+                      name="month"
+                      type="select"
+                      placeholder="Mes"
+                      {...register("month")}
+                    >
+                    {nowuser===undefined?"":months.filter(month=>month[0]===parseInt(nowuser.month)).map(item=><option>{item[1]}</option>)}
+                    {months.map(month=><option>{month[1]}</option>)}
+                    </Input>
+        </Col>
+        <Col>
+                    <Input
+                      id="year"
+                      name="year"
+                      type="select"
+                      {...register("year")}>
+                    {nowuser===undefined?"":years.filter(year=>year[0]===parseInt(nowuser.year)).map(item=><option>{item[1]}</option>)}
+                    {years.map(year=><option>{year[1]}</option>)}
+                    </Input>
+        </Col>
+        <Col>
+                    <Button
+                    id="price"
+                    color="primary"
+                    type="submit"
+                  >Buscar</Button>
+        </Col>
+        </Row>
+                  </FormGroup>
+                  </Row>
+        </Form>
+                  <Row>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Table hover bordered>
-            <thead style={{"background-color":"rgb(108,187,68)","border-color":"green",
-                    "vertical-align":"middle","text-align":"center"}}>
+            <thead style={{"backgroundColor":"rgb(108,187,68)","borderColor":"green",
+                    "verticalAlign":"middle","textAlign":"center"}}>
               <tr>
                 <th>N HCE</th>
                 <th>N Hoja</th>
@@ -114,14 +180,14 @@ function Cie10() {
                 <th>Nombre Paciente</th>
                 <th>Nombre Medico</th>
                 <th>Medicamento Dispensado</th>
-                <th>Cantidad</th>
+                <th>Canti</th>
                 <th>CIE10(Diagnóstico)</th>
-                <th>Precio</th>
-                <th>N de Ticket</th>
+                <th>Precio Unitario</th>
+                <th>Numero Ticket</th>
                 <th></th>
               </tr>
             </thead>
-            <tbody style={{"border-color":"green"}}>
+            <tbody style={{"borderColor":"green"}}>
               <tr>
                 <th scope="row">
                   {nowuser === undefined || nowuser.hce === undefined
@@ -160,14 +226,14 @@ function Cie10() {
                   )}
                 </td>
                 <td>
-                  {nowuser === undefined || nowuser.prescription === undefined
+                  {nowuser === undefined || nowuser.prescription === undefined|| nowuser.prescription.medicine === null
                     ? ""
                     : nowuser.prescription.medicine.map((item) => (
                         <p>{`${item.split(" ")[0]}`}</p>
                       ))}
                 </td>
                 <td>
-                {nowuser === undefined || nowuser.prescription === undefined
+                {nowuser === undefined || nowuser.prescription === undefined|| nowuser.prescription.medicine === null
                     ? ""
                     : nowuser.prescription.medicine.map((item,index) => (
                       <p>{`${item.split(" ")[1]}`}</p>
@@ -227,10 +293,9 @@ function Cie10() {
                 <td>
                   <FormGroup>
                     <Button
-                      id="ticket_number"
-                      name="ticket_number"
                       type="submit"
                       className="inputborder"
+                      color="success"
                     >
                       Add
                     </Button>
@@ -294,9 +359,10 @@ function Cie10() {
             </tbody>
           </Table>
         </Form>
+        </Row>
         {isOpen ? (
           <DoctorModal
-            prescriptionid={nowuser.prescription.id}
+            prescription={nowuser.prescription}
             isOpen={isOpen}
             toggle={toggle}
             reload={reload}

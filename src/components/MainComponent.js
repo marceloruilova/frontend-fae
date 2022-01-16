@@ -8,8 +8,10 @@ import Login from './LoginComponent';
 import Cie from './CieComponent';
 import Vitals from './LifesignsComponent';
 import Inventory from './InventoryComponent';
+import {PrivateRoute} from './PrivateRoute';
 
 function Main() {
+  const Role={Admin:"ADMIN",Doctor:"DOCTOR"}
   return (
     <div className="global">
       <Burger />
@@ -21,7 +23,7 @@ function Main() {
           <Route path="/vitals" component={() => <Vitals />} />
           <Route path="/evolucion" component={() => <Evolucion />} />
           <Route path="/cie" component={() => <Cie />} />
-          <Route path="/inventory" component={() => <Inventory />} />
+          <Route path="/inventory" /*roles={[Role.Doctor]} */component={()=><Inventory/>} />
           <Redirect to="/login" />
         </Switch>
       </div>

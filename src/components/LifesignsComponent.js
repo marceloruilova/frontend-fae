@@ -44,10 +44,10 @@ function Lifesigns() {
     };
     try {
       axios.post("http://localhost:3000/hce/vital", request).then((result) => {
-        alert(result);
+        alert("Éxito");
       });
     } catch (error) {
-      alert.log(error);
+      alert("Error");
     }
   };
 
@@ -55,32 +55,33 @@ function Lifesigns() {
     const fetch = async () => {
       const attend_users = await axios.get(
         "http://localhost:3000/patient/bydate"
-      );
+        ,{params:{date:today.toISOString().substring(0,10)}});
       const nnUser = attend_users.data.find((user) => {
         const horas = parseInt(user.appointment_hour.substring(0, 2), 10);
         const minutos = parseInt(user.appointment_hour.substring(3, 5), 10);
         const atencion = minutos + 45;
         const resto = Math.abs(atencion - 60);
-        // 45 minutos tiempo para atencion del cliente 7.30 - 7.45 - 8.15
-        // aun falta parece, hacer pruebas.
-        console.log(horas+" "+minutos+" "+atencion+" "+ resto +" "+today.getHours());if (
+        if (
           atencion >= 60 &&
           horas + 1 === today.getHours() &&
           today.getMinutes() <= resto
-        )
-          return true;
+        ){
+          return true;}
         if (
           atencion <= 60 &&
           horas === today.getHours() &&
           today.getMinutes() < atencion
-        )
-        return true;
+        ){
+        console.log("aqui2");
+        return true;}
         if (
           atencion >= 60 &&
           horas === today.getHours() &&
           today.getMinutes() <= 60
-        )
-          return true;
+          &&minutos<=today.getMinutes()
+        ){
+        console.log("aqui3");
+        return true;}
         return false;
       });
       setUsers(attend_users.data);
@@ -91,11 +92,11 @@ function Lifesigns() {
 
   return (
     <div className="box-container ">
-      <Container style={{"max-width":"80%"}}>
+      <Container style={{"maxWidth":"80%"}}>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Row className="formborder">
-            <Col xs="7" style={{ "text-align": "right" }}>
-              SIGNOS VITALES
+            <Col xs="7" style={{ "textAlign": "right" }}>
+              <h5>SIGNOS VITALES</h5>
             </Col>
             <Col xs="2" />
             <Col xs="3">
@@ -111,6 +112,43 @@ function Lifesigns() {
                       : `${today.getHours()}:${today.getUTCMinutes()}`
                   }
                   {...register("time")}
+                />
+              </FormGroup>
+            </Col>
+          </Row>
+          <Row className="lifeborder">
+            <Col xs="3">
+              <div htmlFor="especiality" style={{ overflow: "hidden" }}>
+                NOMBRE:
+              </div>
+            </Col>
+            <Col xs="3">
+              <FormGroup>
+              <Input
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="Nombre"
+                  readOnly
+                  defaultValue={nowuser === undefined ? "" : `${nowuser.firstName} ${nowuser.surName}`}
+                />
+              </FormGroup>
+            </Col>
+            <Col xs="2">
+              <div htmlFor="especiality">EDAD:</div>
+            </Col>
+            <Col xs="4">
+              {" "}
+              <FormGroup>
+                <Input
+                  type="number"
+                  id="age"
+                  name="age"
+                  placeholder="Edad"
+                  defaultValue={
+                    nowuser === undefined ? "" : nowuser.age
+                  }
+                  readOnly={true}
                 />
               </FormGroup>
             </Col>
@@ -356,7 +394,7 @@ function Lifesigns() {
             </Col>
             <Col xs="1">kg</Col>
           </Row>
-          <Row className="lifeborder" style={{"border-bottom":"2px solid"}}>
+          <Row className="lifeborder" style={{"borderBottom":"2px solid"}}>
             <Col xs="3">
               <div htmlFor="pc">PC:</div>
             </Col>
@@ -378,7 +416,7 @@ function Lifesigns() {
           </Row>
           <Row style={{ padding: "5px" }}>
             <Col xs="2">
-              <Button type="submit" value="submit" color="primary">
+              <Button type="submit" value="submit" color="success">
                 Ingresar
               </Button>
             </Col>

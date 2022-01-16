@@ -19,6 +19,8 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useEffect } from "react";
 import Autocomplete from "react-autocomplete";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlusCircle,faTrash } from "@fortawesome/free-solid-svg-icons";
 
 function Inventory() {
   const {
@@ -36,7 +38,7 @@ function Inventory() {
     concentration: "",
     stock: "",
   });
-
+  const reload = () => window.location.reload();
   const [isFormOpen, setIsFormOpen] = useState(false);
 
   const onSubmit = (data) => {
@@ -54,6 +56,8 @@ function Inventory() {
     });
     setIsFormOpen(!isFormOpen);
   };
+
+  const DeleteMedicine=(id)=>{axios.delete(`http://localhost:3000/inventory/${id}`).then(result=>{alert("Exito");reload();}).catch(error=>alert("Error:"+error))};
 
   useEffect(() => {
     const fetch = async () => {
@@ -93,8 +97,15 @@ function Inventory() {
           horas === today.getHours() &&
           today.getMinutes() < atencion
         )
-          return true;
-         
+        return true;
+        if (
+          month === today.toISOString().substring(0, 10) &&
+          atencion >= 60 &&
+          horas === today.getHours() &&
+          today.getMinutes() <= 60
+          &&minutos<=today.getMinutes()
+        )          
+        return true;
         return false;
       });
       setNowuser(nnUser);
@@ -107,7 +118,7 @@ function Inventory() {
     };
     fetch();
     fetchinventory();
-  }, [setInventory]);
+  }, [isFormOpen]);
 
   return (
     <div className="box-container">
@@ -115,23 +126,23 @@ function Inventory() {
         <Row className="tab">
           <Col>
         <Card style={{ width: "40%" }}>
-          <CardHeader style={{"background-color":"rgb(108, 187, 68)","border-color":"green"}}>
+          <CardHeader tag="h5" style={{"background-color":"rgb(108, 187, 68)","border-color":"green"}}>
             Paciente:{" "}
             {nowuser === undefined || nowuser.hce === undefined
               ? ""
               : `${nowuser.hce.patient.firstName} ${nowuser.hce.patient.surName}`}
           </CardHeader>
           <CardBody style={{"border-color":"green"}}>{console.log(nowuser)}
-            <CardTitle tag="h5">CIE 10{"-"}<span>{nowuser.prescription===undefined?"":nowuser.prescription.info_prescription.cie10.disease}</span></CardTitle>
+            <CardTitle tag="h5">CIE 10{" - "}<span>{nowuser === undefined || nowuser.prescription===undefined?"":nowuser.prescription.info_prescription.cie10.disease}</span></CardTitle>
             <CardText>
             <p>Medicina:</p>
-              {nowuser === undefined || nowuser.prescription === undefined
-                ? ""
-                : nowuser.prescription.medicine.map((item) => <li>{item}</li>)}
+              {nowuser === undefined || nowuser.prescription === undefined|| nowuser.prescription.medicine === null
+                    ? ""
+                    : nowuser.prescription.medicine.map((item) => <li>{item}</li>)}
             </CardText>
             <CardText>
               Precio:{" "}
-              {nowuser === undefined || nowuser.hce === undefined
+              {nowuser === undefined || nowuser.prescription===undefined|| nowuser.prescription.info_prescription === null
                 ? ""
                 : `${nowuser.prescription.info_prescription.price}$`}
             </CardText>
@@ -140,7 +151,7 @@ function Inventory() {
             Medico:
             {nowuser === undefined || nowuser.prescription === undefined
               ? ""
-              : nowuser.prescription.prescribing_doctor.doctor_first_name}
+              : ` ${nowuser.prescription.prescribing_doctor.doctor_first_name} ${nowuser.prescription.prescribing_doctor.doctor_last_name}`}
           </CardFooter>
         </Card>
         </Col>
@@ -149,9 +160,8 @@ function Inventory() {
         <Col xs="5">
         <Button
           onClick={() => setIsFormOpen(!isFormOpen)}
-          color="primary"
           size="ms"
-        >
+          color="primary"><FontAwesomeIcon icon={faPlusCircle}/>{" "}
           Nuevo medicamento al inventario
         </Button>
         </Col>
@@ -313,6 +323,7 @@ function Inventory() {
                 <td>{item.presentation}</td>
                 <td>{item.concentration}</td>
                 <td>{item.due_date}</td>
+                <td onClick={()=>DeleteMedicine(item.id)}><FontAwesomeIcon icon={faTrash} style={{cursor:"pointer"}}/></td>
               </tr>
             ))}
           </tbody>

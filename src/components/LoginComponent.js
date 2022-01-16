@@ -12,8 +12,9 @@ import { useForm } from "react-hook-form";
 import { Redirect } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faLock } from "@fortawesome/free-solid-svg-icons";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
+import UserModal from "./modal/newUser";
 
 function Login() {
   const {
@@ -22,19 +23,23 @@ function Login() {
     formState: { errors },
   } = useForm();
 
-  const [value,setValue]=useState({user:{username:"",password:"",role:""},jwt_token:""});
-
+  const [value, setValue] = useState({user:{username:"",password:"",email:"",role:""}});
+  const [isOpen, setIsOpen] = useState(false);
+  const toggle = () => setIsOpen(!isOpen);
+  const reload=()=>window.location.reload();
+  
   const onSubmit = (data) => {
     const request = {
       username: data.username,
       password: data.password,
-      role: data.role,
     };
     axios
       .post("http://localhost:3000/auth/login/", request)
       .then((result) => {
         if(result.data.jwt_token){
-          localStorage.setItem("user", JSON.stringify(result.data));
+          if(result.data.user.role==="ADMIN"){
+            setIsOpen(!isOpen);}
+          sessionStorage.setItem("user", JSON.stringify(result.data));
           setValue(result.data);
         }
       })
@@ -82,8 +87,22 @@ function Login() {
                   id="username"
                   name="username"
                   placeholder="Usuario"
-                  {...register("username")}
+                  {...register("username", {
+                    required: true,
+                    minLength: 5,
+                    maxLength: 20,
+                  })}
                 />
+                {/* use role="alert" to announce the error message */}
+              {errors.username && errors.username.type === "required" && (
+                <span role="alert">This is required</span>
+              )}
+              {errors.username && errors.username.type === "maxLength" && (
+                <span role="alert">Max length exceeded</span>
+              )}
+              {errors.username && errors.username.type === "minLength" && (
+                <span role="alert">Min length exceeded</span>
+              )}
               </FormGroup>
             </Col>
           </Row>
@@ -98,8 +117,22 @@ function Login() {
                   id="password"
                   name="password"
                   placeholder="Contraseña"
-                  {...register("password")}
+                  {...register("password", {
+                    required: true,
+                    minLength: 5,
+                    maxLength: 100,
+                  })}
                 />
+                {/* use role="alert" to announce the error message */}
+              {errors.password && errors.password.type === "required" && (
+                <span role="alert">This is required</span>
+              )}
+              {errors.password && errors.password.type === "maxLength" && (
+                <span role="alert">Max length exceeded</span>
+              )}
+              {errors.password && errors.password.type === "minLength" && (
+                <span role="alert">Min length exceeded</span>
+              )}
               </FormGroup>
             </Col>
           </Row>
@@ -124,8 +157,18 @@ function Login() {
             </Button>
           </Row>
         </Form>
-      </Container>{value.user.role==="ADMIN"?<Redirect to="/calendar"/>:""}
-    </div>
+      </Container>
+      {isOpen?<UserModal 
+            isOpen={isOpen}
+            toggle={toggle}
+            reload={reload}/>:""}
+      {JSON.parse(sessionStorage.getItem("user"))===null?"":
+      JSON.parse(sessionStorage.getItem("user")).user.role==="DOCTOR2"||value.user.role==="DOCTOR2"?<Redirect to="/evolucion"/>:""}
+      {JSON.parse(sessionStorage.getItem("user"))===null?"":
+      JSON.parse(sessionStorage.getItem("user")).user.role==="DOCTOR"||value.user.role==="DOCTOR1"?<Redirect to="/inventory"/>:""}
+      {JSON.parse(sessionStorage.getItem("user"))===null?"":
+      JSON.parse(sessionStorage.getItem("user")).user.role==="CITE"||value.user.role==="CITE"?<Redirect to="/calendar"/>:""}
+      </div>
   );
 }
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import {
   Modal,
@@ -13,8 +13,10 @@ import {
   Form,
   Input,
 } from "reactstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser, faLock, faAddressCard } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-import Autocomplete from "react-autocomplete";
+import authHeader from "../../services/auth-header";
 
 function UserModal(props) {
   const {
@@ -22,58 +24,16 @@ function UserModal(props) {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const [patients, setPatients] = useState([]);
-  const [value, setValue] = useState({ci:"",type:""});
-  const [isOpen, setIsOpen] = useState(false);
-  const toggle = () => setIsOpen(!isOpen);
-  const hoy = new Date().toISOString().substring(0, 10);
-  const reload=()=>window.location.reload();
 
-  useEffect(() => {
-    const fetchPatients = async () => {
-      const data = await axios.get("http://localhost:3000/patient/");
-      setPatients(data.data);
-      setValue(
-        data.data.length === 0
-          ? ""
-          : `${data.data[0].ci}`
-      );
-    };
-    fetchPatients();
-  }, []);
-
-  const submitAppointment=()=>{
-    const request = {
-      ci: value.ci,
-      appointment_hour: props.quotes,
-      appointment_date: hoy,
-      type:value.type,
-      asigned_speciality: props.especiality,
-    };
-    axios
-      .put("http://localhost:3000/patient/update", request)
-      .then((result) => {
-        alert("Exito actualizado");
-      })
-      .catch((error) => alert("error"));
-
-  };
   const onSubmit = (data) => {
     const request = {
-      ci: data.ci,
-      firstName: data.firstname,
-      surName: data.lastname,
-      age: data.age,
-      gender: data.gender,
-      appointment_hour: props.quotes,
-      appointment_date: hoy,
-      type: "IESS",
-      asigned_speciality: props.especiality,
-      electronic_history: {},
+      username: data.username,
+      password: data.password,
+      email: data.email,
+      role: data.role,
     };
-    console.log(request)
     axios
-      .post("http://localhost:3000/patient/", request)
+      .post("http://localhost:3000/auth/register", request,{headers:authHeader()})
       .then((result) => {
         alert("Exito");
       })
@@ -86,88 +46,139 @@ function UserModal(props) {
       toggle={props.toggle}
       onExit={props.reload}
     >
-      <ModalHeader toggle={props.toggle}>
-        Agregar Cita
+      <ModalHeader toggle={props.toggle} style={{backgroundColor:"#6be303",borderColor:"green"}}>
+        Agregar Usuario
       </ModalHeader>
+            <Form
+          onSubmit={handleSubmit(onSubmit)}
+          style={{ "alignContent": "center", "alignItems": "center" }}
+        >
       <ModalBody>
-        <div>
           <Row>
-            <Col xs="9">
-        <Autocomplete
-         getItemValue={(item) => `${item.ci}`}
-         items={patients}
-         renderItem={(item, isHighlighted) => (
-           <div
-             style={{
-               background: isHighlighted ? "lightgray" : "white",
-             }}
-           >
-             {`${item.ci} ${item.firstName} ${item.surName}`}
-           </div>
-         )}
-         value={value.ci}
-         onChange={(e) => setValue({ci:e.target.value,type:value.type})}
-         onSelect={(val) => setValue({ci:val,type:value.type})}
-        />
-        </Col>
+            <Col xs="1">
+            </Col>
             <Col>
-      {isOpen ? (
-        <Modal isOpen={isOpen} toggle={toggle} onExit={reload}>
-        <ModalHeader toggle={toggle}>Agregar Cita</ModalHeader>
-        <Form onSubmit={handleSubmit(onSubmit)}>
-        <ModalBody>
-            <FormGroup>
-              <Label htmlFor="ci">CI</Label>
-              <Input
-                type="text"
-                id="ci"
-                name="ci"
-                {...register("ci", {
-                  required: true,
-                  minLength: 10,
-                  maxLength: 10,
-                })}
-              />
-              {/* use role="alert" to announce the error message */}
-              {errors.ci && errors.ci.type === "required" && (
+              <FormGroup>
+                <Label
+                  style={{
+                    "fontFamily": " Georgia, serif",
+                    "fontSize": "30px",
+                  }}
+                >
+                  Ingreso
+                </Label>
+              </FormGroup>
+            </Col>
+          </Row>
+          <Row style={{ "paddingTop": "10px", "paddingBottom": "10px" }}>
+            <Col xs="1">
+              <FontAwesomeIcon icon={faUser} />{" "}
+            </Col>
+            <Col>
+              <FormGroup>
+                <Input
+                  type="text"
+                  id="username"
+                  name="username"
+                  placeholder="Usuario"
+                  {...register("username", {
+                    required: true,
+                    minLength: 5,
+                    maxLength: 20,
+                  })}
+                />
+                {/* use role="alert" to announce the error message */}
+              {errors.username && errors.username.type === "required" && (
                 <span role="alert">This is required</span>
               )}
-              {errors.ci && errors.ci.type === "maxLength" && (
+              {errors.username && errors.username.type === "maxLength" && (
                 <span role="alert">Max length exceeded</span>
               )}
-              {errors.ci && errors.ci.type === "minLength" && (
+              {errors.username && errors.username.type === "minLength" && (
                 <span role="alert">Min length exceeded</span>
               )}
-              <br></br>
-              <Label htmlFor="firstname">Nombre</Label>
-              <Input
-                type="text"
-                id="firstname"
-                name="firstname"
-                {...register("firstname")}
-              />
-              <Label htmlFor="lastname">Apellido</Label>
-              <Input
-                type="text"
-                id="lastname"
-                name="lastname"
-                {...register("lastname")}
-              />
-              <Label htmlFor="age">Edad</Label>
-              <Input
-                type="text"
-                id="age"
-                name="age"
-                {...register("age")}
-              />
-              <Label htmlFor="gender">Sexo</Label>
-              <Input
-                type="text"
-                id="gender"
-                name="gender"
-                {...register("gender")}
-              />
-            </FormGroup>
+              </FormGroup>
+            </Col>
+          </Row>
+          <Row style={{ "paddingTop": "10px", "paddingBottom": "10px" }}>
+            <Col xs="1">
+              <FontAwesomeIcon icon={faLock} />{" "}
+            </Col>
+            <Col>
+              <FormGroup>
+                <Input
+                  type="text"
+                  id="password"
+                  name="password"
+                  placeholder="Contraseña"
+                  {...register("password", {
+                    required: true,
+                    minLength: 5,
+                    maxLength: 100,
+                  })}
+                />
+              {errors.password && errors.password.type === "required" && (
+                <span role="alert">This is required</span>
+              )}
+              {errors.password && errors.password.type === "maxLength" && (
+                <span role="alert">Max length exceeded</span>
+              )}
+              {errors.password && errors.password.type === "minLength" && (
+                <span role="alert">Min length exceeded</span>
+              )}
+              </FormGroup>
+            </Col>
+          </Row>
+          <Row style={{ "paddingTop": "10px", "paddingBottom": "10px" }}>
+            <Col xs="1">
+              <FontAwesomeIcon icon={faAddressCard} />{" "}
+            </Col>
+            <Col>
+              <FormGroup>
+                <Input
+                  type="text"
+                  id="email"
+                  name="email"
+                  placeholder="E-mail"
+                  {...register("email", {
+                    required: true,
+                    pattern:"/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,}$/i",
+                  })}
+                />
+              {errors.email && errors.email.type === "required" && (
+                <span role="alert">This is required</span>
+              )}
+              {errors.email && errors.email.type === "pattern" && (
+                <span role="alert">Invalid Email</span>
+              )}
+              </FormGroup>
+            </Col>
+          </Row>
+          <Row style={{ "paddingTop": "10px", "paddingBottom": "10px" }}>
+            <Col xs="1">
+              <FontAwesomeIcon icon={faUser} />{" "}
+            </Col>
+            <Col>
+              <FormGroup>
+                <Input
+                  type="radio"
+                  id="role"
+                  name="role"
+                  value="ADMIN"
+                  placeholder="Role"
+                  {...register("role")}
+                />ADMIN<Input
+                type="radio"
+                id="role"
+                name="role"
+                value="DOCTOR"
+                placeholder="Role"
+                {...register("role")}
+              />DOCTOR
+              </FormGroup>
+            </Col>
+          </Row>
+
             </ModalBody>
                       <ModalFooter>
                         <Button type="submit" value="submit" color="primary">
@@ -175,36 +186,8 @@ function UserModal(props) {
                         </Button>
                         <Button color="secondary">Cancelar</Button>
                       </ModalFooter>
-            </Form>
+                      </Form>
                       </Modal>
-     ) : (
-      <div onClick={toggle}>+</div>
-    )}
-            </Col>
-          </Row>
-          <Row>
-                <Input
-                  type="radio"
-                  name="type"
-                  value="IESS"
-                  onClick={(e)=>setValue({ci:value.ci,type:e.target.value})}
-                />
-                IESS
-                <Input
-                  type="radio"
-                  name="type"
-                  value="OTRO"
-                  onClick={(e)=>setValue({ci:value.ci,type:e.target.value})}
-                />
-                OTRO
-          </Row>
-        </div>
-      </ModalBody>
-      <ModalFooter>
-        <Button onClick={() => submitAppointment()}>Ingresar</Button>
-      </ModalFooter>
-    </Modal>
-);
-}
+  )}
 
 export default UserModal;

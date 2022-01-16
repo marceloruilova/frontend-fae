@@ -6,13 +6,15 @@ import {
   ModalBody,
   ModalFooter,
   Row,
-  Col,
+  Col,Label,
   FormGroup,
   Form,
   Input,
   Button,
 } from "reactstrap";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import Autocomplete from "react-autocomplete";
 
 function DoctorModal(props) {
@@ -61,13 +63,9 @@ function DoctorModal(props) {
       return doctor.ci.includes(doctorci[0]);
     });
     axios
-      .post("http://localhost:3000/prescription/savedoctor", {
-        prescriptionid: props.prescriptionid,
-        prescribing_doctor: {
-          doctor_first_name: selectedDoctor[0].doctor_first_name,
-          doctor_last_name: selectedDoctor[0].doctor_last_name,
-          ci: selectedDoctor[0].ci,
-        },
+      .post("http://localhost:3000/doctor/saveprescription", {
+        prescription: props.prescription,
+        doctor_ci: selectedDoctor[0].ci,
       })
       .then((result) => alert("Exito"))
       .catch((error) => alert("Error"));
@@ -79,13 +77,14 @@ function DoctorModal(props) {
       toggle={props.toggle}
       onExit={props.reload}
     >
-      <ModalHeader toggle={props.toggle}>
+      <ModalHeader toggle={props.toggle} style={{backgroundColor:"#6be303",borderColor:"green"}}>
         Agregar Médico Prescriptor
       </ModalHeader>
       <ModalBody>
         <div>
-          <Row>
-            <Col xs="9">
+          <Row><Col xs="3">
+          <Label>Doctores:</Label></Col>
+            <Col xs="6">
               <Autocomplete
                 getItemValue={(item) => `${item.ci}-${item.doctor_first_name}`}
                 items={doctors}
@@ -107,22 +106,17 @@ function DoctorModal(props) {
                 {isOpen ? (
                   <Modal isOpen={isOpen} toggle={toggle}       onExit={reload}
                   >
-                    <ModalHeader toggle={toggle}>
+                    <ModalHeader toggle={toggle} style={{backgroundColor:"#6be303",borderColor:"green"}}>
                       Agregar Nuevo Doctor
                     </ModalHeader>
                     <Form onSubmit={handleSubmit(onSubmit)}>
                       <ModalBody>
-                        <Row>
-                          <Col xs="3">
-                            <div htmlFor="nombre">Nombre</div>
-                          </Col>
-                          <Col xs="9">
                             <FormGroup>
+                            <Label htmlFor="nombre">Nombre</Label>
                               <Input
                                 type="text"
                                 id="doctor_first_name"
                                 name="doctor_first_name"
-                                className="inputborder"
                                 {...register("doctor_first_name")}
                               />
                               {/* use role="alert" to announce the error message */}
@@ -135,41 +129,21 @@ function DoctorModal(props) {
                               {errors.doctor_first_name && errors.doctor_first_name.type === "minLength" && (
                                 <span role="alert">Min length exceeded</span>
                               )}
-                            </FormGroup>
-                          </Col>
-                        </Row>
-                        <Row>
-                          <Col xs="3">
-                            <div htmlFor="nombre">Apellido</div>
-                          </Col>
-                          <Col xs="9">
-                            <FormGroup>
+                            <Label htmlFor="apellido">Apellido</Label>
                               <Input
                                 type="text"
                                 id="doctor_last_name"
                                 name="doctor_last_name"
-                                className="inputborder"
                                 {...register("doctor_last_name")}
                               />
-                            </FormGroup>
-                          </Col>
-                        </Row>
-                        <Row>
-                          <Col xs="3">
-                            <div htmlFor="nombre">CI</div>
-                          </Col>
-                          <Col xs="9">
-                            <FormGroup>
+                            <Label htmlFor="nombre">CI</Label>
                               <Input
                                 type="text"
                                 id="ci"
                                 name="ci"
-                                className="inputborder"
                                 {...register("ci")}
                               />
                             </FormGroup>
-                          </Col>
-                        </Row>
                       </ModalBody>
                       <ModalFooter>
                         <Button type="submit" value="submit" color="primary">
@@ -180,14 +154,15 @@ function DoctorModal(props) {
                     </Form>
                   </Modal>
                 ) : (
-                  <div onClick={toggle}>+</div>
+                  <Button onClick={toggle} color="light"><FontAwesomeIcon icon={faPlusCircle}/>{" "}Nuevo Doctor</Button>
                 )}
             </Col>
           </Row>
         </div>
       </ModalBody>
       <ModalFooter>
-        <Button onClick={() => submitPrescription()}>Ingresar</Button>
+        <Button onClick={() => submitPrescription()} color="primary">Ingresar</Button>
+        <Button color="secondary">Cancelar</Button>
       </ModalFooter>
     </Modal>
   );

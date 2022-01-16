@@ -11,11 +11,11 @@ function Burger() {
         <NavItem>
           <NavLink
             href="/login"
-            style={{ "backgroundColor": "rgb(108, 187, 68)" }}
+            //style={{ "backgroundColor": "rgb(108, 187, 68)" }}
           >
             <picture>
               <source media="(max-width:768px)" srcSet={logo} width="16px" height="18px"/>
-              <img src={logo} width="100px" height="100px"></img>
+              <img src={logo} width="100px" height="100px" alt="logo"></img>
             </picture>
           </NavLink>
         </NavItem>
