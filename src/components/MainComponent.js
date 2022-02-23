@@ -11,7 +11,7 @@ import Inventory from './InventoryComponent';
 import {PrivateRoute} from './PrivateRoute';
 
 function Main() {
-  const Role={Admin:"ADMIN",Doctor:"DOCTOR"}
+  const Role={Admin:"ADMIN",Doctorp:"DOCTORP",Doctorh:"DOCTORH",Citas:"Citas",Inventario:"Inventario"}
   return (
     <div className="global">
       <Burger />
@@ -19,11 +19,11 @@ function Main() {
         <Header />
         <Switch>
           <Route path="/login" component={() => <Login />} />
-          <Route path="/calendar" component={() => <Calendar />} />
-          <Route path="/vitals" component={() => <Vitals />} />
-          <Route path="/evolucion" component={() => <Evolucion />} />
-          <Route path="/cie" component={() => <Cie />} />
-          <Route path="/inventory" /*roles={[Role.Doctor]} */component={()=><Inventory/>} />
+          <PrivateRoute path="/calendar" roles={[Role.Citas]} component={() => <Calendar />} />
+          <PrivateRoute path="/vitals" roles={[Role.Doctorp,Role.Doctorh]} component={() => <Vitals />} />
+          <PrivateRoute path="/evolucion" roles={[Role.Doctorh,Role.Doctorp]} component={() => <Evolucion />} />
+          <PrivateRoute path="/cie" roles={[Role.Doctorh,Role.Doctorp]} component={() => <Cie />} />
+          <PrivateRoute path="/inventory" roles={[Role.Inventario]} component={()=><Inventory/>} />
           <Redirect to="/login" />
         </Switch>
       </div>

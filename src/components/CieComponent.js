@@ -16,6 +16,7 @@ function Cie10() {
   const [nowuser, setNowuser] = useState([]);
   const [evolution, setEvolution] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [disable, setIsDisable] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
   const reload = () => window.location.reload();
   const months = [
@@ -35,7 +36,6 @@ function Cie10() {
   const [years,setYears] = useState([
     [1, 2022],
   ]);
-
   const cieArray = CIE("array");
   const [cie, setCie] = useState(cieArray);
   const [code, setCode] = useState(`${cieArray[0].c}:${cieArray[0].d}`);
@@ -43,27 +43,27 @@ function Cie10() {
   const today = new Date();
 
   const onSubmit = (data) => {
-    const ciesplit = code.split(":");
+    if(window.confirm("Estás seguro?")){ 
+      const ciesplit = code.split(":");
     const request = {
       prescription: {
         info_prescription: {
           price: data.price,
-          ticket_number: data.ticket_number,
           cie10: {
             code: ciesplit[0],
             disease: ciesplit[1],
           },
         },
       },
-      prescriptionid: nowuser.prescription.id,
+      prescriptionid: nowuser===undefined||nowuser.prescription===undefined?"":nowuser.prescription.id,
     };
     axios
       .post("http://localhost:3000/prescription/saveinfo", request)
       .then((result) => {
-        alert(result);
+        alert(result);setIsDisable(!disable);
       })
       .catch((error) => alert("error"));
-  };
+  }};
 
   const onSubmitMonth = (data) => {
     const monthfetch=months.filter(item=>item[1]===data.month);
@@ -281,13 +281,13 @@ function Cie10() {
                 </td>
                 <td>
                   <FormGroup>
-                    <Input
-                      id="ticket_number"
-                      name="ticket_number"
-                      type="number"
-                      className="inputborder"
-                      {...register("ticket_number")}
-                    />
+                  <Input
+                  type="number"
+                  id="ticket"
+                  name="ticket"
+                  placeholder="-"
+                  readOnly={true}
+                />
                   </FormGroup>
                 </td>
                 <td>
@@ -296,6 +296,7 @@ function Cie10() {
                       type="submit"
                       className="inputborder"
                       color="success"
+                      disabled={disable}
                     >
                       Add
                     </Button>
@@ -311,10 +312,21 @@ function Cie10() {
                   <td>{item.createdAt.substr(0, 10)}</td>
                   <td>{item.hce === null ? "" : item.hce.patient.firstName}</td>
                   <td>
-                    {item.prescription.prescribing_doctor == null
-                      ? ""
-                      : item.prescription.prescribing_doctor.doctor_first_name}
-                  </td>
+                  {item === undefined ||
+                  item.prescription === undefined ? (
+                    ""
+                  ) : item.prescription.prescribing_doctor === undefined||item.prescription.prescribing_doctor === null ? (
+                    <div
+                      onClick={() => {
+                        setIsOpen(!isOpen);
+                      }}
+                    >
+                      Agregar Doctor
+                    </div>
+                  ) : (
+                    item.prescription.prescribing_doctor.doctor_first_name
+                  )}
+                </td>
                   <td>
                     {item.prescription.medicine == null
                       ? ""
@@ -345,14 +357,6 @@ function Cie10() {
                       : item.prescription.info_prescription.ticket_number}
                   </td>
                   <td>
-                  <Button
-                      id="ticket_number"
-                      name="ticket_number"
-                      type="submit"
-                      className="inputborder"
-                    >
-                      Add
-                    </Button>
                     </td>
                 </tr>
               ))}

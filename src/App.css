@@ -53,6 +53,7 @@
   border: 2px solid;
   border-radius: 0.15rem;
   padding: 5px;
+  height: 100%;
   background-color: white;
 }
 .formborder {
@@ -79,7 +80,6 @@
   text-align: center;
   padding: 6px 0;
   border-radius: 6px;
- 
   /* Position the tooltip text - see examples below! */
   position: absolute;
   z-index: 1;

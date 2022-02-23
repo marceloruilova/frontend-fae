@@ -25,13 +25,15 @@ function Evolucion() {
   const today = new Date();
   const [medicineName, setMedicinename] = useState("");
   const [dosis, setDosis] = useState("");
+  const [disable, setDisable] = useState(true);
   const [fullmedicine, setFullmedicine] = useState([]);
 
   const onSubmit = (data) => {
+    if(window.confirm("Estás seguro?")){ 
     const request = {
       evolution: {
         initial_observations: data.observations,
-        establishment: nowuser.asigned_speciality,
+        establishment: nowuser===undefined||nowuser.asigned_speciality?"":nowuser.asigned_speciality,
         month: today.getMonth().toString(),
         year: today.getFullYear().toString(),
         mc: data.mc,
@@ -45,12 +47,12 @@ function Evolucion() {
           medicine: fullmedicine.length===0?["No refiere"]:fullmedicine,
         },
       },
-      electronic_history_id: nowuser.electronic_history.id,
+      electronic_history_id:nowuser===undefined||nowuser.electronic_history===undefined?"": nowuser.electronic_history.id,
     };
     axios
       .post("http://localhost:3000/hce/evolucion", request)
-      .then((result) => alert("Éxito"))
-      .catch((error) => alert("Error"));
+      .then((result) => {alert("Éxito");setDisable(!disable);})
+      .catch((error) => alert("Error"));}
   };
 
   useEffect(() => {
@@ -90,12 +92,12 @@ function Evolucion() {
       setNowuser(nnUser);
     };
     fetch();
-  }, []);
+  }, [disable]);
 
   return (
     <div className="box-container">
       <Container>
-        <Form onSubmit={handleSubmit(onSubmit)}>
+        <Form onSubmit= { handleSubmit(onSubmit)}>
           <Row className="tab" style={{ "--bs-gutter-x": "0rem" }}>
             <Col xs="3">
               <FormGroup>
@@ -394,15 +396,15 @@ function Evolucion() {
           </Row>
           <Row>
             <Col>
-              <Button type="submit" value="submit" color="success">
+              <Button type="submit" value="submit" color="success" disabled={!disable}>
                 Agregar Hoja
               </Button>
               <ReactToPrint
-        trigger={() =>  <Button type="submit" value="submit" color="success">Imprimir!</Button>}
+        trigger={() =>  <Button color="success" disabled={disable}>Imprimir!</Button>}
         content={() => componentRef.current}
       />
-      <ComponentToPrint ref={componentRef} nowuser={nowuser}/>
-            </Col>
+    <div style={{ display: "none" }}>  <ComponentToPrint ref={componentRef} nowuser={nowuser}/>
+    </div></Col>
           </Row>
         </Form>
       </Container>{" "}

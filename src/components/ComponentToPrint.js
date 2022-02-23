@@ -2,7 +2,7 @@ import React from 'react';
 import {render} from 'react-dom';
 import {
     Row,
-    Col,
+    Col,Container
   } from "reactstrap";
 
 export class ComponentToPrint extends React.PureComponent {
@@ -12,7 +12,7 @@ export class ComponentToPrint extends React.PureComponent {
     render() {
         const today=new Date();
         return (
-      <div >
+      <Container >
           <Row className="tab" style={{ "--bs-gutter-x": "0rem" }}>
             <Col xs="3">
                 <div htmlFor="establecimiento" style={{border:"2px solid",
@@ -26,6 +26,7 @@ export class ComponentToPrint extends React.PureComponent {
                   id="establecimiento"
                   style={{border:"2px solid",
   borderRadius: "0.15rem",
+  paddingLeft: "10px",
   height: "42px"}}
                 >
                     {this.props.nowuser === undefined ? "" : this.props.nowuser.asigned_speciality}
@@ -43,6 +44,7 @@ export class ComponentToPrint extends React.PureComponent {
                   id="name"
                   style={{border:"2px solid",
   borderRadius: "0.15rem",
+  paddingLeft: "10px",
   height: "42px"}}
                 >
                   {this.props.nowuser === undefined ? "" : this.props.nowuser.firstName}
@@ -61,7 +63,8 @@ export class ComponentToPrint extends React.PureComponent {
                   id="surname"
                   name="surname"
                   style={{border:"2px solid",
-  borderRadius: "0.15rem",
+                  paddingLeft: "10px",
+                  borderRadius: "0.15rem",
   height: "42px"}}
                 >
                     {this.props.nowuser === undefined ? "" : this.props.nowuser.surName}
@@ -80,7 +83,8 @@ export class ComponentToPrint extends React.PureComponent {
                   id="sexo"
                   name="sexo"
                   style={{border:"2px solid",
-  borderRadius: "0.15rem",
+                  paddingLeft: "10px",
+                  borderRadius: "0.15rem",
   height: "42px"}}
                 >
                     {this.props.nowuser === undefined ? "" : this.props.nowuser.gender}
@@ -99,7 +103,8 @@ export class ComponentToPrint extends React.PureComponent {
                   id="id_evolucion"
                   name="id_evolucion"
                   style={{border:"2px solid",
-  borderRadius: "0.15rem",
+                  paddingLeft: "10px",
+                  borderRadius: "0.15rem",
   height: "42px"}}
                 >
                     {this.props.nowuser === undefined ? "" : this.props.nowuser.electronic_history===undefined?"":this.props.nowuser.electronic_history.evolution.length+1}
@@ -118,7 +123,8 @@ export class ComponentToPrint extends React.PureComponent {
                   id="id_hce"
                   name="id_hce"
                   style={{border:"2px solid",
-  borderRadius: "0.15rem",
+                  paddingLeft: "10px",
+                  borderRadius: "0.15rem",
   height: "42px"}}
                 >
                     {this.props.nowuser === undefined ? "" : this.props.nowuser.id}
@@ -204,7 +210,7 @@ overflow:"hidden"}}
           </Row> 
           <Row style={{ "--bs-gutter-x": "0rem" }}>
             <Col xs="2" style={{ paddingRight: "1rem" }}>
-              <div className="bigborder">
+              <div className="bigborder" style={{height:"550px"}}>
                 {this.props.nowuser === undefined ? "" : this.props.nowuser.electronic_history===undefined?"":
                 this.props.nowuser.electronic_history.vital.filter((item)=>{return item.attention_date.substring(0,10)===today.toISOString().substring(0,10)}).map((item)=>
                 <div key={item.id}>
@@ -223,42 +229,29 @@ overflow:"hidden"}}
               </div>
             </Col>
             <Col xs="6" style={{ "paddingRight": "1rem" }}>
-              <div className="bigborder">
+              <div className="bigborder" style={{height:"550px"}}>
               {this.props.nowuser === undefined ? "" : this.props.nowuser.electronic_history===undefined?"": this.props.nowuser.electronic_history.evolution===undefined?"":this.props.nowuser.electronic_history.evolution.filter((item)=>{return item.createdAt.substring(0,10)===today.toISOString().substring(0,10)}).map((item)=>
-              <div>
-                  <p>{`${item.prescription.medicine}`}</p>
-              </div>
+                  <div htmlFor="mc">
+                  <p>{`Mc: ${item.mc}`}</p>
+                  <p>{`Enf: ${item.enf}`}</p>
+                  <p>{`Qx: ${item.qx}`}</p>
+                  <p>{`Alergias: ${item.alergies}`}</p>
+                  <p>{`Objetivo: ${item.objective}`}</p>
+                  <p>{`Subjetivo: ${item.subjective}`}</p>
+                </div>
               )}
-                <div htmlFor="mc">
-                  <p>Mc:</p>
-                </div>
-                <div htmlFor="enf">
-                  <p>Enf:</p>
-                </div>
-                <div htmlFor="qx">
-                  <p>Qx:</p>
-                </div>
-                <div htmlFor="objetivo">
-                  <p>Alergias:</p>
-                </div>
-                <div htmlFor="objetivo">
-                  <p>Objetivo:</p>
-                </div>
-                <div htmlFor="subjetivo">
-                  <p>Subjetivo:</p>
-                </div>
               </div>
             </Col>
             <Col xs="4">
-              <div className="bigborder">{this.props.nowuser === undefined ? "" : this.props.nowuser.electronic_history===undefined?"": this.props.nowuser.electronic_history.evolution===undefined?"":this.props.nowuser.electronic_history.evolution.filter((item)=>{return item.createdAt.substring(0,10)===today.toISOString().substring(0,10)}).map((item)=>
+              <div className="bigborder" style={{height:"550px"}}>{this.props.nowuser === undefined ? "" : this.props.nowuser.electronic_history===undefined?"": this.props.nowuser.electronic_history.evolution===undefined?"":this.props.nowuser.electronic_history.evolution.filter((item)=>{return item.createdAt.substring(0,10)===today.toISOString().substring(0,10)}).map((item)=>
               <div>
-                  <p>{`${item.prescription.medicine}`}</p>
+                  <li>{`${item.prescription.medicine}`}</li>
               </div>
               )}
               </div>
             </Col>
           </Row>
-        </div>
+        </Container>
         );
     }
   }

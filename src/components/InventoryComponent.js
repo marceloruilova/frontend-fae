@@ -146,6 +146,12 @@ function Inventory() {
                 ? ""
                 : `${nowuser.prescription.info_prescription.price}$`}
             </CardText>
+            <CardText>
+              Número de Ticket:{" "}
+              {nowuser === undefined || nowuser.prescription===undefined|| nowuser.prescription.info_prescription === null
+                ? ""
+                : `${nowuser.prescription.info_prescription.ticket_number}$`}
+            </CardText>
           </CardBody>
           <CardFooter>
             Medico:

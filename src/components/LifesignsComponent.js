@@ -19,12 +19,14 @@ function Lifesigns() {
   } = useForm();
   const [users, setUsers] = useState([]);
   const [nowuser, setNowuser] = useState([]);
+  const [disable, setDisable] = useState(false);
   const today = new Date();
 
   const onSubmit = (data) => {
-    const request = {
+    if(window.confirm("Estás seguro?")){ 
+      const request = {
       vital: {
-        especiality: nowuser.asigned_speciality,
+        especiality: nowuser===undefined||nowuser===undefined?"":nowuser.asigned_speciality,
         attention_date: today,
         attention_hour: `${today.getHours()}:${today.getUTCMinutes()}`,
         temperature_end: parseFloat(data.temperature_end),
@@ -40,15 +42,12 @@ function Lifesigns() {
         weight: parseFloat(data.weight),
         pc: parseFloat(data.pc),
       },
-      electronic_history_id: nowuser.electronic_history.id,
+      electronic_history_id: nowuser===undefined||nowuser.electronic_history===undefined?"":nowuser.electronic_history.id,
     };
-    try {
       axios.post("http://localhost:3000/hce/vital", request).then((result) => {
-        alert("Éxito");
-      });
-    } catch (error) {
-      alert("Error");
-    }
+        alert("Éxito");setDisable(!disable);
+      }).catch(error=>alert("Error"));
+  }
   };
 
   useEffect(() => {
@@ -72,7 +71,6 @@ function Lifesigns() {
           horas === today.getHours() &&
           today.getMinutes() < atencion
         ){
-        console.log("aqui2");
         return true;}
         if (
           atencion >= 60 &&
@@ -80,7 +78,6 @@ function Lifesigns() {
           today.getMinutes() <= 60
           &&minutos<=today.getMinutes()
         ){
-        console.log("aqui3");
         return true;}
         return false;
       });
@@ -130,7 +127,7 @@ function Lifesigns() {
                   name="name"
                   placeholder="Nombre"
                   readOnly
-                  defaultValue={nowuser === undefined ? "" : `${nowuser.firstName} ${nowuser.surName}`}
+                  defaultValue={nowuser === undefined||nowuser.firstName===undefined ? "" : `${nowuser.firstName} ${nowuser.surName}`}
                 />
               </FormGroup>
             </Col>
@@ -416,7 +413,7 @@ function Lifesigns() {
           </Row>
           <Row style={{ padding: "5px" }}>
             <Col xs="2">
-              <Button type="submit" value="submit" color="success">
+              <Button type="submit" value="submit" color="success" disable={disable}>
                 Ingresar
               </Button>
             </Col>

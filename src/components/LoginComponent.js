@@ -162,12 +162,14 @@ function Login() {
             isOpen={isOpen}
             toggle={toggle}
             reload={reload}/>:""}
+            {JSON.parse(sessionStorage.getItem("user"))===null?"":
+            JSON.parse(sessionStorage.getItem("user")).user.role==="CITAS"||value.user.role==="CITAS"?<Redirect to="/calendar"/>:""}
       {JSON.parse(sessionStorage.getItem("user"))===null?"":
-      JSON.parse(sessionStorage.getItem("user")).user.role==="DOCTOR2"||value.user.role==="DOCTOR2"?<Redirect to="/evolucion"/>:""}
+      JSON.parse(sessionStorage.getItem("user")).user.role==="DOCTORP"||value.user.role==="DOCTORP"?<Redirect to="/vitals"/>:""}
       {JSON.parse(sessionStorage.getItem("user"))===null?"":
-      JSON.parse(sessionStorage.getItem("user")).user.role==="DOCTOR"||value.user.role==="DOCTOR1"?<Redirect to="/inventory"/>:""}
+      JSON.parse(sessionStorage.getItem("user")).user.role==="DOCTORH"||value.user.role==="DOCTORH"?<Redirect to="/evolucion"/>:""}
       {JSON.parse(sessionStorage.getItem("user"))===null?"":
-      JSON.parse(sessionStorage.getItem("user")).user.role==="CITE"||value.user.role==="CITE"?<Redirect to="/calendar"/>:""}
+      JSON.parse(sessionStorage.getItem("user")).user.role==="INVENTARIO"||value.user.role==="INVENTARIO"?<Redirect to="/inventory"/>:""}
       </div>
   );
 }

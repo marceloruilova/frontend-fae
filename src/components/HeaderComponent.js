@@ -18,7 +18,7 @@ function Header() {
       </Col>
       {isLogged&&<Col xs="2">
       {sessionStorage.removeItem("user")===null?"":<Button onClick={ () => {
-  sessionStorage.removeItem("user");
+  sessionStorage.removeItem("user");setIsLogged(!isLogged);
 }} color="outline-success" style={{marginTop:"8px"}}>Logout</Button>}
   </Col>}</Row></div>
   );

@@ -178,7 +178,6 @@ function UserModal(props) {
               </FormGroup>
             </Col>
           </Row>
-
             </ModalBody>
                       <ModalFooter>
                         <Button type="submit" value="submit" color="primary">
@@ -189,5 +188,4 @@ function UserModal(props) {
                       </Form>
                       </Modal>
   )}
-
 export default UserModal;
